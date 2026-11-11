@@ -1,0 +1,1538 @@
+{% include 'dashheader.html' %}
+
+<style>
+    .studio-container {
+        max-width: 1180px;
+        margin: 40px auto 100px;
+        padding: 0 20px;
+    }
+
+    .studio-hero {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .studio-hero h1 {
+        font-size: 2.6rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #0f172a 0%, #312e81 45%, #4338ca 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+    }
+
+    .studio-hero p {
+        font-size: 1.1rem;
+        color: #64748b;
+        max-width: 650px;
+        margin: 0 auto;
+    }
+
+    /* Live Studio Card */
+    .studio-viewport-card {
+        background: #0b0f19;
+        border-radius: 20px;
+        border: 1px solid #1e293b;
+        overflow: hidden;
+        box-shadow: 0 20px 50px -10px rgba(15, 23, 42, 0.35);
+        margin-bottom: 32px;
+        position: relative;
+    }
+
+    /* Video Frame Container */
+    .video-feed-wrapper {
+        position: relative;
+        width: 100%;
+        min-height: 480px;
+        background: #050811;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #camera-feed-img {
+        width: 100%;
+        max-height: 580px;
+        object-fit: contain;
+        display: none;
+        background: #000000;
+    }
+
+    /* Standby Placeholder Screen */
+    .standby-screen {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 20px;
+        text-align: center;
+        color: #94a3b8;
+    }
+
+    .standby-icon-box {
+        width: 90px;
+        height: 90px;
+        border-radius: 24px;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(59, 130, 246, 0.08) 100%);
+        border: 1.5px solid rgba(99, 102, 241, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 38px;
+        color: #818cf8;
+        margin-bottom: 20px;
+        box-shadow: 0 0 30px rgba(99, 102, 241, 0.15);
+    }
+
+    .standby-screen h3 {
+        color: #f8fafc;
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .standby-screen p {
+        color: #64748b;
+        font-size: 0.95rem;
+        max-width: 460px;
+        margin-bottom: 24px;
+        line-height: 1.5;
+    }
+
+    /* Top HUD Over Video */
+    .viewport-top-hud {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 16px 20px;
+        background: linear-gradient(180deg, rgba(11, 15, 25, 0.9) 0%, rgba(11, 15, 25, 0) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 10;
+        pointer-events: none;
+    }
+
+    .hud-left, .hud-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        pointer-events: auto;
+    }
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        padding: 6px 14px;
+        border-radius: 9999px;
+        background: rgba(15, 23, 42, 0.75);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #94a3b8;
+    }
+
+    .status-badge.live {
+        background: rgba(16, 185, 129, 0.15);
+        color: #34d399;
+        border-color: rgba(16, 185, 129, 0.35);
+    }
+
+    .status-badge.live .dot {
+        background: #10b981;
+        box-shadow: 0 0 10px #10b981;
+        animation: pulse-dot 1.5s infinite;
+    }
+
+    .status-badge .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #64748b;
+        display: inline-block;
+    }
+
+    @keyframes pulse-dot {
+        0% { transform: scale(0.9); opacity: 0.8; }
+        50% { transform: scale(1.3); opacity: 1; }
+        100% { transform: scale(0.9); opacity: 0.8; }
+    }
+
+    .mode-pill-hud {
+        background: rgba(99, 102, 241, 0.18);
+        color: #a5b4fc;
+        border: 1px solid rgba(99, 102, 241, 0.35);
+        font-size: 12px;
+        font-weight: 700;
+        padding: 6px 14px;
+        border-radius: 9999px;
+        backdrop-filter: blur(8px);
+    }
+
+    .mouse-toggle-hud {
+        font-size: 12px;
+        font-weight: 700;
+        padding: 6px 14px;
+        border-radius: 9999px;
+        backdrop-filter: blur(8px);
+    }
+
+    .mouse-toggle-hud.active {
+        background: rgba(245, 158, 11, 0.2);
+        color: #fbbf24;
+        border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+
+    .mouse-toggle-hud.inactive {
+        background: rgba(100, 116, 139, 0.2);
+        color: #94a3b8;
+        border: 1px solid rgba(100, 116, 139, 0.3);
+    }
+
+    .btn-hud-tool {
+        background: rgba(15, 23, 42, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: #f1f5f9;
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .btn-hud-tool:hover {
+        background: rgba(99, 102, 241, 0.4);
+        border-color: rgba(99, 102, 241, 0.6);
+    }
+
+    /* Bottom Control Bar of Studio */
+    .studio-control-bar {
+        background: #0f172a;
+        padding: 18px 24px;
+        border-top: 1px solid #1e293b;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .control-actions-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .btn-stream-start {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: #ffffff !important;
+        font-size: 14.5px;
+        font-weight: 700;
+        padding: 12px 24px;
+        border-radius: 12px;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
+        transition: all 0.2s ease;
+    }
+
+    .btn-stream-start:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+    }
+
+    .btn-stream-stop {
+        background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+        color: #ffffff !important;
+        font-size: 14.5px;
+        font-weight: 700;
+        padding: 12px 24px;
+        border-radius: 12px;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(239, 68, 68, 0.35);
+        transition: all 0.2s ease;
+    }
+
+    .btn-stream-stop:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+    }
+
+    /* Switch toggle */
+    .switch-control-box {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(30, 41, 59, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 8px 16px;
+        border-radius: 12px;
+        color: #e2e8f0;
+        font-size: 13.5px;
+        font-weight: 600;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 44px;
+        height: 24px;
+        flex-shrink: 0;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #334155;
+        transition: .3s;
+        border-radius: 24px;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: .3s;
+        border-radius: 50%;
+    }
+
+    input:checked + .slider {
+        background-color: #10b981;
+    }
+
+    input:checked + .slider:before {
+        transform: translateX(20px);
+    }
+
+    /* Mode Selection Segmented Control */
+    .mode-tab-group {
+        display: flex;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 14px;
+        padding: 5px;
+        gap: 4px;
+        margin-bottom: 24px;
+    }
+
+    .mode-tab-btn {
+        flex: 1;
+        background: transparent;
+        border: none;
+        padding: 12px 16px;
+        border-radius: 10px;
+        color: #94a3b8;
+        font-size: 14px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .mode-tab-btn:hover {
+        color: #f8fafc;
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .mode-tab-btn.active {
+        background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+        color: #ffffff;
+        box-shadow: 0 4px 15px rgba(79, 70, 229, 0.35);
+    }
+
+    /* Telemetry Info Grid */
+    .telemetry-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-bottom: 35px;
+    }
+
+    @media (max-width: 860px) {
+        .telemetry-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 500px) {
+        .telemetry-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .telemetry-card {
+        background: #ffffff;
+        border: 1px solid var(--border-subtle);
+        border-radius: 16px;
+        padding: 18px 20px;
+        box-shadow: var(--shadow-sm);
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .telemetry-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        flex-shrink: 0;
+    }
+
+    .telemetry-label {
+        font-size: 12px;
+        color: #64748b;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 2px;
+    }
+
+    .telemetry-val {
+        font-size: 15px;
+        font-weight: 700;
+        color: #0f172a;
+    }
+
+    /* Cards Grid */
+    .modes-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 28px;
+        margin-bottom: 40px;
+    }
+
+    @media (max-width: 860px) {
+        .modes-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .mode-card {
+        background: #ffffff;
+        border-radius: 18px;
+        border: 1px solid var(--border-subtle);
+        box-shadow: var(--shadow-md);
+        padding: 32px 28px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .mode-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+        border-color: #cbd5e1;
+    }
+
+    .mode-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 18px;
+    }
+
+    .mode-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        color: #ffffff;
+    }
+
+    .mode-icon.icon-eye {
+        background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+        box-shadow: 0 6px 18px rgba(14, 165, 233, 0.3);
+    }
+
+    .mode-icon.icon-hand {
+        background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+        box-shadow: 0 6px 18px rgba(124, 58, 237, 0.3);
+    }
+
+    .mode-header-text h3 {
+        font-size: 18px;
+        font-weight: 700;
+        color: #0f172a;
+        margin: 0 0 4px 0;
+    }
+
+    .mode-badge {
+        font-size: 11.5px;
+        font-weight: 700;
+        padding: 3px 10px;
+        border-radius: 9999px;
+        display: inline-block;
+    }
+
+    .badge-eye {
+        background: #e0f2fe;
+        color: #0369a1;
+        border: 1px solid #bae6fd;
+    }
+
+    .badge-hand {
+        background: #fdf4ff;
+        color: #a21caf;
+        border: 1px solid #f5d0fe;
+    }
+
+    .mode-desc {
+        color: #64748b;
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 20px;
+    }
+
+    .gestures-list {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 14px;
+        margin-bottom: 24px;
+    }
+
+    .gestures-list h4 {
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #64748b;
+        margin: 0 0 10px 0;
+    }
+
+    .gesture-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 7px 0;
+        font-size: 13.5px;
+        color: #334155;
+        border-bottom: 1px dashed #e2e8f0;
+    }
+
+    .gesture-item:last-child {
+        border-bottom: none;
+    }
+
+    .key-pill {
+        background: #ffffff;
+        border: 1px solid #cbd5e1;
+        padding: 2px 8px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #475569;
+    }
+
+    .btn-select-mode {
+        width: 100%;
+        padding: 12px 20px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 14px;
+        border: 1px solid #cbd5e1;
+        background: #f8fafc;
+        color: #334155;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.2s ease;
+    }
+
+    .btn-select-mode:hover {
+        background: #eef2ff;
+        border-color: #818cf8;
+        color: #4f46e5;
+    }
+
+    .btn-select-mode.active-mode {
+        background: #eef2ff;
+        border-color: #6366f1;
+        color: #4f46e5;
+        font-weight: 800;
+    }
+
+    /* Live Interactive Virtual Cursor */
+    .virtual-cursor-hud {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 36px;
+        height: 36px;
+        margin-left: -18px;
+        margin-top: -18px;
+        pointer-events: none;
+        z-index: 999999;
+        display: none;
+        transform: translate(-100px, -100px);
+        transition: transform 0.05s ease-out;
+    }
+
+    .cursor-pointer-dot {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 12px;
+        height: 12px;
+        margin-left: -6px;
+        margin-top: -6px;
+        border-radius: 50%;
+        background: #22c55e;
+        border: 2px solid #ffffff;
+        box-shadow: 0 0 14px #22c55e, 0 0 24px rgba(34, 197, 94, 0.6);
+    }
+
+    .cursor-ring {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 2px dashed rgba(34, 197, 94, 0.7);
+        animation: spin-cursor 6s linear infinite;
+    }
+
+    @keyframes spin-cursor {
+        100% { transform: rotate(360deg); }
+    }
+
+    .cursor-coords-tag {
+        position: absolute;
+        left: 28px;
+        top: 24px;
+        background: rgba(15, 23, 42, 0.85);
+        color: #e2e8f0;
+        font-size: 11px;
+        font-weight: 700;
+        font-family: monospace;
+        padding: 3px 8px;
+        border-radius: 6px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        white-space: nowrap;
+        backdrop-filter: blur(4px);
+    }
+
+    .cursor-click-ripple {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 14px;
+        height: 14px;
+        margin-left: -7px;
+        margin-top: -7px;
+        border-radius: 50%;
+        pointer-events: none;
+        animation: ripple-pulse 0.65s ease-out forwards;
+    }
+
+    .cursor-click-ripple.ripple-left {
+        border: 3px solid #22c55e;
+        box-shadow: 0 0 20px #22c55e;
+    }
+
+    .cursor-click-ripple.ripple-right {
+        border: 3px solid #f97316;
+        box-shadow: 0 0 20px #f97316;
+    }
+
+    @keyframes ripple-pulse {
+        0% { transform: scale(1); opacity: 1; }
+        100% { transform: scale(4.5); opacity: 0; }
+    }
+
+    .btn-recalibrate {
+        background: rgba(99, 102, 241, 0.15);
+        border: 1px solid rgba(99, 102, 241, 0.35);
+        color: #a5b4fc;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 9px 15px;
+        border-radius: 10px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .btn-recalibrate:hover {
+        background: rgba(99, 102, 241, 0.3);
+        color: #ffffff;
+        border-color: #818cf8;
+    }
+
+    /* Test Playground Styles */
+    .studio-playground-card {
+        background: #ffffff;
+        border-radius: 18px;
+        border: 1px solid #e2e8f0;
+        padding: 24px;
+        margin-bottom: 32px;
+        box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.06);
+    }
+
+    .playground-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+    }
+
+    .playground-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .playground-title h3 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: #0f172a;
+    }
+
+    .playground-badge {
+        font-size: 11px;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 9999px;
+        background: #eef2ff;
+        color: #4f46e5;
+        border: 1px solid #c7d2fe;
+    }
+
+    .playground-desc {
+        color: #64748b;
+        font-size: 13.5px;
+        margin: 0 0 20px 0;
+    }
+
+    .playground-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+    }
+
+    .test-target-btn {
+        background: #f8fafc;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 14px;
+        padding: 16px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .test-target-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    .test-target-btn.left-target:hover {
+        background: #f0fdf4;
+        border-color: #22c55e;
+    }
+
+    .test-target-btn.right-target:hover {
+        background: #fff7ed;
+        border-color: #f97316;
+    }
+
+    .test-target-btn .btn-title {
+        font-weight: 700;
+        font-size: 14px;
+        color: #1e293b;
+    }
+
+    .test-target-btn .btn-subtitle {
+        font-size: 11.5px;
+        color: #64748b;
+    }
+
+    .click-counter-badge {
+        background: #0f172a;
+        color: #f8fafc;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 3px 10px;
+        border-radius: 9999px;
+        margin-top: 4px;
+    }
+
+    .test-target-box {
+        background: #faf5ff;
+        border: 1.5px dashed #c084fc;
+        border-radius: 14px;
+        padding: 16px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+
+    .test-target-box.active-hover {
+        background: #f3e8ff;
+        border-color: #9333ea;
+        box-shadow: 0 0 18px rgba(168, 85, 247, 0.3);
+    }
+</style>
+
+<div class="studio-container">
+    <div class="studio-hero">
+        <h1>AI Virtual Mouse Studio</h1>
+        <p>Live in-browser camera preview and computer vision tracking. Preview landmarks, test lighting, and control your mouse hands-free.</p>
+    </div>
+
+    <!-- Django Messages -->
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert-custom-banner {% if message.tags == 'error' %}error{% elif message.tags == 'warning' %}warning{% else %}success{% endif %}" style="margin-bottom: 20px;">
+        <i class="fas {% if message.tags == 'error' %}fa-circle-exclamation{% elif message.tags == 'warning' %}fa-triangle-exclamation{% else %}fa-circle-check{% endif %}"></i>
+        <span>{{ message }}</span>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <!-- Mode Selector Tabs -->
+    <div class="mode-tab-group">
+        <button type="button" class="mode-tab-btn active" data-mode="eye" id="tab-eye">
+            <i class="fas fa-eye"></i> Head & Eye Tracking
+        </button>
+        <button type="button" class="mode-tab-btn" data-mode="hand" id="tab-hand">
+            <i class="fas fa-hand-sparkles"></i> Hand Gesture Control
+        </button>
+        <button type="button" class="mode-tab-btn" data-mode="preview" id="tab-preview">
+            <i class="fas fa-camera"></i> Camera Alignment / Test
+        </button>
+    </div>
+
+    <!-- Live In-Browser Video Studio Card -->
+    <div class="studio-viewport-card" id="studio-card">
+        <!-- Top HUD -->
+        <div class="viewport-top-hud">
+            <div class="hud-left">
+                <span class="status-badge" id="stream-status-badge">
+                    <span class="dot"></span>
+                    <span id="stream-status-text">STANDBY</span>
+                </span>
+                <span class="mode-pill-hud" id="stream-mode-badge">
+                    <i class="fas fa-eye"></i> Eye Tracking
+                </span>
+                <span class="mouse-toggle-hud active" id="stream-mouse-badge">
+                    <i class="fas fa-mouse-pointer"></i> Laptop Mouse Control: ON
+                </span>
+            </div>
+            <div class="hud-right">
+                <span class="status-badge" id="stream-fps-badge">0 FPS</span>
+                <button type="button" class="btn-hud-tool" id="btn-fullscreen" title="Toggle Fullscreen">
+                    <i class="fas fa-expand"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Video Screen -->
+        <div class="video-feed-wrapper" id="video-wrapper">
+            <!-- Live MJPEG Stream Image -->
+            <img id="camera-feed-img" alt="Live Camera Feed with AI Detection">
+
+            <!-- Standby Placeholder -->
+            <div class="standby-screen" id="standby-screen">
+                <div class="standby-icon-box">
+                    <i class="fas fa-video"></i>
+                </div>
+                <h3>Camera Stream Ready</h3>
+                <p>Click <strong>Start Camera</strong> below to open the camera preview with real-time MediaPipe AI landmark detection directly inside your browser.</p>
+                <button type="button" class="btn-stream-start" id="btn-start-hero">
+                    <i class="fas fa-play"></i> Start Camera Stream
+                </button>
+            </div>
+        </div>
+
+        <!-- Bottom Studio Controls Toolbar -->
+        <div class="studio-control-bar">
+            <div class="control-actions-left">
+                <button type="button" class="btn-stream-start" id="btn-stream-toggle">
+                    <i class="fas fa-play"></i> <span id="btn-stream-text">Start Camera</span>
+                </button>
+
+                <!-- Mouse Control On/Off Switch -->
+                <label class="switch-control-box" title="When ON, your head movement or hand gestures will move your computer cursor and click.">
+                    <div class="switch">
+                        <input type="checkbox" id="mouse-control-toggle" checked>
+                        <span class="slider"></span>
+                    </div>
+                    <span>Enable System Mouse Control</span>
+                </label>
+
+
+                <!-- Recalibrate Center Button -->
+                <button type="button" class="btn-recalibrate" id="btn-recalibrate-center" title="Reset Head Resting Center Position">
+                    <i class="fas fa-crosshairs"></i>
+                    <span>Recalibrate Center</span>
+                </button>
+            </div>
+
+            <!-- Camera Hardware Selector & Rescan -->
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <div style="position: relative; display: flex; align-items: center;">
+                    <select id="camera-select" style="padding: 9px 14px; font-size: 13.5px; font-weight: 600; border-radius: 10px; background: #1e293b; border: 1px solid #334155; color: #f8fafc; cursor: pointer;">
+                        {% for cam in available_cameras %}
+                        <option value="{{ cam.index }}" {% if selected_cam == cam.index %}selected{% endif %}>
+                            {{ cam.name }}
+                        </option>
+                        {% empty %}
+                        <option value="0" selected>Camera 0 (Default / Auto-detected)</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+
+                <button type="button" id="btn-scan-cameras" style="background: #1e293b; border: 1px solid #334155; color: #94a3b8; font-size: 13px; font-weight: 600; padding: 9px 14px; border-radius: 10px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; transition: all 0.2s ease;">
+                    <i class="fas fa-arrows-rotate" id="scan-icon"></i>
+                    <span id="scan-btn-text">Scan</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Interactive Virtual Cursor (High Visibility) -->
+    <div id="webeye-virtual-cursor" class="virtual-cursor-hud">
+        <div class="cursor-pointer-dot"></div>
+        <div class="cursor-ring"></div>
+        <div class="cursor-coords-tag" id="cursor-coords-tag">X: 0 Y: 0</div>
+    </div>
+
+    <!-- Real-Time Telemetry Cards -->
+    <div class="telemetry-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+        <div class="telemetry-card">
+            <div class="telemetry-icon" style="background: #eef2ff; color: #4f46e5;">
+                <i class="fas fa-bullseye"></i>
+            </div>
+            <div>
+                <div class="telemetry-label">Detection Status</div>
+                <div class="telemetry-val" id="telemetry-detection">Waiting...</div>
+            </div>
+        </div>
+
+        <div class="telemetry-card">
+            <div class="telemetry-icon" style="background: #ecfdf5; color: #059669;">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <div>
+                <div class="telemetry-label">Active Action</div>
+                <div class="telemetry-val" id="telemetry-action">Idle</div>
+            </div>
+        </div>
+
+        <div class="telemetry-card">
+            <div class="telemetry-icon" style="background: #fef3c7; color: #d97706;">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <div>
+                <div class="telemetry-label">Blink EAR / Fingers</div>
+                <div class="telemetry-val" id="telemetry-metric">--</div>
+            </div>
+        </div>
+
+        <div class="telemetry-card">
+            <div class="telemetry-icon" style="background: #f0fdf4; color: #16a34a;">
+                <i class="fas fa-crosshairs"></i>
+            </div>
+            <div>
+                <div class="telemetry-label">Virtual Cursor (X, Y)</div>
+                <div class="telemetry-val" id="telemetry-cursor">X: --, Y: --</div>
+            </div>
+        </div>
+
+        <div class="telemetry-card">
+            <div class="telemetry-icon" style="background: #f1f5f9; color: #475569;">
+                <i class="fas fa-video"></i>
+            </div>
+            <div>
+                <div class="telemetry-label">Selected Camera</div>
+                <div class="telemetry-val" id="telemetry-cam">Camera {{ selected_cam }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Virtual Cursor Test & Click Zone -->
+    <div class="studio-playground-card">
+        <div class="playground-header">
+            <div class="playground-title">
+                <i class="fas fa-gamepad" style="color: #6366f1; font-size: 1.3rem;"></i>
+                <h3>Hands-Free Interactive Practice & Test Zone</h3>
+            </div>
+            <span class="playground-badge"><i class="fas fa-hand-pointer"></i> Live Feedback</span>
+        </div>
+        <p class="playground-desc">
+            Move your head or hand to steer the glowing virtual cursor over these buttons and practice winking or pinching to trigger clicks!
+        </p>
+        <div class="playground-grid">
+            <button type="button" class="test-target-btn left-target" id="btn-test-left">
+                <i class="fas fa-mouse-pointer" style="font-size: 22px; color: #16a34a;"></i>
+                <span class="btn-title">Test Left Click</span>
+                <span class="btn-subtitle">Wink Left Eye or Pinch Thumb+Index</span>
+                <span class="click-counter-badge" id="count-left-clicks">0 Clicks</span>
+            </button>
+
+            <button type="button" class="test-target-btn right-target" id="btn-test-right">
+                <i class="fas fa-hand-pointer" style="font-size: 22px; color: #ea580c;"></i>
+                <span class="btn-title">Test Right Click</span>
+                <span class="btn-subtitle">Wink Right Eye or Pinch Thumb+Middle</span>
+                <span class="click-counter-badge" id="count-right-clicks">0 Clicks</span>
+            </button>
+
+            <div class="test-target-box" id="test-hover-box">
+                <i class="fas fa-bullseye" style="font-size: 26px; color: #8b5cf6;"></i>
+                <div style="font-weight: 700; color: #1e293b; margin-top: 4px;">Target Hover Zone</div>
+                <div id="hover-status-text" style="font-size: 12px; color: #64748b;">Steer cursor here</div>
+            </div>
+
+            <button type="button" class="test-target-btn reset-target" id="btn-reset-counters">
+                <i class="fas fa-arrows-rotate" style="font-size: 20px; color: #475569;"></i>
+                <span class="btn-title">Reset Counters</span>
+                <span class="btn-subtitle">Clear practice counts</span>
+            </button>
+        </div>
+    </div>
+
+
+    <!-- Mode Detailed Mapping Cards -->
+    <div class="modes-grid">
+        <!-- 1. Eye & Head Tracking Card -->
+        <div class="mode-card">
+            <div>
+                <div class="mode-header">
+                    <div class="mode-icon icon-eye">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="mode-header-text">
+                        <h3>Head & Eye Tracking</h3>
+                        <span class="mode-badge badge-eye"><i class="fas fa-wand-magic-sparkles"></i> MediaPipe Face Mesh</span>
+                    </div>
+                </div>
+
+                <p class="mode-desc">
+                    Smooth cursor movement via nose tip displacement. Individual left or right eye blinks trigger left and right mouse clicks.
+                </p>
+
+                <div class="gestures-list">
+                    <h4>Action Mapping</h4>
+                    <div class="gesture-item">
+                        <span><i class="fas fa-arrows-up-down-left-right me-2 text-primary"></i> Head Movement</span>
+                        <span class="key-pill">Cursor Movement</span>
+                    </div>
+                    <div class="gesture-item">
+                        <span><i class="fas fa-eye me-2 text-success"></i> Left-Eye Blink</span>
+                        <span class="key-pill">Left Click</span>
+                    </div>
+                    <div class="gesture-item">
+                        <span><i class="fas fa-eye me-2 text-danger"></i> Right-Eye Blink</span>
+                        <span class="key-pill">Right Click</span>
+                    </div>
+                    <div class="gesture-item">
+                        <span><i class="fas fa-shield-halved me-2 text-info"></i> Natural Double Blink</span>
+                        <span class="key-pill">Ignored (Resting)</span>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn-select-mode active-mode" id="btn-choose-eye">
+                <i class="fas fa-check-circle"></i> Mode Selected: Eye Tracking
+            </button>
+        </div>
+
+        <!-- 2. Hand Gesture Card -->
+        <div class="mode-card">
+            <div>
+                <div class="mode-header">
+                    <div class="mode-icon icon-hand">
+                        <i class="fas fa-hand-sparkles"></i>
+                    </div>
+                    <div class="mode-header-text">
+                        <h3>Hand Gesture Control</h3>
+                        <span class="mode-badge badge-hand"><i class="fas fa-fingerprint"></i> MediaPipe 21 Landmarks</span>
+                    </div>
+                </div>
+
+                <p class="mode-desc">
+                    Navigate cursor, click and drag, scroll pages, and adjust system volume and brightness using intuitive hand gestures.
+                </p>
+
+                <div class="gestures-list">
+                    <h4>Gesture Map</h4>
+                    <div class="gesture-item">
+                        <span><i class="fas fa-hand-point-up me-2 text-info"></i> 1 Index Finger</span>
+                        <span class="key-pill">Move Cursor</span>
+                    </div>
+                    <div class="gesture-item">
+                        <span><i class="fas fa-hand-scissors me-2 text-success"></i> 2 Fingers Close</span>
+                        <span class="key-pill">Left Click</span>
+                    </div>
+                    <div class="gesture-item">
+                        <span><i class="fas fa-hand-fist me-2 text-warning"></i> Closed Fist</span>
+                        <span class="key-pill">Click & Drag</span>
+                    </div>
+                    <div class="gesture-item">
+                        <span><i class="fas fa-hand me-2 text-primary"></i> All 5 Fingers Up</span>
+                        <span class="key-pill">Page Scrolling</span>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn-select-mode" id="btn-choose-hand">
+                <i class="fas fa-arrow-right"></i> Switch to Hand Gestures
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let currentMode = 'eye';
+    let isStreaming = false;
+    let telemetryInterval = null;
+
+    const feedImg = document.getElementById('camera-feed-img');
+    const standbyScreen = document.getElementById('standby-screen');
+    const btnStreamToggle = document.getElementById('btn-stream-toggle');
+    const btnStreamText = document.getElementById('btn-stream-text');
+    const btnStartHero = document.getElementById('btn-start-hero');
+    const mouseToggle = document.getElementById('mouse-control-toggle');
+    const camSelect = document.getElementById('camera-select');
+    const btnScan = document.getElementById('btn-scan-cameras');
+    const scanIcon = document.getElementById('scan-icon');
+    const scanText = document.getElementById('scan-btn-text');
+    const btnFullscreen = document.getElementById('btn-fullscreen');
+    const studioCard = document.getElementById('studio-card');
+
+    // HUD Elements
+    const statusBadge = document.getElementById('stream-status-badge');
+    const statusText = document.getElementById('stream-status-text');
+    const modeBadge = document.getElementById('stream-mode-badge');
+    const mouseBadge = document.getElementById('stream-mouse-badge');
+    const fpsBadge = document.getElementById('stream-fps-badge');
+
+    // Telemetry Elements
+    const teleDetection = document.getElementById('telemetry-detection');
+    const teleAction = document.getElementById('telemetry-action');
+    const teleMetric = document.getElementById('telemetry-metric');
+    const teleCursor = document.getElementById('telemetry-cursor');
+    const teleCam = document.getElementById('telemetry-cam');
+
+    // Virtual Cursor Elements
+    const virtualCursor = document.getElementById('webeye-virtual-cursor');
+    const cursorCoordsTag = document.getElementById('cursor-coords-tag');
+    const btnRecalibrate = document.getElementById('btn-recalibrate-center');
+
+    // Practice Playground Elements
+    const btnTestLeft = document.getElementById('btn-test-left');
+    const btnTestRight = document.getElementById('btn-test-right');
+    const testHoverBox = document.getElementById('test-hover-box');
+    const hoverStatusText = document.getElementById('hover-status-text');
+    const btnResetCounters = document.getElementById('btn-reset-counters');
+    const countLeftClicks = document.getElementById('count-left-clicks');
+    const countRightClicks = document.getElementById('count-right-clicks');
+    let leftClicksCount = 0;
+    let rightClicksCount = 0;
+
+    // Mode Buttons
+    const tabEye = document.getElementById('tab-eye');
+    const tabHand = document.getElementById('tab-hand');
+    const tabPreview = document.getElementById('tab-preview');
+    const btnChooseEye = document.getElementById('btn-choose-eye');
+    const btnChooseHand = document.getElementById('btn-choose-hand');
+
+    function updateModeUI(mode) {
+        currentMode = mode;
+        [tabEye, tabHand, tabPreview].forEach(t => t.classList.remove('active'));
+
+        if (mode === 'eye') {
+            tabEye.classList.add('active');
+            modeBadge.innerHTML = '<i class="fas fa-eye"></i> Eye Tracking';
+            btnChooseEye.className = 'btn-select-mode active-mode';
+            btnChooseEye.innerHTML = '<i class="fas fa-check-circle"></i> Mode Selected: Eye Tracking';
+            btnChooseHand.className = 'btn-select-mode';
+            btnChooseHand.innerHTML = '<i class="fas fa-arrow-right"></i> Switch to Hand Gestures';
+            if (btnRecalibrate) btnRecalibrate.style.display = 'inline-flex';
+        } else if (mode === 'hand') {
+            tabHand.classList.add('active');
+            modeBadge.innerHTML = '<i class="fas fa-hand-sparkles"></i> Hand Gestures';
+            btnChooseHand.className = 'btn-select-mode active-mode';
+            btnChooseHand.innerHTML = '<i class="fas fa-check-circle"></i> Mode Selected: Hand Gestures';
+            btnChooseEye.className = 'btn-select-mode';
+            btnChooseEye.innerHTML = '<i class="fas fa-arrow-right"></i> Switch to Eye Tracking';
+            if (btnRecalibrate) btnRecalibrate.style.display = 'none';
+        } else {
+            tabPreview.classList.add('active');
+            modeBadge.innerHTML = '<i class="fas fa-camera"></i> Test Preview';
+            btnChooseEye.className = 'btn-select-mode';
+            btnChooseEye.innerHTML = '<i class="fas fa-arrow-right"></i> Switch to Eye Tracking';
+            btnChooseHand.className = 'btn-select-mode';
+            btnChooseHand.innerHTML = '<i class="fas fa-arrow-right"></i> Switch to Hand Gestures';
+            if (btnRecalibrate) btnRecalibrate.style.display = 'none';
+        }
+
+        if (isStreaming) {
+            restartStream();
+        }
+    }
+
+    // Instant mouse control toggle via AJAX - NO stream restart required!
+    async function updateMouseControlUI() {
+        const enabled = mouseToggle.checked;
+        if (enabled) {
+            mouseBadge.className = 'mouse-toggle-hud active';
+            mouseBadge.innerHTML = '<i class="fas fa-mouse-pointer"></i> Mouse Control ON';
+        } else {
+            mouseBadge.className = 'mouse-toggle-hud inactive';
+            mouseBadge.innerHTML = '<i class="fas fa-shield"></i> Preview Only';
+        }
+
+        try {
+            await fetch(`/api/set_mouse_control/?enabled=${enabled ? 1 : 0}`);
+        } catch (err) {
+            console.warn("Could not update mouse control flag:", err);
+        }
+    }
+
+    function startStream() {
+        const camIdx = camSelect.value || 0;
+        const enableMouse = mouseToggle.checked ? 1 : 0;
+        const streamUrl = `/video_feed/?mode=${encodeURIComponent(currentMode)}&cam_index=${camIdx}&enable_mouse=${enableMouse}&t=${Date.now()}`;
+
+        feedImg.src = streamUrl;
+        feedImg.style.display = 'block';
+        standbyScreen.style.display = 'none';
+
+        isStreaming = true;
+        btnStreamToggle.className = 'btn-stream-stop';
+        btnStreamToggle.innerHTML = '<i class="fas fa-stop"></i> <span>Stop Camera</span>';
+        statusBadge.className = 'status-badge live';
+        statusText.textContent = 'LIVE STREAMING';
+
+        teleCam.textContent = `Camera ${camIdx}`;
+        teleDetection.textContent = 'Tracking Active';
+
+        if (telemetryInterval) clearInterval(telemetryInterval);
+        telemetryInterval = setInterval(fetchTelemetry, 250);
+    }
+
+    function stopStream() {
+        if (telemetryInterval) {
+            clearInterval(telemetryInterval);
+            telemetryInterval = null;
+        }
+
+        // Break image stream
+        feedImg.src = '';
+        feedImg.style.display = 'none';
+        standbyScreen.style.display = 'flex';
+        if (virtualCursor) virtualCursor.style.display = 'none';
+
+        isStreaming = false;
+        btnStreamToggle.className = 'btn-stream-start';
+        btnStreamToggle.innerHTML = '<i class="fas fa-play"></i> <span>Start Camera</span>';
+        statusBadge.className = 'status-badge';
+        statusText.textContent = 'STANDBY';
+        fpsBadge.textContent = '0 FPS';
+        teleDetection.textContent = 'Camera Off';
+        teleAction.textContent = 'Idle';
+        if (teleCursor) teleCursor.textContent = 'X: --, Y: --';
+
+        // Notify server to release camera hardware
+        fetch('/api/stop_stream/').catch(err => console.warn(err));
+    }
+
+    function restartStream() {
+        if (!isStreaming) return;
+        stopStream();
+        setTimeout(startStream, 200);
+    }
+
+    function triggerVirtualCursorClick(type, x, y) {
+        if (!virtualCursor) return;
+        const ripple = document.createElement('div');
+        ripple.className = 'cursor-click-ripple ' + (type === 'right' ? 'ripple-right' : 'ripple-left');
+        virtualCursor.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 700);
+
+        // Check if hitting test buttons
+        if (type === 'left') {
+            leftClicksCount++;
+            if (countLeftClicks) countLeftClicks.textContent = `${leftClicksCount} Clicks`;
+        } else if (type === 'right') {
+            rightClicksCount++;
+            if (countRightClicks) countRightClicks.textContent = `${rightClicksCount} Clicks`;
+        }
+    }
+
+    function checkPlaygroundHover(x, y) {
+        if (!testHoverBox) return;
+        const rect = testHoverBox.getBoundingClientRect();
+        if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+            testHoverBox.classList.add('active-hover');
+            if (hoverStatusText) {
+                hoverStatusText.textContent = 'Cursor Locked on Target!';
+                hoverStatusText.style.color = '#7c3aed';
+            }
+        } else {
+            testHoverBox.classList.remove('active-hover');
+            if (hoverStatusText) {
+                hoverStatusText.textContent = 'Steer cursor here';
+                hoverStatusText.style.color = '#64748b';
+            }
+        }
+    }
+
+    async function fetchTelemetry() {
+        if (!isStreaming) return;
+        try {
+            const resp = await fetch('/api/stream_status/');
+            const data = await resp.json();
+            if (data && data.telemetry) {
+                const t = data.telemetry;
+                fpsBadge.textContent = `${t.fps || 0} FPS`;
+                teleAction.textContent = t.last_action || 'Tracking';
+
+                if (currentMode === 'eye') {
+                    teleDetection.textContent = t.face_detected ? 'Face Locked' : 'Searching Face...';
+                    teleMetric.textContent = `L: ${t.left_ear || 0} | R: ${t.right_ear || 0}`;
+                } else if (currentMode === 'hand') {
+                    teleDetection.textContent = t.hand_detected ? 'Hand Locked' : 'Searching Hand...';
+                    teleMetric.textContent = `${t.finger_count || 0} Fingers Up`;
+                } else {
+                    teleDetection.textContent = 'Aligning Camera';
+                    teleMetric.textContent = 'Centering Guide';
+                }
+
+                // Render Live Virtual Cursor Indicator
+                if (t.cursor_x !== undefined && t.cursor_y !== undefined) {
+                    if (teleCursor) teleCursor.textContent = `X: ${t.cursor_x}, Y: ${t.cursor_y}`;
+
+                    if (virtualCursor) {
+                        const screenW = t.screen_w || window.screen.width || 1920;
+                        const screenH = t.screen_h || window.screen.height || 1080;
+                        const normX = Math.min(1.0, Math.max(0.0, t.cursor_x / screenW));
+                        const normY = Math.min(1.0, Math.max(0.0, t.cursor_y / screenH));
+                        const viewX = normX * window.innerWidth;
+                        const viewY = normY * window.innerHeight;
+
+                        virtualCursor.style.display = 'block';
+                        virtualCursor.style.transform = `translate(${viewX}px, ${viewY}px)`;
+                        if (cursorCoordsTag) cursorCoordsTag.textContent = `X:${t.cursor_x} Y:${t.cursor_y}`;
+
+                        checkPlaygroundHover(viewX, viewY);
+
+                        if (t.click_event) {
+                            triggerVirtualCursorClick(t.click_event, viewX, viewY);
+                        }
+                    }
+                }
+            }
+        } catch (e) {
+            // Ignore temporary network hiccups
+        }
+    }
+
+    // Toggle Stream Event
+    btnStreamToggle.addEventListener('click', function() {
+        if (isStreaming) {
+            stopStream();
+        } else {
+            startStream();
+        }
+    });
+
+    if (btnStartHero) {
+        btnStartHero.addEventListener('click', startStream);
+    }
+
+    // Recalibrate Center
+    if (btnRecalibrate) {
+        btnRecalibrate.addEventListener('click', async function() {
+            btnRecalibrate.disabled = true;
+            const orig = btnRecalibrate.innerHTML;
+            btnRecalibrate.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Recalibrating...';
+            try {
+                await fetch('/api/recalibrate_center/');
+                if (teleAction) teleAction.textContent = 'Center Recalibrated';
+            } catch(e) {
+                console.warn(e);
+            } finally {
+                setTimeout(() => {
+                    btnRecalibrate.innerHTML = orig;
+                    btnRecalibrate.disabled = false;
+                }, 500);
+            }
+        });
+    }
+
+    // Interactive Practice Target Event Handlers
+    if (btnTestLeft) {
+        btnTestLeft.addEventListener('click', () => {
+            leftClicksCount++;
+            if (countLeftClicks) countLeftClicks.textContent = `${leftClicksCount} Clicks`;
+            triggerVirtualCursorClick('left');
+        });
+    }
+
+    if (btnTestRight) {
+        btnTestRight.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            rightClicksCount++;
+            if (countRightClicks) countRightClicks.textContent = `${rightClicksCount} Clicks`;
+            triggerVirtualCursorClick('right');
+        });
+        btnTestRight.addEventListener('click', () => {
+            rightClicksCount++;
+            if (countRightClicks) countRightClicks.textContent = `${rightClicksCount} Clicks`;
+            triggerVirtualCursorClick('right');
+        });
+    }
+
+    if (btnResetCounters) {
+        btnResetCounters.addEventListener('click', () => {
+            leftClicksCount = 0;
+            rightClicksCount = 0;
+            if (countLeftClicks) countLeftClicks.textContent = '0 Clicks';
+            if (countRightClicks) countRightClicks.textContent = '0 Clicks';
+        });
+    }
+
+    // Mode switching tabs
+    tabEye.addEventListener('click', () => updateModeUI('eye'));
+    tabHand.addEventListener('click', () => updateModeUI('hand'));
+    tabPreview.addEventListener('click', () => updateModeUI('preview'));
+
+    btnChooseEye.addEventListener('click', () => {
+        updateModeUI('eye');
+        studioCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (!isStreaming) startStream();
+    });
+
+    btnChooseHand.addEventListener('click', () => {
+        updateModeUI('hand');
+        studioCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (!isStreaming) startStream();
+    });
+
+    // Mouse toggle (instant, no stream restart)
+    mouseToggle.addEventListener('change', updateMouseControlUI);
+
+    // Camera Select change
+    camSelect.addEventListener('change', function() {
+        localStorage.setItem('webeye_cam_index', camSelect.value);
+        teleCam.textContent = `Camera ${camSelect.value}`;
+        if (isStreaming) {
+            restartStream();
+        }
+    });
+
+    // Fullscreen toggle
+    btnFullscreen.addEventListener('click', function() {
+        if (!document.fullscreenElement) {
+            studioCard.requestFullscreen().catch(err => console.error(err));
+            btnFullscreen.innerHTML = '<i class="fas fa-compress"></i>';
+        } else {
+            document.exitFullscreen();
+            btnFullscreen.innerHTML = '<i class="fas fa-expand"></i>';
+        }
+    });
+
+    // Scan cameras
+    btnScan.addEventListener('click', async function() {
+        btnScan.disabled = true;
+        scanIcon.className = 'fas fa-spinner fa-spin';
+        scanText.textContent = 'Scanning...';
+
+        try {
+            const resp = await fetch('/api/get_available_cameras/');
+            const data = await resp.json();
+            if (data && data.status === 'success' && data.cameras) {
+                const currentVal = camSelect.value;
+                camSelect.innerHTML = '';
+                data.cameras.forEach(cam => {
+                    const opt = document.createElement('option');
+                    opt.value = cam.index;
+                    opt.textContent = cam.name;
+                    if (String(cam.index) === String(currentVal)) opt.selected = true;
+                    camSelect.appendChild(opt);
+                });
+                if (!camSelect.value && camSelect.options.length > 0) {
+                    camSelect.selectedIndex = 0;
+                }
+            }
+        } catch (e) {
+            console.error("Camera scan failed:", e);
+        } finally {
+            btnScan.disabled = false;
+            scanIcon.className = 'fas fa-arrows-rotate';
+            scanText.textContent = 'Scan';
+        }
+    });
+
+    // Cleanup on window unload
+    window.addEventListener('beforeunload', function() {
+        if (isStreaming) {
+            navigator.sendBeacon('/api/stop_stream/');
+        }
+    });
+});
+</script>
+
+
+{% include 'homefooter.html' %}

@@ -1,0 +1,1054 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Submit Complaint</title>
+</head>
+
+<body>
+
+    <h2>Submit Complaint</h2>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <label>Complaint Title:</label>
+        <br>
+        <input type="text" name="Title" maxlength="100" required>
+
+        <br><br>
+
+        <label>Complaint Description:</label>
+        <br>
+        <textarea name="Description" rows="6" cols="40" required></textarea>
+
+        <br><br>
+
+        <input type="submit" value="Submit Complaint">
+
+    </form>
+
+    <br>
+
+    <a href="/dashboard/">Back to Dashboard</a>
+    <br>
+    <a href="/my_complaints/">My Complaints</a>
+
+</body>
+</html> -->
+
+{% include "dashheader.html" %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Submit Complaint - WebEye-Access
+    </title>
+
+
+    <style>
+
+        /* =========================================
+           BASIC RESET
+        ========================================= */
+
+        * {
+
+            margin: 0;
+
+            padding: 0;
+
+            box-sizing: border-box;
+
+        }
+
+
+        html {
+
+            scroll-behavior: smooth;
+
+        }
+
+
+        body {
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            min-height: 100vh;
+
+            background:
+
+                radial-gradient(
+                    circle at 15% 20%,
+                    rgba(0, 210, 170, 0.30),
+                    transparent 30%
+                ),
+
+                radial-gradient(
+                    circle at 85% 20%,
+                    rgba(50, 130, 220, 0.25),
+                    transparent 30%
+                ),
+
+                linear-gradient(
+                    135deg,
+                    #061817,
+                    #092c31,
+                    #071b28
+                );
+
+            color: white;
+
+            overflow-x: hidden;
+
+        }
+
+
+        /* =========================================
+           BACKGROUND LIGHTS
+        ========================================= */
+
+        .background-light {
+
+            position: fixed;
+
+            width: 500px;
+
+            height: 500px;
+
+            border-radius: 50%;
+
+            filter: blur(120px);
+
+            opacity: 0.20;
+
+            pointer-events: none;
+
+            z-index: -1;
+
+        }
+
+
+        .light-one {
+
+            background: #28e0bd;
+
+            top: 5%;
+
+            left: -200px;
+
+        }
+
+
+        .light-two {
+
+            background: #3989df;
+
+            right: -200px;
+
+            bottom: 0;
+
+        }
+
+
+        /* =========================================
+           MAIN CONTAINER
+        ========================================= */
+
+        .complaint-container {
+
+            min-height: 100vh;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding:
+                130px 20px 60px;
+
+        }
+
+
+        /* =========================================
+           COMPLAINT CARD
+        ========================================= */
+
+        .complaint-card {
+
+            width: 100%;
+
+            max-width: 650px;
+
+            padding: 40px;
+
+            border-radius: 28px;
+
+            background:
+
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,0.12),
+                    rgba(255,255,255,0.04)
+                );
+
+            border:
+                1px solid
+                rgba(255,255,255,0.18);
+
+            backdrop-filter:
+                blur(30px);
+
+            -webkit-backdrop-filter:
+                blur(30px);
+
+            box-shadow:
+
+                0 30px 80px
+                rgba(0,0,0,0.40),
+
+                inset 0 1px
+                rgba(255,255,255,0.20);
+
+            position: relative;
+
+            overflow: hidden;
+
+        }
+
+
+        /* =========================================
+           CARD GLOW
+        ========================================= */
+
+        .complaint-card::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 200px;
+
+            height: 200px;
+
+            border-radius: 50%;
+
+            background: #20e5c0;
+
+            filter: blur(100px);
+
+            opacity: 0.10;
+
+            top: -100px;
+
+            right: -70px;
+
+            pointer-events: none;
+
+        }
+
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        .complaint-header {
+
+            text-align: center;
+
+            margin-bottom: 32px;
+
+        }
+
+
+        .complaint-icon {
+
+            width: 70px;
+
+            height: 70px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin:
+                0 auto 20px;
+
+            border-radius: 22px;
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    rgba(70,235,201,0.20),
+                    rgba(50,130,220,0.16)
+                );
+
+            border:
+                1px solid
+                rgba(100,255,225,0.35);
+
+            font-size: 30px;
+
+            box-shadow:
+
+                0 0 30px
+                rgba(70,235,201,0.12);
+
+        }
+
+
+        .complaint-header h1 {
+
+            font-size:
+                clamp(28px, 5vw, 40px);
+
+            margin-bottom: 10px;
+
+            letter-spacing: -1px;
+
+        }
+
+
+        .complaint-header h1 span {
+
+            color: #62e8cb;
+
+        }
+
+
+        .complaint-header p {
+
+            color: #91aaa7;
+
+            font-size: 13px;
+
+            line-height: 1.7;
+
+            max-width: 480px;
+
+            margin:
+                auto;
+
+        }
+
+
+        /* =========================================
+           FORM
+        ========================================= */
+
+        .complaint-form {
+
+            position: relative;
+
+            z-index: 2;
+
+        }
+
+
+        /* =========================================
+           FORM GROUP
+        ========================================= */
+
+        .form-group {
+
+            margin-bottom: 23px;
+
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            margin-bottom: 9px;
+
+            color: #dce9e7;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+        }
+
+
+        .required {
+
+            color: #68efd1;
+
+        }
+
+
+        /* =========================================
+           INPUT
+        ========================================= */
+
+        .form-input {
+
+            width: 100%;
+
+            padding:
+                14px 16px;
+
+            border-radius: 13px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.15);
+
+            background:
+                rgba(0,0,0,0.16);
+
+            color: white;
+
+            outline: none;
+
+            font-family: inherit;
+
+            font-size: 13px;
+
+            transition:
+                0.3s ease;
+
+        }
+
+
+        .form-input::placeholder {
+
+            color: #607a77;
+
+        }
+
+
+        .form-input:focus {
+
+            border-color:
+                rgba(80,240,210,0.60);
+
+            background:
+                rgba(0,0,0,0.22);
+
+            box-shadow:
+
+                0 0 0 3px
+                rgba(70,235,201,0.08),
+
+                0 0 25px
+                rgba(70,235,201,0.08);
+
+        }
+
+
+        /* =========================================
+           TEXTAREA
+        ========================================= */
+
+        .form-textarea {
+
+            width: 100%;
+
+            min-height: 170px;
+
+            resize: vertical;
+
+            padding:
+                15px 16px;
+
+            border-radius: 13px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.15);
+
+            background:
+                rgba(0,0,0,0.16);
+
+            color: white;
+
+            outline: none;
+
+            font-family: inherit;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+            transition:
+                0.3s ease;
+
+        }
+
+
+        .form-textarea::placeholder {
+
+            color: #607a77;
+
+        }
+
+
+        .form-textarea:focus {
+
+            border-color:
+                rgba(80,240,210,0.60);
+
+            background:
+                rgba(0,0,0,0.22);
+
+            box-shadow:
+
+                0 0 0 3px
+                rgba(70,235,201,0.08),
+
+                0 0 25px
+                rgba(70,235,201,0.08);
+
+        }
+
+
+        /* =========================================
+           CHARACTER INFO
+        ========================================= */
+
+        .field-info {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            margin-top: 7px;
+
+            color: #58716e;
+
+            font-size: 9px;
+
+        }
+
+
+        /* =========================================
+           SUBMIT BUTTON
+        ========================================= */
+
+        .submit-button {
+
+            width: 100%;
+
+            padding:
+                15px 25px;
+
+            border: none;
+
+            border-radius: 30px;
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    #4dd8b7,
+                    #38b99d
+                );
+
+            color: #06221d;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            box-shadow:
+
+                0 10px 30px
+                rgba(77,216,183,0.22);
+
+            transition:
+                0.3s ease;
+
+        }
+
+
+        .submit-button:hover {
+
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+
+                0 15px 40px
+                rgba(77,216,183,0.38);
+
+        }
+
+
+        .submit-button:active {
+
+            transform:
+                translateY(0);
+
+        }
+
+
+        /* =========================================
+           NAVIGATION BUTTONS
+        ========================================= */
+
+        .navigation-links {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+
+            margin-top: 25px;
+
+            padding-top: 22px;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,0.08);
+
+        }
+
+
+        .navigation-links a {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding:
+                10px 17px;
+
+            border-radius: 25px;
+
+            background:
+                rgba(255,255,255,0.06);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.13);
+
+            color: #a9bfbc;
+
+            text-decoration: none;
+
+            font-size: 11px;
+
+            transition:
+                0.3s;
+
+        }
+
+
+        .navigation-links a:hover {
+
+            color: #68efd1;
+
+            background:
+                rgba(70,235,201,0.08);
+
+            border-color:
+                rgba(70,235,201,0.25);
+
+            transform:
+                translateY(-2px);
+
+        }
+
+
+        /* =========================================
+           PRIVACY NOTE
+        ========================================= */
+
+        .privacy-note {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 7px;
+
+            margin-top: 20px;
+
+            color: #5d7774;
+
+            font-size: 9px;
+
+            text-align: center;
+
+        }
+
+
+        .privacy-note span {
+
+            color: #68efd1;
+
+        }
+
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        .page-footer {
+
+            text-align: center;
+
+            margin-top: 25px;
+
+            color: #4e6865;
+
+            font-size: 10px;
+
+        }
+
+
+        .page-footer span {
+
+            color: #68efd1;
+
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media(max-width:700px) {
+
+            .complaint-container {
+
+                padding:
+                    110px 15px 40px;
+
+            }
+
+
+            .complaint-card {
+
+                padding:
+                    28px 20px;
+
+                border-radius: 22px;
+
+            }
+
+
+            .complaint-icon {
+
+                width: 60px;
+
+                height: 60px;
+
+                font-size: 26px;
+
+            }
+
+
+            .navigation-links {
+
+                flex-direction: column;
+
+            }
+
+
+            .navigation-links a {
+
+                justify-content: center;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     BACKGROUND
+========================================= -->
+
+<div class="background-light light-one"></div>
+
+<div class="background-light light-two"></div>
+
+
+
+<!-- =========================================
+     HEADER
+========================================= -->
+
+
+
+
+<!-- =========================================
+     MAIN
+========================================= -->
+
+<main class="complaint-container">
+
+
+    <div class="complaint-card">
+
+
+        <!-- =================================
+             HEADER
+        ================================== -->
+
+        <div class="complaint-header">
+
+
+            <div class="complaint-icon">
+
+                📋
+
+            </div>
+
+
+            <h1>
+
+                Submit
+                <span>Complaint</span>
+
+            </h1>
+
+
+            <p>
+
+                Tell us about any problem you are
+                experiencing with WebEye-Access.
+                Our support team will review your
+                complaint and respond as soon as possible.
+
+            </p>
+
+
+        </div>
+
+
+
+        <!-- =================================
+             FORM
+        ================================== -->
+
+        <form
+            method="POST"
+            class="complaint-form"
+        >
+
+
+            {% csrf_token %}
+
+
+            <!-- =================================
+                 TITLE
+            ================================== -->
+
+            <div class="form-group">
+
+
+                <label for="Title">
+
+                    Complaint Title
+
+                    <span class="required">
+                        *
+                    </span>
+
+                </label>
+
+
+                <input
+
+                    type="text"
+
+                    id="Title"
+
+                    name="Title"
+
+                    maxlength="100"
+
+                    class="form-input"
+
+                    placeholder="Enter the complaint title"
+
+                    required
+
+                >
+
+
+                <div class="field-info">
+
+                    <span>
+                        Briefly describe the issue
+                    </span>
+
+                    <span>
+                        Maximum 100 characters
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================
+                 DESCRIPTION
+            ================================== -->
+
+            <div class="form-group">
+
+
+                <label for="Description">
+
+                    Complaint Description
+
+                    <span class="required">
+                        *
+                    </span>
+
+                </label>
+
+
+                <textarea
+
+                    id="Description"
+
+                    name="Description"
+
+                    class="form-textarea"
+
+                    rows="6"
+
+                    placeholder="Describe the problem in detail. For example, explain what happened, when it happened, and what you were trying to do."
+
+                    required
+
+                ></textarea>
+
+
+                <div class="field-info">
+
+                    <span>
+                        Provide as much detail as possible
+                    </span>
+
+                    <span>
+                        Required
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================
+                 SUBMIT
+            ================================== -->
+
+            <button
+                type="submit"
+                class="submit-button"
+            >
+
+                📤
+                Submit Complaint
+
+            </button>
+
+
+        </form>
+
+
+
+        <!-- =================================
+             NAVIGATION
+        ================================== -->
+
+        <div class="navigation-links">
+
+
+            <a href="/dashboard/">
+
+                ←
+                Back to Dashboard
+
+            </a>
+
+
+            <a href="/my_complaints/">
+
+                📋
+                My Complaints
+
+            </a>
+
+
+        </div>
+
+
+
+        <!-- =================================
+             PRIVACY
+        ================================== -->
+
+        <div class="privacy-note">
+
+            <span>
+                🔒
+            </span>
+
+            Your complaint is securely submitted
+            to the WebEye-Access administration team.
+
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+
+<!-- =========================================
+     FOOTER
+========================================= -->
+
+{% include "homefooter.html" %}
+
+
+</body>
+
+</html>

@@ -1,0 +1,2264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>WebEye-Access | Live Tracking</title>
+
+
+    <style>
+
+        /* =====================================================
+           GLOBAL
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            color: #f2fffd;
+
+            background:
+                radial-gradient(
+                    circle at 80% 20%,
+                    rgba(98,232,203,0.08),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    #020c0c,
+                    #061817,
+                    #071f22
+                );
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .header {
+
+            position: sticky;
+
+            top: 18px;
+
+            z-index: 100;
+
+            width: 92%;
+
+            margin: 18px auto 0;
+
+            padding: 15px 25px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            border:
+                1px solid
+                rgba(150,240,225,0.20);
+
+            border-radius: 20px;
+
+            background:
+                rgba(10,31,31,0.72);
+
+            backdrop-filter:
+                blur(18px);
+
+            box-shadow:
+                0 15px 45px
+                rgba(0,0,0,0.30);
+        }
+
+
+        .logo {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            font-size: 21px;
+
+            font-weight: 800;
+        }
+
+
+        .logo-eye {
+
+            width: 38px;
+
+            height: 38px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border:
+                1px solid
+                rgba(98,232,203,0.50);
+
+            border-radius: 50%;
+
+            color:
+                #62e8cb;
+
+            background:
+                rgba(98,232,203,0.08);
+        }
+
+
+        .logo span {
+
+            color:
+                #62e8cb;
+        }
+
+
+        .back-button {
+
+            text-decoration: none;
+
+            color:
+                #dff9f5;
+
+            padding:
+                10px 18px;
+
+            border:
+                1px solid
+                rgba(210,245,240,0.25);
+
+            border-radius:
+                25px;
+
+            background:
+                rgba(255,255,255,0.04);
+
+            transition:
+                all .3s ease;
+        }
+
+
+        .back-button:hover {
+
+            color:
+                #62e8cb;
+
+            border-color:
+                #62e8cb;
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .container {
+
+            width: 90%;
+
+            max-width: 1250px;
+
+            margin:
+                55px auto 80px;
+        }
+
+
+        /* =====================================================
+           TITLE
+        ===================================================== */
+
+        .page-heading {
+
+            margin-bottom:
+                35px;
+        }
+
+
+        .tag {
+
+            display:
+                inline-block;
+
+            padding:
+                8px 16px;
+
+            border:
+                1px solid
+                rgba(98,232,203,0.40);
+
+            border-radius:
+                30px;
+
+            color:
+                #62e8cb;
+
+            background:
+                rgba(98,232,203,0.06);
+
+            font-size:
+                11px;
+
+            font-weight:
+                700;
+
+            letter-spacing:
+                1px;
+        }
+
+
+        .page-heading h1 {
+
+            margin:
+                18px 0 10px;
+
+            font-size:
+                clamp(38px,5vw,62px);
+
+            letter-spacing:
+                -2px;
+        }
+
+
+        .page-heading h1 span {
+
+            color:
+                #62e8cb;
+        }
+
+
+        .page-heading p {
+
+            margin: 0;
+
+            max-width:
+                700px;
+
+            color:
+                rgba(225,246,242,0.65);
+
+            font-size:
+                16px;
+
+            line-height:
+                1.7;
+        }
+
+
+        /* =====================================================
+           MAIN GRID
+        ===================================================== */
+
+        .tracking-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                1.45fr 0.75fr;
+
+            gap:
+                25px;
+
+            align-items:
+                start;
+        }
+
+
+        /* =====================================================
+           GLASS CARD
+        ===================================================== */
+
+        .glass-card {
+
+            border:
+                1px solid
+                rgba(145,235,221,0.15);
+
+            border-radius:
+                25px;
+
+            background:
+                rgba(255,255,255,0.045);
+
+            backdrop-filter:
+                blur(18px);
+
+            box-shadow:
+                0 25px 70px
+                rgba(0,0,0,0.28);
+        }
+
+
+        /* =====================================================
+           CAMERA CARD
+        ===================================================== */
+
+        .camera-card {
+
+            padding:
+                22px;
+        }
+
+
+        .camera-header {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            margin-bottom:
+                18px;
+        }
+
+
+        .camera-header h2 {
+
+            margin:
+                0;
+
+            font-size:
+                18px;
+        }
+
+
+        .camera-status {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                7px;
+
+            color:
+                rgba(230,250,246,0.65);
+
+            font-size:
+                11px;
+        }
+
+
+        .status-dot {
+
+            width:
+                8px;
+
+            height:
+                8px;
+
+            border-radius:
+                50%;
+
+            background:
+                #6c7775;
+        }
+
+
+        .status-dot.active {
+
+            background:
+                #62e8cb;
+
+            box-shadow:
+                0 0 12px
+                #62e8cb;
+
+            animation:
+                statusPulse 1.5s infinite;
+        }
+
+
+        @keyframes statusPulse {
+
+            0%,
+            100% {
+                opacity: .35;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+
+        /* =====================================================
+           CAMERA VIEW
+        ===================================================== */
+
+        .camera-wrapper {
+
+            position:
+                relative;
+
+            width:
+                100%;
+
+            aspect-ratio:
+                16 / 10;
+
+            overflow:
+                hidden;
+
+            border-radius:
+                18px;
+
+            background:
+                #010707;
+
+            border:
+                1px solid
+                rgba(98,232,203,0.18);
+        }
+
+
+        video {
+
+            width:
+                100%;
+
+            height:
+                100%;
+
+            object-fit:
+                cover;
+
+            display:
+                block;
+
+            transform:
+                scaleX(-1);
+
+            background:
+                #020808;
+        }
+
+
+        /* =====================================================
+           CAMERA PLACEHOLDER
+        ===================================================== */
+
+        .camera-placeholder {
+
+            position:
+                absolute;
+
+            inset:
+                0;
+
+            display:
+                flex;
+
+            flex-direction:
+                column;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(4,25,25,.95),
+                    rgba(2,12,13,.95)
+                );
+
+            z-index:
+                2;
+        }
+
+
+        .camera-placeholder.hidden {
+
+            display:
+                none;
+        }
+
+
+        .camera-icon {
+
+            font-size:
+                48px;
+
+            margin-bottom:
+                15px;
+
+            opacity:
+                .8;
+        }
+
+
+        .camera-placeholder h3 {
+
+            margin:
+                0 0 8px;
+
+            font-size:
+                17px;
+        }
+
+
+        .camera-placeholder p {
+
+            margin:
+                0;
+
+            color:
+                rgba(225,245,241,.55);
+
+            font-size:
+                12px;
+        }
+
+
+        /* =====================================================
+           CAMERA CORNERS
+        ===================================================== */
+
+        .corner {
+
+            position:
+                absolute;
+
+            width:
+                28px;
+
+            height:
+                28px;
+
+            z-index:
+                4;
+
+            border-color:
+                rgba(98,232,203,.75);
+
+            border-style:
+                solid;
+        }
+
+
+        .corner.top-left {
+
+            top:
+                14px;
+
+            left:
+                14px;
+
+            border-width:
+                2px 0 0 2px;
+        }
+
+
+        .corner.top-right {
+
+            top:
+                14px;
+
+            right:
+                14px;
+
+            border-width:
+                2px 2px 0 0;
+        }
+
+
+        .corner.bottom-left {
+
+            bottom:
+                14px;
+
+            left:
+                14px;
+
+            border-width:
+                0 0 2px 2px;
+        }
+
+
+        .corner.bottom-right {
+
+            bottom:
+                14px;
+
+            right:
+                14px;
+
+            border-width:
+                0 2px 2px 0;
+        }
+
+
+        /* =====================================================
+           GAZE POINT
+        ===================================================== */
+
+        .gaze-point {
+
+            position:
+                absolute;
+
+            top:
+                50%;
+
+            left:
+                50%;
+
+            width:
+                25px;
+
+            height:
+                25px;
+
+            border:
+                2px solid
+                #62e8cb;
+
+            border-radius:
+                50%;
+
+            transform:
+                translate(-50%,-50%);
+
+            z-index:
+                5;
+
+            opacity:
+                0;
+
+            box-shadow:
+                0 0 20px
+                rgba(98,232,203,.65);
+        }
+
+
+        .gaze-point.active {
+
+            opacity:
+                1;
+
+            animation:
+                gazePulse
+                1.7s
+                infinite;
+        }
+
+
+        .gaze-point::after {
+
+            content:
+                "";
+
+            position:
+                absolute;
+
+            width:
+                5px;
+
+            height:
+                5px;
+
+            top:
+                50%;
+
+            left:
+                50%;
+
+            transform:
+                translate(-50%,-50%);
+
+            border-radius:
+                50%;
+
+            background:
+                #62e8cb;
+
+            box-shadow:
+                0 0 12px
+                #62e8cb;
+        }
+
+
+        @keyframes gazePulse {
+
+            0% {
+                transform:
+                    translate(-50%,-50%)
+                    scale(.8);
+            }
+
+            50% {
+                transform:
+                    translate(-50%,-50%)
+                    scale(1.25);
+            }
+
+            100% {
+                transform:
+                    translate(-50%,-50%)
+                    scale(.8);
+            }
+        }
+
+
+        /* =====================================================
+           SCANNING LINE
+        ===================================================== */
+
+        .scan-line {
+
+            position:
+                absolute;
+
+            left:
+                0;
+
+            width:
+                100%;
+
+            height:
+                1px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    #62e8cb,
+                    transparent
+                );
+
+            opacity:
+                0;
+
+            z-index:
+                4;
+        }
+
+
+        .scan-line.active {
+
+            opacity:
+                .65;
+
+            animation:
+                scanning
+                3.5s
+                linear
+                infinite;
+        }
+
+
+        @keyframes scanning {
+
+            0% {
+                top:
+                    0%;
+            }
+
+            100% {
+                top:
+                    100%;
+            }
+        }
+
+
+        /* =====================================================
+           CAMERA FOOTER
+        ===================================================== */
+
+        .camera-footer {
+
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+            margin-top:
+                18px;
+        }
+
+
+        .camera-message {
+
+            color:
+                rgba(225,245,241,.55);
+
+            font-size:
+                12px;
+        }
+
+
+        .resolution {
+
+            padding:
+                6px 10px;
+
+            border-radius:
+                10px;
+
+            color:
+                rgba(225,245,241,.55);
+
+            background:
+                rgba(255,255,255,.04);
+
+            font-size:
+                10px;
+        }
+
+
+        /* =====================================================
+           RIGHT PANEL
+        ===================================================== */
+
+        .control-panel {
+
+            display:
+                flex;
+
+            flex-direction:
+                column;
+
+            gap:
+                18px;
+        }
+
+
+        /* =====================================================
+           STATUS CARD
+        ===================================================== */
+
+        .status-card {
+
+            padding:
+                25px;
+        }
+
+
+        .status-card h2 {
+
+            margin:
+                0 0 22px;
+
+            font-size:
+                18px;
+        }
+
+
+        .main-status {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                15px;
+
+            padding:
+                15px;
+
+            border-radius:
+                15px;
+
+            background:
+                rgba(255,255,255,.035);
+
+            border:
+                1px solid
+                rgba(255,255,255,.06);
+        }
+
+
+        .large-status-dot {
+
+            width:
+                14px;
+
+            height:
+                14px;
+
+            flex-shrink:
+                0;
+
+            border-radius:
+                50%;
+
+            background:
+                #6c7775;
+        }
+
+
+        .large-status-dot.active {
+
+            background:
+                #62e8cb;
+
+            box-shadow:
+                0 0 18px
+                #62e8cb;
+        }
+
+
+        .status-text strong {
+
+            display:
+                block;
+
+            margin-bottom:
+                5px;
+
+            font-size:
+                14px;
+        }
+
+
+        .status-text span {
+
+            color:
+                rgba(225,245,241,.52);
+
+            font-size:
+                11px;
+        }
+
+
+        /* =====================================================
+           DATA
+        ===================================================== */
+
+        .data-card {
+
+            padding:
+                25px;
+        }
+
+
+        .data-card h2 {
+
+            margin:
+                0 0 20px;
+
+            font-size:
+                18px;
+        }
+
+
+        .data-row {
+
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+            padding:
+                14px 0;
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,.07);
+        }
+
+
+        .data-row:last-child {
+
+            border-bottom:
+                none;
+        }
+
+
+        .data-label {
+
+            color:
+                rgba(225,245,241,.55);
+
+            font-size:
+                12px;
+        }
+
+
+        .data-value {
+
+            color:
+                #eafff9;
+
+            font-size:
+                13px;
+
+            font-weight:
+                700;
+        }
+
+
+        .data-value.highlight {
+
+            color:
+                #62e8cb;
+        }
+
+
+        /* =====================================================
+           CONTROLS
+        ===================================================== */
+
+        .controls {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap:
+                10px;
+
+            padding:
+                25px;
+        }
+
+
+        .control-button {
+
+            border:
+                none;
+
+            padding:
+                14px 15px;
+
+            border-radius:
+                13px;
+
+            font-size:
+                12px;
+
+            font-weight:
+                700;
+
+            cursor:
+                pointer;
+
+            transition:
+                all .3s ease;
+        }
+
+
+        .start-button {
+
+            background:
+                #62e8cb;
+
+            color:
+                #031514;
+
+            box-shadow:
+                0 8px 25px
+                rgba(98,232,203,.12);
+        }
+
+
+        .start-button:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 12px 30px
+                rgba(98,232,203,.25);
+        }
+
+
+        .stop-button {
+
+            color:
+                #e9fffb;
+
+            background:
+                rgba(255,255,255,.05);
+
+            border:
+                1px solid
+                rgba(255,255,255,.15);
+        }
+
+
+        .stop-button:hover {
+
+            transform:
+                translateY(-2px);
+
+            border-color:
+                rgba(98,232,203,.4);
+        }
+
+
+        /* =====================================================
+           INSTRUCTION CARD
+        ===================================================== */
+
+        .instruction-card {
+
+            padding:
+                25px;
+        }
+
+
+        .instruction-card h2 {
+
+            margin:
+                0 0 12px;
+
+            font-size:
+                17px;
+        }
+
+
+        .instruction-card p {
+
+            margin:
+                0;
+
+            color:
+                rgba(225,245,241,.58);
+
+            font-size:
+                12px;
+
+            line-height:
+                1.8;
+        }
+
+
+        /* =====================================================
+           BOTTOM NAVIGATION
+        ===================================================== */
+
+        .bottom-navigation {
+
+            display:
+                flex;
+
+            justify-content:
+                center;
+
+            margin-top:
+                35px;
+        }
+
+
+        .dashboard-link {
+
+            display:
+                inline-flex;
+
+            align-items:
+                center;
+
+            gap:
+                8px;
+
+            padding:
+                12px 22px;
+
+            color:
+                rgba(230,249,245,.70);
+
+            text-decoration:
+                none;
+
+            border:
+                1px solid
+                rgba(255,255,255,.14);
+
+            border-radius:
+                25px;
+
+            background:
+                rgba(255,255,255,.035);
+
+            transition:
+                all .3s ease;
+        }
+
+
+        .dashboard-link:hover {
+
+            color:
+                #62e8cb;
+
+            border-color:
+                rgba(98,232,203,.4);
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .footer {
+
+            padding:
+                25px;
+
+            text-align:
+                center;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,.06);
+
+            color:
+                rgba(225,245,241,.42);
+
+            font-size:
+                11px;
+        }
+
+
+        .footer span {
+
+            color:
+                #62e8cb;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 900px) {
+
+            .tracking-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .control-panel {
+
+                display:
+                    grid;
+
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+
+            .instruction-card {
+
+                grid-column:
+                    span 2;
+            }
+
+
+            .hero-content {
+
+                width:
+                    100%;
+            }
+        }
+
+
+        @media (max-width: 650px) {
+
+            .header {
+
+                width:
+                    94%;
+
+                padding:
+                    12px 15px;
+            }
+
+
+            .logo {
+
+                font-size:
+                    17px;
+            }
+
+
+            .logo-eye {
+
+                width:
+                    32px;
+
+                height:
+                    32px;
+            }
+
+
+            .back-button {
+
+                padding:
+                    8px 12px;
+
+                font-size:
+                    12px;
+            }
+
+
+            .container {
+
+                width:
+                    92%;
+
+                margin-top:
+                    35px;
+            }
+
+
+            .page-heading h1 {
+
+                font-size:
+                    40px;
+            }
+
+
+            .tracking-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .control-panel {
+
+                display:
+                    flex;
+            }
+
+
+            .camera-card {
+
+                padding:
+                    14px;
+            }
+
+
+            .camera-wrapper {
+
+                aspect-ratio:
+                    4 / 3;
+            }
+
+
+            .controls {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .camera-footer {
+
+                flex-direction:
+                    column;
+
+                align-items:
+                    flex-start;
+
+                gap:
+                    8px;
+            }
+        }
+
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+
+                animation:
+                    none !important;
+
+                transition:
+                    none !important;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+====================================================== -->
+
+<header class="header">
+
+    <div class="logo">
+
+        <div class="logo-eye">
+            👁
+        </div>
+
+        WebEye
+        <span>-Access</span>
+
+    </div>
+
+
+    <a
+        href="/dashboard/"
+        class="back-button"
+    >
+        Dashboard
+    </a>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+====================================================== -->
+
+<main class="container">
+
+
+    <!-- =================================================
+         PAGE HEADING
+    ================================================== -->
+
+    <div class="page-heading">
+
+        <div class="tag">
+            ◉ LIVE COMPUTER VISION
+        </div>
+
+        <h1>
+            Live Eye
+            <span>Tracking.</span>
+        </h1>
+
+        <p>
+            Look at the screen to control the website
+            using your eyes. Your camera detects eye
+            movement and estimates your gaze position
+            in real time.
+        </p>
+
+    </div>
+
+
+
+    <!-- =================================================
+         TRACKING GRID
+    ================================================== -->
+
+    <div class="tracking-grid">
+
+
+        <!-- =============================================
+             CAMERA
+        ============================================== -->
+
+        <div class="glass-card camera-card">
+
+            <div class="camera-header">
+
+                <h2>
+                    Camera View
+                </h2>
+
+                <div class="camera-status">
+
+                    <span
+                        id="cameraStatusDot"
+                        class="status-dot"
+                    ></span>
+
+                    <span id="cameraStatusText">
+                        Camera Off
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="camera-wrapper">
+
+                <!-- REAL CAMERA -->
+                <video
+                    id="camera"
+                    autoplay
+                    playsinline
+                ></video>
+
+
+                <!-- PLACEHOLDER -->
+
+                <div
+                    class="camera-placeholder"
+                    id="cameraPlaceholder"
+                >
+
+                    <div class="camera-icon">
+                        📷
+                    </div>
+
+                    <h3>
+                        Camera Not Started
+                    </h3>
+
+                    <p>
+                        Click "Start Tracking" to begin
+                    </p>
+
+                </div>
+
+
+                <!-- CORNERS -->
+
+                <div class="corner top-left"></div>
+
+                <div class="corner top-right"></div>
+
+                <div class="corner bottom-left"></div>
+
+                <div class="corner bottom-right"></div>
+
+
+                <!-- GAZE POINT -->
+
+                <div
+                    class="gaze-point"
+                    id="gazePoint"
+                ></div>
+
+
+                <!-- SCANNING LINE -->
+
+                <div
+                    class="scan-line"
+                    id="scanLine"
+                ></div>
+
+            </div>
+
+
+            <div class="camera-footer">
+
+                <div
+                    class="camera-message"
+                    id="cameraMessage"
+                >
+                    Camera access required to start tracking.
+                </div>
+
+                <div class="resolution">
+                    LIVE • 16:10
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =============================================
+             CONTROL PANEL
+        ============================================== -->
+
+        <div class="control-panel">
+
+
+            <!-- STATUS -->
+
+            <div class="glass-card status-card">
+
+                <h2>
+                    Tracking Status
+                </h2>
+
+
+                <div class="main-status">
+
+                    <div
+                        id="largeStatusDot"
+                        class="large-status-dot"
+                    ></div>
+
+
+                    <div class="status-text">
+
+                        <strong id="trackingText">
+                            Tracking Not Started
+                        </strong>
+
+                        <span id="trackingSubtext">
+                            Start tracking to begin
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- DATA -->
+
+            <div class="glass-card data-card">
+
+                <h2>
+                    Gaze Information
+                </h2>
+
+
+                <div class="data-row">
+
+                    <span class="data-label">
+                        Gaze Position
+                    </span>
+
+                    <span
+                        class="data-value highlight"
+                        id="gazePosition"
+                    >
+                        Center
+                    </span>
+
+                </div>
+
+
+                <div class="data-row">
+
+                    <span class="data-label">
+                        X Position
+                    </span>
+
+                    <span
+                        class="data-value"
+                        id="xPosition"
+                    >
+                        --
+                    </span>
+
+                </div>
+
+
+                <div class="data-row">
+
+                    <span class="data-label">
+                        Y Position
+                    </span>
+
+                    <span
+                        class="data-value"
+                        id="yPosition"
+                    >
+                        --
+                    </span>
+
+                </div>
+
+
+                <div class="data-row">
+
+                    <span class="data-label">
+                        Tracking Accuracy
+                    </span>
+
+                    <span
+                        class="data-value highlight"
+                        id="accuracy"
+                    >
+                        --
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- BUTTONS -->
+
+            <div class="glass-card controls">
+
+                <button
+                    id="startButton"
+                    class="control-button start-button"
+                >
+                    Start Tracking
+                </button>
+
+
+                <button
+                    id="stopButton"
+                    class="control-button stop-button"
+                >
+                    Stop Tracking
+                </button>
+
+            </div>
+
+
+
+            <!-- INSTRUCTIONS -->
+
+            <div class="glass-card instruction-card">
+
+                <h2>
+                    How to Use
+                </h2>
+
+                <p>
+                    Position your face comfortably in front
+                    of the camera. Look naturally at the
+                    screen while the system estimates your
+                    gaze position.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         DASHBOARD LINK
+    ================================================== -->
+
+    <div class="bottom-navigation">
+
+        <a
+            href="/dashboard/"
+            class="dashboard-link"
+        >
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+<footer class="footer">
+
+    © 2026
+    <span>WebEye-Access</span>
+    • Eye Tracking • Computer Vision • Accessibility
+
+</footer>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script>
+
+const video =
+    document.getElementById("camera");
+
+const startButton =
+    document.getElementById("startButton");
+
+const stopButton =
+    document.getElementById("stopButton");
+
+const cameraPlaceholder =
+    document.getElementById("cameraPlaceholder");
+
+const cameraStatusDot =
+    document.getElementById("cameraStatusDot");
+
+const cameraStatusText =
+    document.getElementById("cameraStatusText");
+
+const cameraMessage =
+    document.getElementById("cameraMessage");
+
+const trackingText =
+    document.getElementById("trackingText");
+
+const trackingSubtext =
+    document.getElementById("trackingSubtext");
+
+const largeStatusDot =
+    document.getElementById("largeStatusDot");
+
+const gazePoint =
+    document.getElementById("gazePoint");
+
+const scanLine =
+    document.getElementById("scanLine");
+
+const gazePosition =
+    document.getElementById("gazePosition");
+
+const xPosition =
+    document.getElementById("xPosition");
+
+const yPosition =
+    document.getElementById("yPosition");
+
+const accuracy =
+    document.getElementById("accuracy");
+
+
+let cameraStream = null;
+
+let trackingInterval = null;
+
+
+/* =====================================================
+   START TRACKING
+===================================================== */
+
+startButton.addEventListener(
+    "click",
+    async function() {
+
+        try {
+
+            cameraStream =
+                await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        width: {
+                            ideal: 1280
+                        },
+                        height: {
+                            ideal: 720
+                        },
+                        facingMode: "user"
+                    },
+                    audio: false
+                });
+
+
+            video.srcObject =
+                cameraStream;
+
+
+            cameraPlaceholder.classList.add(
+                "hidden"
+            );
+
+
+            cameraStatusDot.classList.add(
+                "active"
+            );
+
+
+            cameraStatusText.textContent =
+                "Camera Active";
+
+
+            cameraMessage.textContent =
+                "Camera connected • Tracking active";
+
+
+            trackingText.textContent =
+                "Tracking Active";
+
+
+            trackingSubtext.textContent =
+                "Analyzing gaze position";
+
+
+            largeStatusDot.classList.add(
+                "active"
+            );
+
+
+            gazePoint.classList.add(
+                "active"
+            );
+
+
+            scanLine.classList.add(
+                "active"
+            );
+
+
+            /*
+               Demo gaze values.
+
+               Replace this section later with
+               your actual MediaPipe / ONNX gaze
+               tracking output.
+            */
+
+            startDemoTracking();
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            cameraMessage.textContent =
+                "Camera permission was denied.";
+
+            trackingText.textContent =
+                "Camera Access Required";
+
+            trackingSubtext.textContent =
+                "Allow camera permission and try again.";
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   STOP TRACKING
+===================================================== */
+
+stopButton.addEventListener(
+    "click",
+    function() {
+
+        stopTracking();
+
+    }
+);
+
+
+function stopTracking() {
+
+
+    /* Stop camera */
+
+    if (cameraStream) {
+
+        cameraStream
+            .getTracks()
+            .forEach(
+                track => track.stop()
+            );
+
+        cameraStream = null;
+
+    }
+
+
+    video.srcObject = null;
+
+
+    /* Stop demo */
+
+    if (trackingInterval) {
+
+        clearInterval(
+            trackingInterval
+        );
+
+        trackingInterval = null;
+
+    }
+
+
+    /* Reset interface */
+
+    cameraPlaceholder.classList.remove(
+        "hidden"
+    );
+
+
+    cameraStatusDot.classList.remove(
+        "active"
+    );
+
+
+    cameraStatusText.textContent =
+        "Camera Off";
+
+
+    cameraMessage.textContent =
+        "Camera access required to start tracking.";
+
+
+    trackingText.textContent =
+        "Tracking Not Started";
+
+
+    trackingSubtext.textContent =
+        "Start tracking to begin";
+
+
+    largeStatusDot.classList.remove(
+        "active"
+    );
+
+
+    gazePoint.classList.remove(
+        "active"
+    );
+
+
+    scanLine.classList.remove(
+        "active"
+    );
+
+
+    gazePosition.textContent =
+        "Center";
+
+
+    xPosition.textContent =
+        "--";
+
+
+    yPosition.textContent =
+        "--";
+
+
+    accuracy.textContent =
+        "--";
+
+}
+
+
+/* =====================================================
+   DEMO GAZE TRACKING
+===================================================== */
+
+function startDemoTracking() {
+
+
+    if (trackingInterval) {
+
+        clearInterval(
+            trackingInterval
+        );
+
+    }
+
+
+    trackingInterval =
+        setInterval(
+            function() {
+
+                /*
+                   Generate a small natural
+                   gaze movement.
+
+                   This is ONLY a visual demo.
+
+                   Connect your actual eye-tracking
+                   model here.
+                */
+
+                const x =
+                    35 +
+                    Math.random() * 30;
+
+
+                const y =
+                    35 +
+                    Math.random() * 30;
+
+
+                gazePoint.style.left =
+                    x + "%";
+
+
+                gazePoint.style.top =
+                    y + "%";
+
+
+                const screenX =
+                    Math.round(
+                        x * 19.2
+                    );
+
+
+                const screenY =
+                    Math.round(
+                        y * 10.8
+                    );
+
+
+                xPosition.textContent =
+                    screenX + " px";
+
+
+                yPosition.textContent =
+                    screenY + " px";
+
+
+                accuracy.textContent =
+                    (91 +
+                    Math.random() * 7)
+                    .toFixed(1)
+                    + "%";
+
+
+                updateGazePosition(
+                    x,
+                    y
+                );
+
+            },
+            900
+        );
+
+}
+
+
+/* =====================================================
+   GAZE POSITION
+===================================================== */
+
+function updateGazePosition(x, y) {
+
+    let horizontal =
+        "Center";
+
+    let vertical =
+        "Center";
+
+
+    if (x < 38) {
+
+        horizontal =
+            "Left";
+
+    }
+
+    else if (x > 62) {
+
+        horizontal =
+            "Right";
+
+    }
+
+
+    if (y < 38) {
+
+        vertical =
+            "Top";
+
+    }
+
+    else if (y > 62) {
+
+        vertical =
+            "Bottom";
+
+    }
+
+
+    if (
+        horizontal === "Center" &&
+        vertical === "Center"
+    ) {
+
+        gazePosition.textContent =
+            "Center";
+
+    }
+
+    else {
+
+        gazePosition.textContent =
+            vertical +
+            " - " +
+            horizontal;
+
+    }
+
+}
+
+
+/* =====================================================
+   CLEAN UP WHEN LEAVING PAGE
+===================================================== */
+
+window.addEventListener(
+    "beforeunload",
+    function() {
+
+        if (cameraStream) {
+
+            cameraStream
+                .getTracks()
+                .forEach(
+                    track => track.stop()
+                );
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,400 @@
+<!-- =========================================
+     FOOTER
+========================================= -->
+
+<footer class="site-footer">
+
+    <div class="footer-content">
+
+        <p class="footer-text">
+
+            © 2026
+
+            <span>
+                WebEye-Access
+            </span>
+
+            <b>|</b>
+
+            Eye Tracking
+            <b>•</b>
+            Computer Vision
+            <b>•</b>
+            Accessibility
+
+        </p>
+
+    </div>
+
+</footer>
+
+
+<!-- =========================================
+     FOOTER CSS
+========================================= -->
+
+<style>
+
+    /* =========================================
+       FOOTER
+    ========================================= */
+
+    .site-footer {
+
+        width: 100%;
+
+        margin-top: 45px;
+
+        padding: 22px 20px;
+
+        text-align: center;
+
+        background:
+            linear-gradient(
+                135deg,
+                rgba(6, 24, 23, 0.75),
+                rgba(9, 44, 49, 0.65)
+            );
+
+        border-top:
+            1px solid
+            rgba(104, 239, 209, 0.10);
+
+        box-shadow:
+            0 -10px 40px
+            rgba(0, 0, 0, 0.12);
+
+        backdrop-filter:
+            blur(18px);
+
+        -webkit-backdrop-filter:
+            blur(18px);
+
+    }
+
+
+    /* =========================================
+       FOOTER CONTENT
+    ========================================= */
+
+    .footer-content {
+
+        width: 100%;
+
+        max-width: 1400px;
+
+        margin: 0 auto;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+    }
+
+
+    /* =========================================
+       FOOTER TEXT
+    ========================================= */
+
+    .footer-text {
+
+        margin: 0;
+
+        color: #66817d;
+
+        font-size: 10px;
+
+        line-height: 1.8;
+
+        letter-spacing: 0.3px;
+
+        text-align: center;
+
+    }
+
+
+    /* =========================================
+       BRAND
+    ========================================= */
+
+    .footer-text span {
+
+        color: #68efd1;
+
+        font-weight: bold;
+
+    }
+
+
+    /* =========================================
+       SEPARATORS
+    ========================================= */
+
+    .footer-text b {
+
+        color: #405d59;
+
+        font-weight: normal;
+
+        margin: 0 5px;
+
+    }
+
+
+    /* =========================================
+       FOOTER HOVER
+    ========================================= */
+
+    .footer-text span {
+
+        transition:
+            color 0.25s;
+
+    }
+
+
+    .footer-text span:hover {
+
+        color: #8ffff0;
+
+    }
+
+
+    /* =========================================
+       MOBILE FOOTER
+    ========================================= */
+
+    @media (max-width: 600px) {
+
+        .site-footer {
+
+            margin-top: 35px;
+
+            padding:
+                20px 15px;
+
+        }
+
+
+        .footer-text {
+
+            font-size: 9px;
+
+            line-height: 2;
+
+        }
+
+
+        .footer-content {
+
+            flex-direction: column;
+
+        }
+
+    }
+
+</style>
+
+
+<!-- =========================================
+     JAVASCRIPT
+========================================= -->
+
+<script>
+
+
+    /* =====================================
+       MOBILE MENU
+    ===================================== */
+
+    function toggleMenu() {
+
+        var menu =
+            document.getElementById("navLinks");
+
+
+        if (menu) {
+
+            menu.classList.toggle("show");
+
+        }
+
+    }
+
+
+
+    /* =====================================
+       INTERACTIVE EYE
+    ===================================== */
+
+    const eye =
+        document.querySelector(".eye");
+
+    const pupil =
+        document.querySelector(".pupil");
+
+    const iris =
+        document.querySelector(".iris");
+
+
+    /*
+       Run eye tracking only if the
+       eye elements exist on the page.
+    */
+
+    if (
+        eye &&
+        pupil &&
+        iris
+    ) {
+
+
+        document.addEventListener(
+            "mousemove",
+            function(event) {
+
+
+                const rect =
+                    eye.getBoundingClientRect();
+
+
+                const centerX =
+                    rect.left +
+                    rect.width / 2;
+
+
+                const centerY =
+                    rect.top +
+                    rect.height / 2;
+
+
+                let x =
+                    event.clientX -
+                    centerX;
+
+
+                let y =
+                    event.clientY -
+                    centerY;
+
+
+                let distance =
+                    Math.sqrt(
+                        x * x +
+                        y * y
+                    );
+
+
+                const maxMove = 45;
+
+
+                if (
+                    distance > maxMove
+                ) {
+
+                    x =
+                        (x / distance) *
+                        maxMove;
+
+
+                    y =
+                        (y / distance) *
+                        maxMove;
+
+                }
+
+
+                pupil.style.transform =
+
+                    "translate(" +
+                    x +
+                    "px, " +
+                    y +
+                    "px)";
+
+
+                iris.style.transform =
+
+                    "translate(calc(-50% + " +
+                    (x * 0.25) +
+                    "px), calc(-50% + " +
+                    (y * 0.25) +
+                    "px))";
+
+            }
+        );
+
+
+
+        /* =====================================
+           EYE HOVER
+        ===================================== */
+
+        eye.addEventListener(
+            "mouseenter",
+            function() {
+
+                eye.style.transform =
+                    "rotate(-5deg) scale(1.04)";
+
+            }
+        );
+
+
+        eye.addEventListener(
+            "mouseleave",
+            function() {
+
+                eye.style.transform =
+                    "rotate(-5deg) scale(1)";
+
+            }
+        );
+
+    }
+
+
+
+    /* =====================================
+       CLOSE MOBILE MENU
+    ===================================== */
+
+    document
+        .querySelectorAll(".nav-links a")
+        .forEach(
+            function(link) {
+
+                link.addEventListener(
+                    "click",
+                    function() {
+
+
+                        var menu =
+                            document.getElementById(
+                                "navLinks"
+                            );
+
+
+                        if (menu) {
+
+                            menu.classList.remove(
+                                "show"
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+
+</script>
+
+
+</body>
+
+</html>

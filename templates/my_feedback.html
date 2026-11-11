@@ -1,0 +1,1038 @@
+{% include "dashheader.html" %}
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        My Feedback - WebEye-Access
+    </title>
+
+
+    <style>
+
+        /* =========================================
+           BASIC RESET
+        ========================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            min-height: 100vh;
+
+            background:
+
+                radial-gradient(
+                    circle at 15% 20%,
+                    rgba(0, 210, 170, 0.30),
+                    transparent 30%
+                ),
+
+                radial-gradient(
+                    circle at 85% 20%,
+                    rgba(50, 130, 220, 0.25),
+                    transparent 30%
+                ),
+
+                linear-gradient(
+                    135deg,
+                    #061817,
+                    #092c31,
+                    #071b28
+                );
+
+            color: white;
+
+            overflow-x: hidden;
+
+        }
+
+
+        /* =========================================
+           BACKGROUND LIGHTS
+        ========================================= */
+
+        .background-light {
+
+            position: fixed;
+
+            width: 500px;
+
+            height: 500px;
+
+            border-radius: 50%;
+
+            filter: blur(120px);
+
+            opacity: 0.20;
+
+            pointer-events: none;
+
+            z-index: -1;
+
+        }
+
+
+        .light-one {
+
+            background: #28e0bd;
+
+            top: 5%;
+
+            left: -200px;
+
+        }
+
+
+        .light-two {
+
+            background: #3989df;
+
+            right: -200px;
+
+            bottom: 0;
+
+        }
+
+
+        /* =========================================
+           MAIN CONTAINER
+        ========================================= */
+
+        .feedback-container {
+
+            width: 90%;
+
+            max-width: 1100px;
+
+            margin: auto;
+
+            padding:
+                130px 0 60px;
+
+        }
+
+
+        /* =========================================
+           PAGE HEADER
+        ========================================= */
+
+        .page-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .page-title h1 {
+
+            font-size:
+                clamp(30px, 5vw, 45px);
+
+            margin-bottom: 8px;
+
+            letter-spacing: -1px;
+
+        }
+
+
+        .page-title h1 span {
+
+            color: #62e8cb;
+
+        }
+
+
+        .page-title p {
+
+            color: #8da7a4;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+        }
+
+
+        /* =========================================
+           FEEDBACK COUNT
+        ========================================= */
+
+        .feedback-count {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            padding:
+                11px 18px;
+
+            border-radius: 25px;
+
+            background:
+                rgba(70,235,201,0.08);
+
+            border:
+                1px solid
+                rgba(70,235,201,0.22);
+
+            color: #68efd1;
+
+            font-size: 11px;
+
+            white-space: nowrap;
+
+        }
+
+
+        .count-icon {
+
+            width: 28px;
+
+            height: 28px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 9px;
+
+            background:
+                rgba(70,235,201,0.12);
+
+        }
+
+
+        /* =========================================
+           MAIN GLASS CARD
+        ========================================= */
+
+        .feedback-card {
+
+            padding: 25px;
+
+            border-radius: 25px;
+
+            background:
+
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,0.11),
+                    rgba(255,255,255,0.035)
+                );
+
+            border:
+                1px solid
+                rgba(255,255,255,0.14);
+
+            backdrop-filter:
+                blur(25px);
+
+            -webkit-backdrop-filter:
+                blur(25px);
+
+            box-shadow:
+
+                0 25px 70px
+                rgba(0,0,0,0.30),
+
+                inset 0 1px
+                rgba(255,255,255,0.12);
+
+            overflow: hidden;
+
+        }
+
+
+        /* =========================================
+           CARD HEADER
+        ========================================= */
+
+        .card-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .card-header h2 {
+
+            font-size: 19px;
+
+            color: #e4efed;
+
+        }
+
+
+        .card-header p {
+
+            color: #66817d;
+
+            font-size: 10px;
+
+        }
+
+
+        /* =========================================
+           TABLE WRAPPER
+        ========================================= */
+
+        .table-wrapper {
+
+            width: 100%;
+
+            overflow-x: auto;
+
+            border-radius: 17px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.08);
+
+        }
+
+
+        /* =========================================
+           TABLE
+        ========================================= */
+
+        .feedback-table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 650px;
+
+        }
+
+
+        /* =========================================
+           TABLE HEADER
+        ========================================= */
+
+        .feedback-table thead {
+
+            background:
+                rgba(70,235,201,0.08);
+
+        }
+
+
+        .feedback-table th {
+
+            padding:
+                16px 18px;
+
+            text-align: left;
+
+            color: #68efd1;
+
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.8px;
+
+            border-bottom:
+                1px solid
+                rgba(70,235,201,0.15);
+
+        }
+
+
+        /* =========================================
+           TABLE BODY
+        ========================================= */
+
+        .feedback-table td {
+
+            padding:
+                20px 18px;
+
+            color: #c7d8d5;
+
+            font-size: 12px;
+
+            line-height: 1.7;
+
+            vertical-align: top;
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,0.07);
+
+        }
+
+
+        .feedback-table tbody tr {
+
+            transition:
+                0.25s ease;
+
+        }
+
+
+        .feedback-table tbody tr:hover {
+
+            background:
+                rgba(70,235,201,0.055);
+
+        }
+
+
+        .feedback-table tbody tr:last-child td {
+
+            border-bottom: none;
+
+        }
+
+
+        /* =========================================
+           FEEDBACK MESSAGE
+        ========================================= */
+
+        .feedback-message {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 12px;
+
+        }
+
+
+        .feedback-icon {
+
+            min-width: 38px;
+
+            width: 38px;
+
+            height: 38px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 11px;
+
+            background:
+                rgba(70,235,201,0.10);
+
+            border:
+                1px solid
+                rgba(70,235,201,0.15);
+
+            color: #68efd1;
+
+            font-size: 16px;
+
+        }
+
+
+        .feedback-text {
+
+            color: #c8d8d5;
+
+            max-width: 700px;
+
+            word-break: break-word;
+
+        }
+
+
+        /* =========================================
+           DATE
+        ========================================= */
+
+        .feedback-date {
+
+            color: #829c99;
+
+            white-space: nowrap;
+
+        }
+
+
+        .date-day {
+
+            color: #c7d8d5;
+
+            font-size: 11px;
+
+            margin-bottom: 3px;
+
+        }
+
+
+        .date-time {
+
+            color: #5f7976;
+
+            font-size: 9px;
+
+        }
+
+
+        /* =========================================
+           EMPTY STATE
+        ========================================= */
+
+        .empty-state {
+
+            text-align: center;
+
+            padding:
+                70px 20px;
+
+        }
+
+
+        .empty-icon {
+
+            width: 70px;
+
+            height: 70px;
+
+            margin:
+                0 auto 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 20px;
+
+            background:
+                rgba(70,235,201,0.09);
+
+            border:
+                1px solid
+                rgba(70,235,201,0.16);
+
+            font-size: 30px;
+
+            box-shadow:
+                0 0 25px
+                rgba(70,235,201,0.08);
+
+        }
+
+
+        .empty-state h2 {
+
+            font-size: 20px;
+
+            color: #e4efed;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .empty-state p {
+
+            color: #718a87;
+
+            font-size: 12px;
+
+        }
+
+
+        /* =========================================
+           BUTTONS
+        ========================================= */
+
+        .navigation-links {
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+
+            margin-top: 25px;
+
+        }
+
+
+        .navigation-links a {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 7px;
+
+            padding:
+                11px 19px;
+
+            border-radius: 25px;
+
+            background:
+                rgba(255,255,255,0.06);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.13);
+
+            color: #a9bfbc;
+
+            text-decoration: none;
+
+            font-size: 11px;
+
+            transition:
+                0.3s;
+
+        }
+
+
+        .navigation-links a:hover {
+
+            color: #68efd1;
+
+            background:
+                rgba(70,235,201,0.08);
+
+            border-color:
+                rgba(70,235,201,0.25);
+
+            transform:
+                translateY(-2px);
+
+        }
+
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        .page-footer {
+
+            text-align: center;
+
+            margin-top: 35px;
+
+            color: #4e6865;
+
+            font-size: 10px;
+
+        }
+
+
+        .page-footer span {
+
+            color: #68efd1;
+
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media(max-width:700px) {
+
+            .feedback-container {
+
+                width: 94%;
+
+                padding-top: 110px;
+
+            }
+
+
+            .page-header {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+            }
+
+
+            .feedback-card {
+
+                padding: 15px;
+
+                border-radius: 20px;
+
+            }
+
+
+            .card-header {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 5px;
+
+            }
+
+
+            .feedback-table th,
+            .feedback-table td {
+
+                padding:
+                    13px 14px;
+
+            }
+
+
+            .navigation-links {
+
+                flex-direction: column;
+
+            }
+
+
+            .navigation-links a {
+
+                width: 100%;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     BACKGROUND LIGHTS
+========================================= -->
+
+<div class="background-light light-one"></div>
+
+<div class="background-light light-two"></div>
+
+
+
+<!-- =========================================
+     HEADER
+========================================= -->
+
+
+
+
+
+<!-- =========================================
+     MAIN CONTENT
+========================================= -->
+
+<main class="feedback-container">
+
+
+    <!-- =====================================
+         PAGE HEADER
+    ====================================== -->
+
+    <div class="page-header">
+
+
+        <div class="page-title">
+
+            <h1>
+
+                My <span>Feedback</span>
+
+            </h1>
+
+
+            <p>
+
+                View the feedback you have submitted
+                to the WebEye-Access team.
+
+            </p>
+
+        </div>
+
+
+        <div class="feedback-count">
+
+            <div class="count-icon">
+                💬
+            </div>
+
+            My Feedback
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =====================================
+         FEEDBACK CARD
+    ====================================== -->
+
+    <div class="feedback-card">
+
+
+        <div class="card-header">
+
+            <h2>
+                Feedback History
+            </h2>
+
+            <p>
+                Your submitted feedback
+            </p>
+
+        </div>
+
+
+
+        {% if f %}
+
+
+        <!-- =================================
+             TABLE
+        ================================== -->
+
+        <div class="table-wrapper">
+
+
+            <table class="feedback-table">
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Feedback
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    {% for f in f %}
+
+
+                    <tr>
+
+
+                        <!-- FEEDBACK -->
+
+                        <td>
+
+
+                            <div class="feedback-message">
+
+
+                                <div class="feedback-icon">
+
+                                    💬
+
+                                </div>
+
+
+                                <div class="feedback-text">
+
+                                    {{ f.Feedback }}
+
+                                </div>
+
+
+                            </div>
+
+
+                        </td>
+
+
+                        <!-- DATE -->
+
+                        <td>
+
+
+                            <div class="feedback-date">
+
+
+                                <div class="date-day">
+
+                                    {{ f.date|date:"d M Y" }}
+
+                                </div>
+
+
+                                <div class="date-time">
+
+                                    {{ f.date|date:"h:i A" }}
+
+                                </div>
+
+
+                            </div>
+
+
+                        </td>
+
+
+                    </tr>
+
+
+                    {% endfor %}
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+        {% else %}
+
+
+        <!-- =================================
+             EMPTY STATE
+        ================================== -->
+
+        <div class="empty-state">
+
+
+            <div class="empty-icon">
+
+                💬
+
+            </div>
+
+
+            <h2>
+
+                No Feedback Yet
+
+            </h2>
+
+
+            <p>
+
+                You haven't submitted any feedback.
+                Your feedback history will appear here.
+
+            </p>
+
+
+        </div>
+
+
+        {% endif %}
+
+
+    </div>
+
+
+
+    <!-- =====================================
+         NAVIGATION
+    ====================================== -->
+
+    <div class="navigation-links">
+
+
+        <a href="/dashboard/">
+
+            ←
+            Back to Dashboard
+
+        </a>
+
+
+        <a href="{% url 'Feedback' %}">
+
+            ＋
+            Submit Feedback
+
+        </a>
+
+
+    </div>
+
+
+
+    <!-- =====================================
+         FOOTER
+    ====================================== -->
+
+   {% include "homefooter.html" %}
+
+
+</main>
+
+
+</body>
+
+</html>

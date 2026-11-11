@@ -1,0 +1,2461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>WebEye-Access Admin Dashboard</title>
+
+
+    <style>
+
+        /* =========================================================
+           RESET
+        ========================================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        /* =========================================================
+           BODY
+        ========================================================= */
+
+        body {
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            min-height: 100vh;
+
+            background:
+
+                radial-gradient(
+                    circle at 10% 10%,
+                    rgba(0,210,170,0.25),
+                    transparent 25%
+                ),
+
+                radial-gradient(
+                    circle at 90% 90%,
+                    rgba(40,120,220,0.20),
+                    transparent 25%
+                ),
+
+                linear-gradient(
+                    135deg,
+                    #061817,
+                    #092c31,
+                    #071b28
+                );
+
+            color: white;
+
+            overflow-x: hidden;
+
+        }
+
+
+        /* =========================================================
+           MAIN DASHBOARD
+        ========================================================= */
+
+        .dashboard {
+
+            width: 100%;
+            max-width: 100%;
+
+            min-height:
+                calc(100vh - 50px);
+
+            background:
+                rgba(8,29,32,0.88);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.12);
+
+            border-radius: 30px;
+
+            padding: 32px;
+
+            backdrop-filter:
+                blur(25px);
+
+            -webkit-backdrop-filter:
+                blur(25px);
+
+            box-shadow:
+
+                0 30px 80px
+                rgba(0,0,0,0.30),
+
+                inset 0 1px
+                rgba(255,255,255,0.08);
+
+            overflow: hidden;
+
+        }
+
+
+        /* =========================================================
+           TOP BAR
+        ========================================================= */
+
+        .topbar {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 28px;
+
+        }
+
+
+        /* =========================================================
+           WELCOME
+        ========================================================= */
+
+        .welcome {
+
+            flex: 1;
+
+            min-width: 0;
+
+        }
+
+
+        .welcome h1 {
+
+            font-size: 25px;
+
+            margin-bottom: 7px;
+
+            color: #f2f8f7;
+
+        }
+
+
+        .welcome h1 span {
+
+            color: #68efd1;
+
+        }
+
+
+        .welcome p {
+
+            color: #79928f;
+
+            font-size: 12px;
+
+        }
+
+
+        /* =========================================================
+           SEARCH
+        ========================================================= */
+
+        .search-box {
+
+            position: relative;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            flex-shrink: 0;
+
+        }
+
+
+        .search-box input {
+
+            width: 220px;
+
+            padding: 11px 16px;
+
+            border-radius: 25px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.13);
+
+            background:
+                rgba(255,255,255,0.06);
+
+            color: white;
+
+            outline: none;
+
+            font-size: 11px;
+
+            transition: 0.25s;
+
+        }
+
+
+        .search-box input::placeholder {
+
+            color: #637c79;
+
+        }
+
+
+        .search-box input:focus {
+
+            border-color:
+                rgba(80,230,200,0.60);
+
+            box-shadow:
+
+                0 0 20px
+                rgba(70,230,195,0.15),
+
+                0 0 35px
+                rgba(70,230,195,0.05);
+
+        }
+
+
+        .search-button {
+
+            width: 37px;
+
+            height: 37px;
+
+            border-radius: 50%;
+
+            border:
+                1px solid
+                rgba(100,255,225,0.25);
+
+            background:
+                rgba(70,235,201,0.10);
+
+            color: #68efd1;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+
+        }
+
+
+        .search-button:hover {
+
+            background:
+                rgba(70,235,201,0.20);
+
+            transform:
+                translateY(-2px);
+
+        }
+
+
+        /* SEARCH MESSAGE */
+
+        .search-message {
+
+            position: absolute;
+
+            top: 48px;
+
+            left: 0;
+
+            width: 220px;
+
+            padding: 10px 14px;
+
+            background:
+                rgba(8,29,32,0.98);
+
+            border:
+                1px solid
+                rgba(104,239,209,0.25);
+
+            border-radius: 12px;
+
+            color: #68efd1;
+
+            font-size: 10px;
+
+            display: none;
+
+            z-index: 9999;
+
+            box-shadow:
+                0 15px 30px
+                rgba(0,0,0,0.30);
+
+        }
+
+
+        /* =========================================================
+           ADMIN USER
+        ========================================================= */
+
+        .admin-user {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            flex-shrink: 0;
+
+        }
+
+
+        .admin-avatar {
+
+            width: 39px;
+
+            height: 39px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    #4bd5b5,
+                    #3689c8
+                );
+
+            font-size: 17px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.20);
+
+        }
+
+
+        .admin-user-text strong {
+
+            display: block;
+
+            color: #dce9e7;
+
+            font-size: 11px;
+
+        }
+
+
+        .admin-user-text small {
+
+            color: #637c79;
+
+            font-size: 9px;
+
+        }
+
+
+        /* =========================================================
+           SECTION TITLE
+        ========================================================= */
+
+        .section-title {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 14px;
+
+        }
+
+
+        .section-title h2 {
+
+            font-size: 16px;
+
+            color: #e4efed;
+
+        }
+
+
+        .section-title span {
+
+            color: #66817d;
+
+            font-size: 10px;
+
+        }
+
+
+        /* =========================================================
+           STAT CARDS
+        ========================================================= */
+
+        .stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4,1fr);
+
+            gap: 15px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .stat-card {
+
+            padding: 19px;
+
+            min-height: 125px;
+
+            border-radius: 18px;
+
+            background:
+
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,0.09),
+                    rgba(255,255,255,0.035)
+                );
+
+            border:
+                1px solid
+                rgba(255,255,255,0.11);
+
+            box-shadow:
+
+                0 15px 35px
+                rgba(0,0,0,0.16);
+
+            transition: 0.3s;
+
+        }
+
+
+        .stat-card:hover {
+
+            transform:
+                translateY(-4px);
+
+            border-color:
+                rgba(70,235,201,0.30);
+
+        }
+
+
+        .stat-top {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .stat-title {
+
+            color: #78918e;
+
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.6px;
+
+        }
+
+
+        .stat-icon {
+
+            width: 35px;
+
+            height: 35px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background:
+                rgba(70,235,201,0.10);
+
+            color: #68efd1;
+
+            font-size: 15px;
+
+        }
+
+
+        .stat-number {
+
+            font-size: 28px;
+
+            font-weight: bold;
+
+            color: #f0f7f5;
+
+        }
+
+
+        .stat-description {
+
+            margin-top: 5px;
+
+            color: #5f7976;
+
+            font-size: 9px;
+
+        }
+
+
+        /* =========================================================
+           MAIN CONTENT
+        ========================================================= */
+
+        .content-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1.35fr 1fr 0.85fr;
+
+            gap: 17px;
+
+        }
+
+
+        /* =========================================================
+           PANEL
+        ========================================================= */
+
+        .panel {
+
+            min-width: 0;
+
+            background:
+
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,0.075),
+                    rgba(255,255,255,0.025)
+                );
+
+            border:
+                1px solid
+                rgba(255,255,255,0.10);
+
+            border-radius: 20px;
+
+            padding: 20px;
+
+            box-shadow:
+                0 18px 40px
+                rgba(0,0,0,0.16);
+
+        }
+
+
+        .panel-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 10px;
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .panel-header h3 {
+
+            font-size: 14px;
+
+            color: #e4efed;
+
+        }
+
+
+        .panel-header a {
+
+            color: #68efd1;
+
+            text-decoration: none;
+
+            font-size: 9px;
+
+        }
+
+
+        .panel-header a:hover {
+
+            text-decoration: underline;
+
+        }
+
+
+        /* =========================================================
+           ACTIVITY CHART
+        ========================================================= */
+
+        .chart-area {
+
+            height: 185px;
+
+            display: flex;
+
+            align-items: flex-end;
+
+            justify-content: space-around;
+
+            padding:
+                15px 5px 25px;
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,0.07);
+
+            position: relative;
+
+        }
+
+
+        .chart-line {
+
+            position: absolute;
+
+            left: 5px;
+
+            right: 5px;
+
+            top: 30px;
+
+            height: 1px;
+
+            background:
+                rgba(255,255,255,0.06);
+
+        }
+
+
+        .chart-line.two {
+
+            top: 75px;
+
+        }
+
+
+        .chart-line.three {
+
+            top: 120px;
+
+        }
+
+
+        .bar {
+
+            width: 22px;
+
+            min-height: 5px;
+
+            border-radius:
+                7px 7px 2px 2px;
+
+            background:
+
+                linear-gradient(
+                    to top,
+                    #248e7d,
+                    #62e8cb
+                );
+
+            box-shadow:
+                0 0 12px
+                rgba(70,235,201,0.12);
+
+            position: relative;
+
+            z-index: 2;
+
+            transition:
+                0.3s;
+
+        }
+
+
+        .bar:hover {
+
+            filter:
+                brightness(1.2);
+
+            transform:
+                translateY(-3px);
+
+        }
+
+
+        .bar-label {
+
+            position: absolute;
+
+            bottom: -22px;
+
+            left: 50%;
+
+            transform:
+                translateX(-50%);
+
+            color: #637c79;
+
+            font-size: 9px;
+
+        }
+
+
+        .bar-value {
+
+            position: absolute;
+
+            top: -20px;
+
+            left: 50%;
+
+            transform:
+                translateX(-50%);
+
+            color: #68efd1;
+
+            font-size: 8px;
+
+            opacity: 0;
+
+            transition: 0.2s;
+
+        }
+
+
+        .bar:hover .bar-value {
+
+            opacity: 1;
+
+        }
+
+
+        .activity-summary {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            margin-top: 15px;
+
+            color: #718b87;
+
+            font-size: 9px;
+
+        }
+
+
+        .activity-up {
+
+            color: #68efd1;
+
+        }
+
+
+        /* =========================================================
+           RECENT COMPLAINTS
+        ========================================================= */
+
+        .complaint {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding:
+                11px 0;
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,0.06);
+
+        }
+
+
+        .complaint:last-child {
+
+            border-bottom: none;
+
+        }
+
+
+        .complaint-icon {
+
+            width: 34px;
+
+            height: 34px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 9px;
+
+            background:
+                rgba(70,235,201,0.09);
+
+            color: #68efd1;
+
+            font-size: 14px;
+
+            flex-shrink: 0;
+
+        }
+
+
+        .complaint-info {
+
+            flex: 1;
+
+            min-width: 0;
+
+        }
+
+
+        .complaint-info strong {
+
+            display: block;
+
+            color: #d8e6e4;
+
+            font-size: 10px;
+
+            margin-bottom: 3px;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+        }
+
+
+        .complaint-info small {
+
+            color: #617a77;
+
+            font-size: 8px;
+
+            display: block;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+        }
+
+
+        .status {
+
+            padding:
+                5px 8px;
+
+            border-radius: 15px;
+
+            font-size: 7px;
+
+            white-space: nowrap;
+
+        }
+
+
+        .pending {
+
+            color: #e6c477;
+
+            background:
+                rgba(230,196,119,0.08);
+
+            border:
+                1px solid
+                rgba(230,196,119,0.16);
+
+        }
+
+
+        .resolved {
+
+            color: #68efd1;
+
+            background:
+                rgba(70,235,201,0.08);
+
+            border:
+                1px solid
+                rgba(70,235,201,0.16);
+
+        }
+
+
+        /* =========================================================
+           SYSTEM STATUS
+        ========================================================= */
+
+        .system-status {
+
+            padding: 13px;
+
+            margin-bottom: 15px;
+
+            border-radius: 14px;
+
+            background:
+                rgba(70,235,201,0.05);
+
+            border:
+                1px solid
+                rgba(70,235,201,0.10);
+
+        }
+
+
+        .system-top {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .system-top strong {
+
+            font-size: 10px;
+
+            color: #dbe8e6;
+
+        }
+
+
+        .online {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            color: #68efd1;
+
+            font-size: 8px;
+
+        }
+
+
+        .online-dot {
+
+            width: 6px;
+
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: #4dd8b7;
+
+            box-shadow:
+                0 0 8px
+                #4dd8b7;
+
+        }
+
+
+        .progress {
+
+            height: 5px;
+
+            border-radius: 10px;
+
+            background:
+                rgba(255,255,255,0.07);
+
+            overflow: hidden;
+
+        }
+
+
+        .progress-bar {
+
+            height: 100%;
+
+            width: 92%;
+
+            border-radius: 10px;
+
+            background:
+
+                linear-gradient(
+                    90deg,
+                    #268f7d,
+                    #68efd1
+                );
+
+        }
+
+
+        .system-text {
+
+            margin-top: 8px;
+
+            color: #5e7875;
+
+            font-size: 8px;
+
+        }
+
+
+        /* =========================================================
+           FEEDBACK
+        ========================================================= */
+
+        .feedback {
+
+            display: flex;
+
+            gap: 9px;
+
+            padding:
+                10px 0;
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,0.06);
+
+        }
+
+
+        .feedback:last-child {
+
+            border-bottom: none;
+
+        }
+
+
+        .feedback-avatar {
+
+            width: 30px;
+
+            height: 30px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background:
+                rgba(70,235,201,0.10);
+
+            font-size: 12px;
+
+            flex-shrink: 0;
+
+        }
+
+
+        .feedback-info {
+
+            flex: 1;
+
+            min-width: 0;
+
+        }
+
+
+        .feedback-info strong {
+
+            display: block;
+
+            font-size: 9px;
+
+            color: #dce8e6;
+
+            margin-bottom: 3px;
+
+        }
+
+
+        .feedback-info p {
+
+            color: #657f7c;
+
+            font-size: 8px;
+
+            line-height: 1.4;
+
+        }
+
+
+        .stars {
+
+            color: #68efd1;
+
+            font-size: 8px;
+
+        }
+
+
+        /* =========================================================
+           QUICK ACTIONS
+        ========================================================= */
+
+        .quick-actions {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2,1fr);
+
+            gap: 9px;
+
+            margin-top: 15px;
+
+        }
+
+
+        .quick-action {
+
+            padding: 13px;
+
+            text-decoration: none;
+
+            color: #dce8e6;
+
+            background:
+                rgba(255,255,255,0.035);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.07);
+
+            border-radius: 12px;
+
+            transition:
+                0.25s;
+
+        }
+
+
+        .quick-action:hover {
+
+            background:
+                rgba(70,235,201,0.08);
+
+            border-color:
+                rgba(70,235,201,0.18);
+
+            transform:
+                translateY(-2px);
+
+        }
+
+
+        .quick-action-icon {
+
+            margin-bottom: 8px;
+
+            font-size: 15px;
+
+        }
+
+
+        .quick-action strong {
+
+            display: block;
+
+            font-size: 9px;
+
+            margin-bottom: 3px;
+
+        }
+
+
+        .quick-action small {
+
+            color: #607a77;
+
+            font-size: 7px;
+
+        }
+
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        .footer {
+
+            text-align: center;
+
+            margin-top: 25px;
+
+            color: #4f6865;
+
+            font-size: 9px;
+
+        }
+
+
+        .footer span {
+
+            color: #68efd1;
+
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media(max-width:1250px) {
+
+            .content-grid {
+
+                grid-template-columns:
+                    1fr 1fr;
+
+            }
+
+
+            .content-grid .right-panel {
+
+                grid-column:
+                    span 2;
+
+            }
+
+        }
+
+
+        @media(max-width:1000px) {
+
+            .topbar {
+
+                flex-wrap: wrap;
+
+            }
+
+
+            .welcome {
+
+                flex-basis: 100%;
+
+            }
+
+
+            .stats {
+
+                grid-template-columns:
+                    repeat(2,1fr);
+
+            }
+
+
+            .dashboard {
+
+                width: 100%;
+
+            }
+
+        }
+
+
+        @media(max-width:900px) {
+
+            .dashboard {
+
+                margin: 0;
+
+                width: 100%;
+
+                min-height: auto;
+
+            }
+
+        }
+
+
+        @media(max-width:700px) {
+
+            .dashboard {
+
+                padding: 20px;
+
+                border-radius: 22px;
+
+            }
+
+
+            .topbar {
+
+                flex-direction: column;
+
+                align-items: stretch;
+
+            }
+
+
+            .welcome {
+
+                width: 100%;
+
+            }
+
+
+            .search-box {
+
+                width: 100%;
+
+            }
+
+
+            .search-box input {
+
+                width: 100%;
+
+                flex: 1;
+
+            }
+
+
+            .search-message {
+
+                width: 100%;
+
+            }
+
+
+            .admin-user {
+
+                width: 100%;
+
+            }
+
+
+            .stats {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .content-grid {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .content-grid .right-panel {
+
+                grid-column:
+                    auto;
+
+            }
+
+
+            .panel {
+
+                padding: 16px;
+
+            }
+
+
+            .quick-actions {
+
+                grid-template-columns:
+                    repeat(2,1fr);
+
+            }
+
+        }
+
+
+        @media(max-width:450px) {
+
+            .dashboard {
+
+                padding: 15px;
+
+                border-radius: 18px;
+
+            }
+
+
+            .welcome h1 {
+
+                font-size: 21px;
+
+            }
+
+
+            .quick-actions {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     ADMIN HEADER / SIDEBAR
+========================================================= -->
+
+{% include "adminheader.html" %}
+
+
+<!-- =========================================================
+     DASHBOARD
+========================================================= -->
+
+<main class="dashboard">
+
+
+    <!-- =====================================================
+         TOP BAR
+    ====================================================== -->
+
+    <div class="topbar">
+
+
+        <div class="welcome">
+
+            <h1>
+
+                Welcome back,
+
+                <span>
+                    Admin 👋
+                </span>
+
+            </h1>
+
+
+            <p>
+
+                Here's what's happening with
+                WebEye-Access today.
+
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             WORKING SEARCH
+        ================================================== -->
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="dashboardSearch"
+                placeholder="Search dashboard..."
+                autocomplete="off"
+            >
+
+            <button
+                type="button"
+                class="search-button"
+                id="searchButton"
+                title="Search"
+            >
+                🔍
+            </button>
+
+        </div>
+
+
+        <!-- ADMIN PROFILE -->
+
+        <div class="admin-user">
+
+            <div class="admin-avatar">
+                👤
+            </div>
+
+
+            <div class="admin-user-text">
+
+                <strong>
+                    Administrator
+                </strong>
+
+                <small>
+                    System Admin
+                </small>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         SECTION TITLE
+    ====================================================== -->
+
+    <div class="section-title">
+
+        <h2>
+            Platform Overview
+        </h2>
+
+        <span>
+            Live Statistics
+        </span>
+
+    </div>
+
+
+    <!-- =====================================================
+         DYNAMIC STATISTICS
+    ====================================================== -->
+
+    <section class="stats">
+
+
+        <!-- TOTAL USERS -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <span class="stat-title">
+                    Total Users
+                </span>
+
+                <div class="stat-icon">
+                    👥
+                </div>
+
+            </div>
+
+
+            <div class="stat-number">
+
+                {{ total_users|default:"0" }}
+
+            </div>
+
+
+            <div class="stat-description">
+
+                Registered users
+
+            </div>
+
+        </div>
+
+
+        <!-- PENDING COMPLAINTS -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <span class="stat-title">
+                    Pending Complaints
+                </span>
+
+                <div class="stat-icon">
+                    ⏳
+                </div>
+
+            </div>
+
+
+            <div class="stat-number">
+
+                {{ pending_complaints|default:"0" }}
+
+            </div>
+
+
+            <div class="stat-description">
+
+                Require attention
+
+            </div>
+
+        </div>
+
+
+        <!-- RESOLVED COMPLAINTS -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <span class="stat-title">
+                    Resolved
+                </span>
+
+                <div class="stat-icon">
+                    ✓
+                </div>
+
+            </div>
+
+
+            <div class="stat-number">
+
+                {{ resolved_complaints|default:"0" }}
+
+            </div>
+
+
+            <div class="stat-description">
+
+                Complaints resolved
+
+            </div>
+
+        </div>
+
+
+        <!-- TOTAL FEEDBACK -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <span class="stat-title">
+                    Feedback
+                </span>
+
+                <div class="stat-icon">
+                    💬
+                </div>
+
+            </div>
+
+
+            <div class="stat-number">
+
+                {{ total_feedback|default:"0" }}
+
+            </div>
+
+
+            <div class="stat-description">
+
+                Feedback received
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <section class="content-grid">
+
+
+        <!-- =================================================
+             PLATFORM ACTIVITY
+        ================================================== -->
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <h3>
+                    Platform Activity
+                </h3>
+
+                <span style="color:#68efd1;font-size:9px;">
+                    This Week
+                </span>
+
+            </div>
+
+
+            <div class="chart-area">
+
+                <div class="chart-line"></div>
+
+                <div class="chart-line two"></div>
+
+                <div class="chart-line three"></div>
+
+
+                {% for item in activity %}
+
+                    <div
+                        class="bar"
+                        data-count="{{ item.count }}"
+                    >
+
+                        <span class="bar-label">
+                            {{ item.day }}
+                        </span>
+
+                        <span class="bar-value">
+                            {{ item.count }}
+                        </span>
+
+                    </div>
+
+                {% empty %}
+
+                    <div style="
+                        color:#637c79;
+                        font-size:10px;
+                        text-align:center;
+                        width:100%;
+                        padding-top:70px;
+                    ">
+
+                        No activity data available.
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <div class="activity-summary">
+
+                <span class="activity-up">
+                    ↗
+                </span>
+
+                Complaint activity during the last 7 days
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             RECENT COMPLAINTS
+        ================================================== -->
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <h3>
+                    Recent Complaints
+                </h3>
+
+                <a href="/complaintmanagement/">
+                    View All
+                </a>
+
+            </div>
+
+
+            {% for complaint in recent_complaints %}
+
+                <div class="complaint">
+
+                    <div class="complaint-icon">
+                        📋
+                    </div>
+
+
+                    <div class="complaint-info">
+
+                        <strong>
+                            {{ complaint.Title }}
+                        </strong>
+
+                        <small>
+                            {{ complaint.Description|truncatechars:35 }}
+                        </small>
+
+                    </div>
+
+
+                    {% if complaint.reply %}
+
+                        <div class="status resolved">
+                            Resolved
+                        </div>
+
+                    {% else %}
+
+                        <div class="status pending">
+                            Pending
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            {% empty %}
+
+                <div class="complaint">
+
+                    <div class="complaint-icon">
+                        📋
+                    </div>
+
+                    <div class="complaint-info">
+
+                        <strong>
+                            No Complaints
+                        </strong>
+
+                        <small>
+                            No complaints submitted yet.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- =================================================
+             RIGHT PANEL
+        ================================================== -->
+
+        <div class="panel right-panel">
+
+
+            <!-- SYSTEM STATUS -->
+
+            <div class="panel-header">
+
+                <h3>
+                    System Status
+                </h3>
+
+            </div>
+
+
+            <div class="system-status">
+
+                <div class="system-top">
+
+                    <strong>
+                        WebEye Services
+                    </strong>
+
+
+                    <div class="online">
+
+                        <div class="online-dot"></div>
+
+                        Online
+
+                    </div>
+
+                </div>
+
+
+                <div class="progress">
+
+                    <div class="progress-bar"></div>
+
+                </div>
+
+
+                <div class="system-text">
+
+                    All services operating normally.
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 RECENT FEEDBACK
+            ================================================== -->
+
+            <div class="panel-header">
+
+                <h3>
+                    Recent Feedback
+                </h3>
+
+                <a href="/feedbackmanagement/">
+                    View All
+                </a>
+
+            </div>
+
+
+            {% for feedback in recent_feedback %}
+
+                <div class="feedback">
+
+                    <div class="feedback-avatar">
+                        👤
+                    </div>
+
+
+                    <div class="feedback-info">
+
+                        <strong>
+
+                            {% if feedback.user %}
+
+                                {{ feedback.user.username }}
+
+                            {% else %}
+
+                                User Feedback
+
+                            {% endif %}
+
+                        </strong>
+
+
+                        <p>
+
+                            {{ feedback.Feedback|truncatechars:70 }}
+
+                        </p>
+
+
+                        <div class="stars">
+                            ★★★★★
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% empty %}
+
+                <div class="feedback">
+
+                    <div class="feedback-avatar">
+                        💬
+                    </div>
+
+
+                    <div class="feedback-info">
+
+                        <strong>
+                            No Feedback
+                        </strong>
+
+                        <p>
+                            No feedback submitted yet.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+
+            <!-- =================================================
+                 QUICK ACTIONS
+            ================================================== -->
+
+            <div
+                class="panel-header"
+                style="margin-top:18px;"
+            >
+
+                <h3>
+                    Quick Actions
+                </h3>
+
+            </div>
+
+
+            <div class="quick-actions">
+
+
+                <!-- COMPLAINTS -->
+
+                <a
+                    href="/complaintmanagement/"
+                    class="quick-action"
+                >
+
+                    <div class="quick-action-icon">
+                        📋
+                    </div>
+
+                    <strong>
+                        Complaints
+                    </strong>
+
+                    <small>
+                        Manage complaints
+                    </small>
+
+                </a>
+
+
+                <!-- USERS -->
+
+                <a
+                    href="{% url 'usermanagement' %}"
+                    class="quick-action"
+                >
+
+                    <div class="quick-action-icon">
+                        👥
+                    </div>
+
+                    <strong>
+                        Users
+                    </strong>
+
+                    <small>
+                        Manage users
+                    </small>
+
+                </a>
+
+
+                <!-- FEEDBACK -->
+
+                <a
+                    href="/feedbackmanagement/"
+                    class="quick-action"
+                >
+
+                    <div class="quick-action-icon">
+                        💬
+                    </div>
+
+                    <strong>
+                        Feedback
+                    </strong>
+
+                    <small>
+                        Review feedback
+                    </small>
+
+                </a>
+
+
+                <!-- LIVE CONTROL -->
+
+                <a
+                    href="{% url 'mouse_control_page' %}"
+                    class="quick-action"
+                >
+
+                    <div class="quick-action-icon">
+                        👁️
+                    </div>
+
+                    <strong>
+                        Live Control
+                    </strong>
+
+                    <small>
+                        Check live control
+                    </small>
+
+                </a>
+
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    {% include "homefooter.html" %}
+
+
+</main>
+
+
+<!-- =========================================================
+     PLATFORM ACTIVITY SCRIPT
+========================================================= -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const bars =
+            document.querySelectorAll(".bar");
+
+
+        if (bars.length) {
+
+            let maxValue = 1;
+
+
+            /* Find highest activity value */
+
+            bars.forEach(function (bar) {
+
+                const value =
+                    parseInt(
+                        bar.dataset.count || "0"
+                    );
+
+
+                if (value > maxValue) {
+
+                    maxValue = value;
+
+                }
+
+            });
+
+
+            /* Set bar heights */
+
+            bars.forEach(function (bar) {
+
+                const value =
+                    parseInt(
+                        bar.dataset.count || "0"
+                    );
+
+
+                let height =
+                    (value / maxValue) * 125;
+
+
+                if (height < 5) {
+
+                    height = 5;
+
+                }
+
+
+                bar.style.height =
+                    height + "px";
+
+            });
+
+        }
+
+
+        /* =====================================================
+           DASHBOARD SEARCH
+        ===================================================== */
+
+        const searchInput =
+            document.getElementById(
+                "dashboardSearch"
+            );
+
+
+        const searchButton =
+            document.getElementById(
+                "searchButton"
+            );
+
+
+        if (!searchInput || !searchButton) {
+
+            return;
+
+        }
+
+
+        /* =====================================================
+           SEARCHABLE ELEMENTS
+        ===================================================== */
+
+        const searchableElements = [
+
+            ...document.querySelectorAll(
+                ".stat-card"
+            ),
+
+            ...document.querySelectorAll(
+                ".complaint"
+            ),
+
+            ...document.querySelectorAll(
+                ".feedback"
+            ),
+
+            ...document.querySelectorAll(
+                ".quick-action"
+            )
+
+        ];
+
+
+        /* =====================================================
+           CREATE SEARCH MESSAGE
+        ===================================================== */
+
+        const searchMessage =
+            document.createElement("div");
+
+
+        searchMessage.className =
+            "search-message";
+
+
+        searchMessage.innerText =
+            "No matching results found.";
+
+
+        searchInput.parentElement.appendChild(
+            searchMessage
+        );
+
+
+        /* =====================================================
+           SEARCH FUNCTION
+        ===================================================== */
+
+        function performSearch() {
+
+            const searchText =
+                searchInput.value
+                    .trim()
+                    .toLowerCase();
+
+
+            /* -----------------------------------------------
+               EMPTY SEARCH
+            ----------------------------------------------- */
+
+            if (searchText === "") {
+
+                searchableElements.forEach(
+                    function (element) {
+
+                        element.style.display = "";
+
+                    }
+                );
+
+
+                searchMessage.style.display =
+                    "none";
+
+
+                return;
+
+            }
+
+
+            let found = false;
+
+
+            /* -----------------------------------------------
+               SEARCH EACH ELEMENT
+            ----------------------------------------------- */
+
+            searchableElements.forEach(
+                function (element) {
+
+                    const content =
+                        element.innerText
+                            .toLowerCase();
+
+
+                    if (
+                        content.includes(
+                            searchText
+                        )
+                    ) {
+
+                        element.style.display =
+                            "";
+
+                        found = true;
+
+                    } else {
+
+                        element.style.display =
+                            "none";
+
+                    }
+
+                }
+            );
+
+
+            /* -----------------------------------------------
+               SHOW NO RESULT MESSAGE
+            ----------------------------------------------- */
+
+            if (!found) {
+
+                searchMessage.style.display =
+                    "block";
+
+            } else {
+
+                searchMessage.style.display =
+                    "none";
+
+            }
+
+        }
+
+
+        /* =====================================================
+           SEARCH WHILE TYPING
+        ===================================================== */
+
+        searchInput.addEventListener(
+            "input",
+            performSearch
+        );
+
+
+        /* =====================================================
+           SEARCH BUTTON
+        ===================================================== */
+
+        searchButton.addEventListener(
+            "click",
+            performSearch
+        );
+
+
+        /* =====================================================
+           ENTER KEY
+        ===================================================== */
+
+        searchInput.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (event.key === "Enter") {
+
+                    event.preventDefault();
+
+                    performSearch();
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           ESC KEY - CLEAR SEARCH
+        ===================================================== */
+
+        searchInput.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (event.key === "Escape") {
+
+                    searchInput.value = "";
+
+                    performSearch();
+
+                    searchInput.blur();
+
+                }
+
+            }
+        );
+
+    }
+
+);
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+{
+    "manifest_version": 3,
+    "name": "WebEye Universal Virtual Keyboard",
+    "version": "1.0.0",
+    "description": "Universal virtual keyboard for WebEye-Access. Automatically appears when a text input is selected.",
+    
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["content.js"],
+            "css": ["keyboard.css"],
+            "run_at": "document_idle",
+            "all_frames": true
+        }
+    ],
+
+    "web_accessible_resources": [
+        {
+            "resources": ["keyboard.html"],
+            "matches": ["<all_urls>"]
+        }
+    ],
+
+    "permissions": []
+}

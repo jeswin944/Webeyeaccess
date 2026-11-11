@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Feedback Management - WebEye-Access</title>
+
+    <style>
+
+        /* =========================================================
+           RESET
+        ========================================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+
+            background:
+                radial-gradient(
+                    circle at 10% 10%,
+                    rgba(0, 210, 170, 0.22),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 90% 15%,
+                    rgba(50, 130, 220, 0.18),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 50% 100%,
+                    rgba(0, 210, 170, 0.08),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    #061817,
+                    #092c31,
+                    #071b28
+                );
+
+            color: white;
+            overflow-x: hidden;
+            padding-bottom: 60px;
+        }
+
+
+        /* =========================================================
+           BACKGROUND LIGHTS
+        ========================================================= */
+
+        .background-light {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.16;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .light-one {
+            background: #28e0bd;
+            top: 5%;
+            left: -220px;
+        }
+
+        .light-two {
+            background: #3989df;
+            right: -220px;
+            top: 45%;
+        }
+
+        .light-three {
+            background: #20d6bd;
+            bottom: -250px;
+            left: 40%;
+        }
+
+
+        /* =========================================================
+           MAIN CONTAINER
+        ========================================================= */
+
+        .admin-container {
+            width: 92%;
+            max-width: 1400px;
+            margin: auto;
+            padding-top: 125px;
+        }
+
+
+        /* =========================================================
+           PAGE HEADER
+        ========================================================= */
+
+        .page-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .heading-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            padding: 7px 13px;
+            margin-bottom: 13px;
+
+            border-radius: 20px;
+
+            background: rgba(70, 235, 201, 0.08);
+            border: 1px solid rgba(70, 235, 201, 0.18);
+
+            color: #68efd1;
+            font-size: 10px;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .heading-tag span {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+
+            background: #68efd1;
+
+            box-shadow:
+                0 0 10px rgba(104, 239, 209, 0.8);
+        }
+
+        .page-title h1 {
+            font-size: clamp(30px, 4vw, 48px);
+            line-height: 1.1;
+            letter-spacing: -1.5px;
+            margin-bottom: 10px;
+        }
+
+        .page-title h1 span {
+            color: #62e8cb;
+        }
+
+        .page-title p {
+            color: #8da7a4;
+            font-size: 13px;
+            line-height: 1.7;
+            max-width: 650px;
+        }
+
+
+        /* =========================================================
+           ADMIN STATUS
+        ========================================================= */
+
+        .admin-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            padding: 12px 17px;
+
+            border-radius: 25px;
+
+            background: rgba(70, 235, 201, 0.07);
+            border: 1px solid rgba(70, 235, 201, 0.18);
+
+            color: #68efd1;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+
+            background: #68efd1;
+
+            box-shadow:
+                0 0 12px rgba(104, 239, 209, 0.8);
+
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.45;
+                transform: scale(0.8);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+        }
+
+
+        /* =========================================================
+           STAT CARDS
+        ========================================================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            position: relative;
+
+            padding: 20px;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255, 255, 255, 0.10),
+                    rgba(255, 255, 255, 0.035)
+                );
+
+            border: 1px solid rgba(255, 255, 255, 0.12);
+
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+
+            box-shadow:
+                0 20px 55px rgba(0, 0, 0, 0.20),
+                inset 0 1px rgba(255, 255, 255, 0.10);
+
+            overflow: hidden;
+        }
+
+        .stat-card::after {
+            content: "";
+
+            position: absolute;
+
+            width: 90px;
+            height: 90px;
+
+            right: -35px;
+            bottom: -40px;
+
+            border-radius: 50%;
+
+            background: rgba(70, 235, 201, 0.10);
+
+            filter: blur(20px);
+        }
+
+        .stat-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 15px;
+        }
+
+        .stat-icon {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            background: rgba(70, 235, 201, 0.10);
+
+            border: 1px solid rgba(70, 235, 201, 0.15);
+
+            font-size: 18px;
+        }
+
+        .stat-label {
+            color: #78918e;
+
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.7px;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: bold;
+
+            color: #e5f2ef;
+        }
+
+
+        /* =========================================================
+           MAIN FEEDBACK CARD
+        ========================================================= */
+
+        .feedback-card {
+            padding: 25px;
+
+            border-radius: 25px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255, 255, 255, 0.105),
+                    rgba(255, 255, 255, 0.035)
+                );
+
+            border: 1px solid rgba(255, 255, 255, 0.14);
+
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+
+            box-shadow:
+                0 25px 70px rgba(0, 0, 0, 0.30),
+                inset 0 1px rgba(255, 255, 255, 0.12);
+
+            overflow: hidden;
+        }
+
+
+        /* =========================================================
+           CARD HEADER
+        ========================================================= */
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 22px;
+        }
+
+        .card-heading h2 {
+            color: #e4efed;
+
+            font-size: 20px;
+
+            margin-bottom: 6px;
+        }
+
+        .card-heading p {
+            color: #66817d;
+
+            font-size: 11px;
+        }
+
+
+        /* =========================================================
+           SEARCH
+        ========================================================= */
+
+        .search-box {
+            display: flex;
+            align-items: center;
+
+            gap: 8px;
+
+            width: 250px;
+
+            padding: 10px 14px;
+
+            border-radius: 25px;
+
+            background: rgba(255, 255, 255, 0.045);
+
+            border: 1px solid rgba(255, 255, 255, 0.11);
+        }
+
+        .search-box span {
+            color: #6d8985;
+            font-size: 13px;
+        }
+
+        .search-box input {
+            width: 100%;
+
+            border: none;
+            outline: none;
+
+            background: transparent;
+
+            color: #dcebe8;
+
+            font-size: 11px;
+        }
+
+        .search-box input::placeholder {
+            color: #5d7773;
+        }
+
+
+        /* =========================================================
+           TABLE WRAPPER
+        ========================================================= */
+
+        .table-wrapper {
+            width: 100%;
+
+            overflow-x: auto;
+
+            border-radius: 18px;
+
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+
+        /* =========================================================
+           TABLE
+        ========================================================= */
+
+        .feedback-table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            table-layout: fixed;
+        }
+
+
+        /* USER COLUMN */
+
+        .feedback-table th:first-child,
+        .feedback-table td:first-child {
+            width: 35%;
+        }
+
+
+        /* FEEDBACK COLUMN */
+
+        .feedback-table th:last-child,
+        .feedback-table td:last-child {
+            width: 65%;
+        }
+
+
+        /* TABLE HEADER */
+
+        .feedback-table thead {
+            background: rgba(70, 235, 201, 0.075);
+        }
+
+        .feedback-table th {
+            padding: 16px 18px;
+
+            text-align: left;
+
+            color: #68efd1;
+
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.8px;
+
+            border-bottom:
+                1px solid rgba(70, 235, 201, 0.14);
+
+            white-space: nowrap;
+        }
+
+
+        /* TABLE DATA */
+
+        .feedback-table td {
+            padding: 17px 18px;
+
+            color: #c7d8d5;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+
+            vertical-align: middle;
+
+            border-bottom:
+                1px solid rgba(255, 255, 255, 0.065);
+
+            word-wrap: break-word;
+
+            overflow-wrap: break-word;
+        }
+
+
+        /* ROW */
+
+        .feedback-table tbody tr {
+            transition:
+                background 0.25s,
+                transform 0.25s;
+        }
+
+        .feedback-table tbody tr:hover {
+            background: rgba(70, 235, 201, 0.045);
+        }
+
+        .feedback-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+
+        /* =========================================================
+           USER
+        ========================================================= */
+
+        .user-name {
+            color: #e5f1ef;
+
+            font-weight: bold;
+
+            margin-bottom: 4px;
+        }
+
+        .user-name::before {
+            content: "●";
+
+            color: #68efd1;
+
+            font-size: 7px;
+
+            margin-right: 8px;
+
+            vertical-align: middle;
+        }
+
+        .user-email {
+            color: #66817d;
+
+            font-size: 9px;
+
+            padding-left: 15px;
+        }
+
+
+        /* =========================================================
+           FEEDBACK MESSAGE
+        ========================================================= */
+
+        .feedback-message {
+            color: #c7d8d5;
+
+            font-size: 12px;
+
+            line-height: 1.7;
+
+            max-width: 100%;
+
+            white-space: normal;
+
+            word-break: break-word;
+        }
+
+
+        /* =========================================================
+           EMPTY STATE
+        ========================================================= */
+
+        .empty-state {
+            text-align: center;
+
+            padding: 75px 20px;
+        }
+
+        .empty-icon {
+            width: 75px;
+            height: 75px;
+
+            margin: 0 auto 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 22px;
+
+            background: rgba(70, 235, 201, 0.08);
+
+            border: 1px solid rgba(70, 235, 201, 0.15);
+
+            font-size: 30px;
+
+            box-shadow:
+                0 0 30px rgba(70, 235, 201, 0.07);
+        }
+
+        .empty-state h2 {
+            color: #e4efed;
+
+            font-size: 20px;
+
+            margin-bottom: 8px;
+        }
+
+        .empty-state p {
+            color: #718a87;
+
+            font-size: 12px;
+        }
+
+
+        /* =========================================================
+           BACK BUTTON
+        ========================================================= */
+
+        .back-button {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            margin-top: 25px;
+
+            padding: 11px 19px;
+
+            border-radius: 25px;
+
+            background:
+                rgba(255, 255, 255, 0.055);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.13);
+
+            color: #c9d9d7;
+
+            text-decoration: none;
+
+            font-size: 11px;
+
+            transition: 0.3s;
+        }
+
+        .back-button:hover {
+            background:
+                rgba(70, 235, 201, 0.10);
+
+            border-color:
+                rgba(70, 235, 201, 0.25);
+
+            color: #68efd1;
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        .page-footer {
+            text-align: center;
+
+            margin-top: 35px;
+
+            color: #506965;
+
+            font-size: 10px;
+        }
+
+        .page-footer span {
+            color: #68efd1;
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 900px) {
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+            .admin-status {
+                align-self: flex-start;
+            }
+
+            .card-header {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .feedback-table {
+                min-width: 650px;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .admin-container {
+                width: 94%;
+
+                padding-top: 110px;
+            }
+
+            .feedback-card {
+                padding: 15px;
+
+                border-radius: 20px;
+            }
+
+            .page-title h1 {
+                font-size: 32px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     ADMIN HEADER
+========================================================= -->
+
+{% include "adminheader.html" %}
+
+
+<!-- =========================================================
+     BACKGROUND
+========================================================= -->
+
+<div class="background-light light-one"></div>
+<div class="background-light light-two"></div>
+<div class="background-light light-three"></div>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="admin-container">
+
+
+    <!-- =====================================================
+         PAGE HEADER
+    ====================================================== -->
+
+    <div class="page-header">
+
+        <div class="page-title">
+
+            <div class="heading-tag">
+
+                <span></span>
+
+                ADMIN CONTROL CENTER
+
+            </div>
+
+
+            <h1>
+
+                Feedback
+
+                <span>
+                    Management
+                </span>
+
+            </h1>
+
+
+            <p>
+
+                Review user feedback, understand user
+                experiences, and manage feedback through
+                the WebEye-Access administration system.
+
+            </p>
+
+        </div>
+
+
+        <div class="admin-status">
+
+            <div class="status-dot"></div>
+
+            Admin System Active
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         STATISTICS
+    ====================================================== -->
+
+    <div class="stats">
+
+
+        <!-- TOTAL FEEDBACK -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div>
+
+                    <div class="stat-label">
+                        Total Feedback
+                    </div>
+
+                </div>
+
+
+                <div class="stat-icon">
+                    💬
+                </div>
+
+            </div>
+
+
+            <div class="stat-number">
+
+                {{ f|length }}
+
+            </div>
+
+        </div>
+
+
+        <!-- SYSTEM -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div>
+
+                    <div class="stat-label">
+                        System
+                    </div>
+
+                </div>
+
+
+                <div class="stat-icon">
+                    🛡️
+                </div>
+
+            </div>
+
+
+            <div class="stat-number">
+                ACTIVE
+            </div>
+
+        </div>
+
+
+        <!-- FEEDBACK CENTER -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div>
+
+                    <div class="stat-label">
+                        Feedback Center
+                    </div>
+
+                </div>
+
+
+                <div class="stat-icon">
+                    📡
+                </div>
+
+            </div>
+
+
+            <div class="stat-number">
+                ONLINE
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         FEEDBACK CARD
+    ====================================================== -->
+
+    <section class="feedback-card">
+
+
+        <!-- CARD HEADER -->
+
+        <div class="card-header">
+
+            <div class="card-heading">
+
+                <h2>
+                    User Feedback Records
+                </h2>
+
+
+                <p>
+                    Review feedback submitted by WebEye-Access
+                    users.
+                </p>
+
+            </div>
+
+
+            <!-- SEARCH -->
+
+            <div class="search-box">
+
+                <span>
+                    ⌕
+                </span>
+
+
+                <input
+                    type="text"
+                    id="feedbackSearch"
+                    placeholder="Search feedback..."
+                    onkeyup="searchFeedback()"
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             CHECK WHETHER FEEDBACK EXISTS
+        ================================================== -->
+
+        {% if f %}
+
+
+        <!-- =================================================
+             TABLE
+        ================================================== -->
+
+        <div class="table-wrapper">
+
+            <table
+                class="feedback-table"
+                id="feedbackTable"
+            >
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            User
+                        </th>
+
+
+                        <th>
+                            Feedback
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    <!-- =================================================
+                         LOOP THROUGH FEEDBACK
+                    ================================================== -->
+
+                    {% for i in f %}
+
+
+                    <tr>
+
+
+                        <!-- USER -->
+
+                        <td>
+
+                            {% if i.user %}
+
+                                <div class="user-name">
+                                    {{ i.user.username }}
+                                </div>
+
+                                <div class="user-email">
+                                    {{ i.user.email }}
+                                </div>
+
+
+                            {% elif i.User %}
+
+                                <div class="user-name">
+                                    {{ i.User.username }}
+                                </div>
+
+                                <div class="user-email">
+                                    {{ i.User.email }}
+                                </div>
+
+
+                            {% else %}
+
+                                <div class="user-name">
+                                    User
+                                </div>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- FEEDBACK -->
+
+                        <td>
+
+                            <div class="feedback-message">
+
+                                {{ i.Feedback }}
+
+                            </div>
+
+                        </td>
+
+
+                    </tr>
+
+
+                    {% endfor %}
+
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        {% else %}
+
+
+        <!-- =================================================
+             EMPTY STATE
+        ================================================== -->
+
+        <div class="empty-state">
+
+            <div class="empty-icon">
+                💬
+            </div>
+
+
+            <h2>
+                No Feedback Yet
+            </h2>
+
+
+            <p>
+                No user feedback has been submitted yet.
+            </p>
+
+        </div>
+
+
+        {% endif %}
+
+
+    </section>
+
+
+    <!-- =====================================================
+         BACK BUTTON
+    ====================================================== -->
+
+    <a
+        href="/admindashboard/"
+        class="back-button"
+    >
+
+        ← Back to Dashboard
+
+    </a>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <div class="page-footer">
+
+        © 2026
+
+        <span>
+            WebEye-Access
+        </span>
+
+        — Admin Feedback Management System
+
+    </div>
+
+
+</main>
+
+
+<!-- =========================================================
+     SEARCH SCRIPT
+========================================================= -->
+
+<script>
+
+function searchFeedback() {
+
+    const input =
+        document
+        .getElementById("feedbackSearch")
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    const table =
+        document.getElementById("feedbackTable");
+
+
+    if (!table) {
+        return;
+    }
+
+
+    const tbody =
+        table.getElementsByTagName("tbody")[0];
+
+
+    if (!tbody) {
+        return;
+    }
+
+
+    const rows =
+        tbody.getElementsByTagName("tr");
+
+
+    for (
+        let i = 0;
+        i < rows.length;
+        i++
+    ) {
+
+        const text =
+            rows[i]
+            .innerText
+            .toLowerCase();
+
+
+        if (text.includes(input)) {
+
+            rows[i].style.display = "";
+
+        } else {
+
+            rows[i].style.display = "none";
+
+        }
+
+    }
+
+}
+
+</script>
+
+
+{% include "homefooter.html" %}
+
+
+</body>
+
+</html>

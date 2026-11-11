@@ -1,0 +1,2548 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>WebEye-Access | Calibration</title>
+
+
+    <style>
+
+        /* =====================================================
+           GLOBAL
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            color: #f2fffd;
+
+            background:
+                radial-gradient(
+                    circle at 80% 20%,
+                    rgba(98,232,203,0.07),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    #020c0c,
+                    #061817,
+                    #071f22
+                );
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .header {
+
+            position: sticky;
+
+            top: 15px;
+
+            z-index: 100;
+
+            width: 92%;
+
+            margin: 15px auto 0;
+
+            padding: 15px 25px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            border:
+                1px solid
+                rgba(150,240,225,0.20);
+
+            border-radius: 20px;
+
+            background:
+                rgba(10,31,31,0.72);
+
+            backdrop-filter:
+                blur(18px);
+
+            box-shadow:
+                0 15px 45px
+                rgba(0,0,0,0.30);
+        }
+
+
+        .logo {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            font-size: 21px;
+
+            font-weight: 800;
+        }
+
+
+        .logo-eye {
+
+            width: 38px;
+
+            height: 38px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border:
+                1px solid
+                rgba(98,232,203,0.50);
+
+            border-radius: 50%;
+
+            color:
+                #62e8cb;
+
+            background:
+                rgba(98,232,203,0.08);
+        }
+
+
+        .logo span {
+
+            color:
+                #62e8cb;
+        }
+
+
+        .back-button {
+
+            text-decoration: none;
+
+            color:
+                #dff9f5;
+
+            padding:
+                10px 18px;
+
+            border:
+                1px solid
+                rgba(210,245,240,0.25);
+
+            border-radius:
+                25px;
+
+            background:
+                rgba(255,255,255,0.04);
+
+            transition:
+                all .3s ease;
+        }
+
+
+        .back-button:hover {
+
+            color:
+                #62e8cb;
+
+            border-color:
+                #62e8cb;
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .container {
+
+            width: 90%;
+
+            max-width: 1250px;
+
+            margin:
+                55px auto 80px;
+        }
+
+
+        /* =====================================================
+           PAGE HEADING
+        ===================================================== */
+
+        .page-heading {
+
+            margin-bottom:
+                35px;
+        }
+
+
+        .tag {
+
+            display:
+                inline-flex;
+
+            align-items:
+                center;
+
+            padding:
+                8px 16px;
+
+            border:
+                1px solid
+                rgba(98,232,203,0.40);
+
+            border-radius:
+                30px;
+
+            color:
+                #62e8cb;
+
+            background:
+                rgba(98,232,203,0.06);
+
+            font-size:
+                11px;
+
+            font-weight:
+                700;
+
+            letter-spacing:
+                1px;
+        }
+
+
+        .page-heading h1 {
+
+            margin:
+                18px 0 10px;
+
+            font-size:
+                clamp(38px,5vw,62px);
+
+            line-height:
+                1;
+
+            letter-spacing:
+                -2px;
+        }
+
+
+        .page-heading h1 span {
+
+            color:
+                #62e8cb;
+        }
+
+
+        .page-heading p {
+
+            margin:
+                0;
+
+            max-width:
+                720px;
+
+            color:
+                rgba(225,246,242,0.65);
+
+            font-size:
+                15px;
+
+            line-height:
+                1.8;
+        }
+
+
+        /* =====================================================
+           MAIN GRID
+        ===================================================== */
+
+        .calibration-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                1.4fr 0.75fr;
+
+            gap:
+                25px;
+
+            align-items:
+                start;
+        }
+
+
+        /* =====================================================
+           GLASS
+        ===================================================== */
+
+        .glass-card {
+
+            border:
+                1px solid
+                rgba(145,235,221,0.15);
+
+            border-radius:
+                25px;
+
+            background:
+                rgba(255,255,255,0.045);
+
+            backdrop-filter:
+                blur(18px);
+
+            box-shadow:
+                0 25px 70px
+                rgba(0,0,0,0.28);
+        }
+
+
+        /* =====================================================
+           CALIBRATION CAMERA CARD
+        ===================================================== */
+
+        .camera-card {
+
+            padding:
+                22px;
+        }
+
+
+        .camera-header {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            margin-bottom:
+                18px;
+        }
+
+
+        .camera-header h2 {
+
+            margin:
+                0;
+
+            font-size:
+                18px;
+        }
+
+
+        .camera-status {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                7px;
+
+            color:
+                rgba(230,250,246,0.65);
+
+            font-size:
+                11px;
+        }
+
+
+        .status-dot {
+
+            width:
+                8px;
+
+            height:
+                8px;
+
+            border-radius:
+                50%;
+
+            background:
+                #626e6c;
+        }
+
+
+        .status-dot.active {
+
+            background:
+                #62e8cb;
+
+            box-shadow:
+                0 0 12px
+                #62e8cb;
+
+            animation:
+                pulse 1.5s infinite;
+        }
+
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: .35;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+
+        /* =====================================================
+           CAMERA
+        ===================================================== */
+
+        .camera-wrapper {
+
+            position:
+                relative;
+
+            width:
+                100%;
+
+            aspect-ratio:
+                16 / 10;
+
+            overflow:
+                hidden;
+
+            border:
+                1px solid
+                rgba(98,232,203,0.18);
+
+            border-radius:
+                18px;
+
+            background:
+                #010707;
+        }
+
+
+        video {
+
+            width:
+                100%;
+
+            height:
+                100%;
+
+            object-fit:
+                cover;
+
+            display:
+                block;
+
+            transform:
+                scaleX(-1);
+
+            background:
+                #020808;
+        }
+
+
+        /* =====================================================
+           CAMERA PLACEHOLDER
+        ===================================================== */
+
+        .camera-placeholder {
+
+            position:
+                absolute;
+
+            inset:
+                0;
+
+            z-index:
+                3;
+
+            display:
+                flex;
+
+            flex-direction:
+                column;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            text-align:
+                center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(4,25,25,.97),
+                    rgba(2,12,13,.97)
+                );
+        }
+
+
+        .camera-placeholder.hidden {
+
+            display:
+                none;
+        }
+
+
+        .camera-icon {
+
+            font-size:
+                46px;
+
+            margin-bottom:
+                14px;
+        }
+
+
+        .camera-placeholder h3 {
+
+            margin:
+                0 0 8px;
+
+            font-size:
+                17px;
+        }
+
+
+        .camera-placeholder p {
+
+            margin:
+                0;
+
+            color:
+                rgba(225,245,241,.52);
+
+            font-size:
+                12px;
+        }
+
+
+        /* =====================================================
+           CAMERA CORNERS
+        ===================================================== */
+
+        .corner {
+
+            position:
+                absolute;
+
+            z-index:
+                5;
+
+            width:
+                30px;
+
+            height:
+                30px;
+
+            border-color:
+                rgba(98,232,203,.75);
+
+            border-style:
+                solid;
+        }
+
+
+        .corner.top-left {
+
+            top:
+                14px;
+
+            left:
+                14px;
+
+            border-width:
+                2px 0 0 2px;
+        }
+
+
+        .corner.top-right {
+
+            top:
+                14px;
+
+            right:
+                14px;
+
+            border-width:
+                2px 2px 0 0;
+        }
+
+
+        .corner.bottom-left {
+
+            bottom:
+                14px;
+
+            left:
+                14px;
+
+            border-width:
+                0 0 2px 2px;
+        }
+
+
+        .corner.bottom-right {
+
+            bottom:
+                14px;
+
+            right:
+                14px;
+
+            border-width:
+                0 2px 2px 0;
+        }
+
+
+        /* =====================================================
+           CALIBRATION TARGET
+        ===================================================== */
+
+        .calibration-target {
+
+            position:
+                absolute;
+
+            z-index:
+                10;
+
+            top:
+                50%;
+
+            left:
+                50%;
+
+            width:
+                28px;
+
+            height:
+                28px;
+
+            transform:
+                translate(-50%,-50%);
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            border:
+                2px solid
+                #62e8cb;
+
+            border-radius:
+                50%;
+
+            background:
+                rgba(98,232,203,0.10);
+
+            box-shadow:
+                0 0 25px
+                rgba(98,232,203,0.75);
+
+            opacity:
+                0;
+        }
+
+
+        .calibration-target.active {
+
+            opacity:
+                1;
+
+            animation:
+                targetPulse
+                1.3s
+                infinite;
+        }
+
+
+        .calibration-target::before {
+
+            content:
+                "";
+
+            position:
+                absolute;
+
+            width:
+                7px;
+
+            height:
+                7px;
+
+            border-radius:
+                50%;
+
+            background:
+                #62e8cb;
+
+            box-shadow:
+                0 0 12px
+                #62e8cb;
+        }
+
+
+        .calibration-target::after {
+
+            content:
+                "";
+
+            position:
+                absolute;
+
+            width:
+                46px;
+
+            height:
+                46px;
+
+            border:
+                1px solid
+                rgba(98,232,203,0.25);
+
+            border-radius:
+                50%;
+        }
+
+
+        @keyframes targetPulse {
+
+            0% {
+
+                transform:
+                    translate(-50%,-50%)
+                    scale(.85);
+            }
+
+            50% {
+
+                transform:
+                    translate(-50%,-50%)
+                    scale(1.15);
+            }
+
+            100% {
+
+                transform:
+                    translate(-50%,-50%)
+                    scale(.85);
+            }
+        }
+
+
+        /* =====================================================
+           CAMERA FOOTER
+        ===================================================== */
+
+        .camera-footer {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            margin-top:
+                16px;
+        }
+
+
+        .camera-message {
+
+            color:
+                rgba(225,245,241,.55);
+
+            font-size:
+                12px;
+        }
+
+
+        .camera-resolution {
+
+            padding:
+                6px 10px;
+
+            border-radius:
+                10px;
+
+            background:
+                rgba(255,255,255,.04);
+
+            color:
+                rgba(225,245,241,.48);
+
+            font-size:
+                10px;
+        }
+
+
+        /* =====================================================
+           RIGHT PANEL
+        ===================================================== */
+
+        .side-panel {
+
+            display:
+                flex;
+
+            flex-direction:
+                column;
+
+            gap:
+                18px;
+        }
+
+
+        /* =====================================================
+           PROGRESS
+        ===================================================== */
+
+        .progress-card {
+
+            padding:
+                25px;
+        }
+
+
+        .card-title {
+
+            margin:
+                0 0 20px;
+
+            font-size:
+                18px;
+        }
+
+
+        .progress-number {
+
+            display:
+                flex;
+
+            align-items:
+                baseline;
+
+            gap:
+                5px;
+
+            margin-bottom:
+                12px;
+        }
+
+
+        .progress-number strong {
+
+            font-size:
+                38px;
+
+            color:
+                #62e8cb;
+        }
+
+
+        .progress-number span {
+
+            color:
+                rgba(225,245,241,.50);
+
+            font-size:
+                13px;
+        }
+
+
+        .progress-bar {
+
+            width:
+                100%;
+
+            height:
+                7px;
+
+            overflow:
+                hidden;
+
+            border-radius:
+                10px;
+
+            background:
+                rgba(255,255,255,.07);
+        }
+
+
+        .progress-fill {
+
+            width:
+                0%;
+
+            height:
+                100%;
+
+            border-radius:
+                inherit;
+
+            background:
+                #62e8cb;
+
+            box-shadow:
+                0 0 15px
+                rgba(98,232,203,.45);
+
+            transition:
+                width .5s ease;
+        }
+
+
+        .progress-text {
+
+            margin:
+                13px 0 0;
+
+            color:
+                rgba(225,245,241,.52);
+
+            font-size:
+                11px;
+        }
+
+
+        /* =====================================================
+           INSTRUCTIONS
+        ===================================================== */
+
+        .instruction-card {
+
+            padding:
+                25px;
+        }
+
+
+        .instruction-card h2 {
+
+            margin:
+                0 0 15px;
+
+            font-size:
+                18px;
+        }
+
+
+        .instruction-list {
+
+            margin:
+                0;
+
+            padding:
+                0;
+
+            list-style:
+                none;
+        }
+
+
+        .instruction-list li {
+
+            display:
+                flex;
+
+            gap:
+                12px;
+
+            padding:
+                11px 0;
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,.06);
+
+            color:
+                rgba(225,245,241,.62);
+
+            font-size:
+                12px;
+
+            line-height:
+                1.5;
+        }
+
+
+        .instruction-list li:last-child {
+
+            border-bottom:
+                none;
+        }
+
+
+        .instruction-number {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            flex-shrink:
+                0;
+
+            width:
+                24px;
+
+            height:
+                24px;
+
+            border:
+                1px solid
+                rgba(98,232,203,.30);
+
+            border-radius:
+                50%;
+
+            color:
+                #62e8cb;
+
+            font-size:
+                10px;
+
+            font-weight:
+                bold;
+        }
+
+
+        /* =====================================================
+           CURRENT POINT
+        ===================================================== */
+
+        .point-card {
+
+            padding:
+                25px;
+        }
+
+
+        .point-card h2 {
+
+            margin:
+                0 0 15px;
+
+            font-size:
+                18px;
+        }
+
+
+        .point-display {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                15px;
+        }
+
+
+        .point-icon {
+
+            width:
+                52px;
+
+            height:
+                52px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            border:
+                1px solid
+                rgba(98,232,203,.35);
+
+            border-radius:
+                50%;
+
+            color:
+                #62e8cb;
+
+            background:
+                rgba(98,232,203,.06);
+
+            font-size:
+                18px;
+        }
+
+
+        .point-display strong {
+
+            display:
+                block;
+
+            margin-bottom:
+                5px;
+
+            font-size:
+                14px;
+        }
+
+
+        .point-display span {
+
+            color:
+                rgba(225,245,241,.50);
+
+            font-size:
+                11px;
+        }
+
+
+        /* =====================================================
+           BUTTONS
+        ===================================================== */
+
+        .controls {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap:
+                10px;
+
+            padding:
+                20px;
+        }
+
+
+        .button {
+
+            border:
+                none;
+
+            padding:
+                14px 15px;
+
+            border-radius:
+                13px;
+
+            font-size:
+                12px;
+
+            font-weight:
+                700;
+
+            cursor:
+                pointer;
+
+            transition:
+                all .3s ease;
+        }
+
+
+        .primary {
+
+            color:
+                #031514;
+
+            background:
+                #62e8cb;
+
+            box-shadow:
+                0 8px 25px
+                rgba(98,232,203,.12);
+        }
+
+
+        .primary:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 12px 30px
+                rgba(98,232,203,.28);
+        }
+
+
+        .secondary {
+
+            color:
+                #eafff9;
+
+            border:
+                1px solid
+                rgba(255,255,255,.15);
+
+            background:
+                rgba(255,255,255,.04);
+        }
+
+
+        .secondary:hover {
+
+            transform:
+                translateY(-2px);
+
+            border-color:
+                rgba(98,232,203,.45);
+
+            color:
+                #62e8cb;
+        }
+
+
+        .finish-button {
+
+            width:
+                100%;
+
+            margin-top:
+                10px;
+
+            color:
+                rgba(225,245,241,.35);
+
+            border:
+                1px solid
+                rgba(255,255,255,.08);
+
+            background:
+                rgba(255,255,255,.025);
+
+            cursor:
+                not-allowed;
+        }
+
+
+        .finish-button.enabled {
+
+            color:
+                #031514;
+
+            background:
+                #62e8cb;
+
+            border-color:
+                #62e8cb;
+
+            cursor:
+                pointer;
+        }
+
+
+        .finish-button.enabled:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 10px 30px
+                rgba(98,232,203,.25);
+        }
+
+
+        /* =====================================================
+           DASHBOARD
+        ===================================================== */
+
+        .dashboard-navigation {
+
+            display:
+                flex;
+
+            justify-content:
+                center;
+
+            margin-top:
+                35px;
+        }
+
+
+        .dashboard-link {
+
+            display:
+                inline-flex;
+
+            align-items:
+                center;
+
+            gap:
+                8px;
+
+            padding:
+                12px 22px;
+
+            color:
+                rgba(230,249,245,.70);
+
+            text-decoration:
+                none;
+
+            border:
+                1px solid
+                rgba(255,255,255,.14);
+
+            border-radius:
+                25px;
+
+            background:
+                rgba(255,255,255,.035);
+
+            transition:
+                all .3s ease;
+        }
+
+
+        .dashboard-link:hover {
+
+            color:
+                #62e8cb;
+
+            border-color:
+                rgba(98,232,203,.4);
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .footer {
+
+            padding:
+                25px;
+
+            text-align:
+                center;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,.06);
+
+            color:
+                rgba(225,245,241,.42);
+
+            font-size:
+                11px;
+        }
+
+
+        .footer span {
+
+            color:
+                #62e8cb;
+        }
+
+
+        /* =====================================================
+           TABLET
+        ===================================================== */
+
+        @media (max-width: 950px) {
+
+            .calibration-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .side-panel {
+
+                display:
+                    grid;
+
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+
+            .controls {
+
+                grid-column:
+                    span 2;
+            }
+
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 650px) {
+
+            .header {
+
+                width:
+                    94%;
+
+                padding:
+                    12px 15px;
+            }
+
+
+            .logo {
+
+                font-size:
+                    17px;
+            }
+
+
+            .logo-eye {
+
+                width:
+                    32px;
+
+                height:
+                    32px;
+            }
+
+
+            .back-button {
+
+                padding:
+                    8px 12px;
+
+                font-size:
+                    11px;
+            }
+
+
+            .container {
+
+                width:
+                    92%;
+
+                margin-top:
+                    35px;
+            }
+
+
+            .page-heading h1 {
+
+                font-size:
+                    40px;
+            }
+
+
+            .camera-card {
+
+                padding:
+                    14px;
+            }
+
+
+            .camera-wrapper {
+
+                aspect-ratio:
+                    4 / 3;
+            }
+
+
+            .side-panel {
+
+                display:
+                    flex;
+            }
+
+
+            .controls {
+
+                grid-column:
+                    auto;
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .camera-footer {
+
+                flex-direction:
+                    column;
+
+                align-items:
+                    flex-start;
+
+                gap:
+                    8px;
+            }
+
+        }
+
+
+        /* =====================================================
+           REDUCED MOTION
+        ===================================================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+
+                animation:
+                    none !important;
+
+                transition:
+                    none !important;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+====================================================== -->
+
+<header class="header">
+
+    <div class="logo">
+
+        <div class="logo-eye">
+            👁
+        </div>
+
+        WebEye
+        <span>-Access</span>
+
+    </div>
+
+
+    <a
+        href="/dashboard/"
+        class="back-button"
+    >
+        Dashboard
+    </a>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+====================================================== -->
+
+<main class="container">
+
+
+    <!-- =================================================
+         HEADING
+    ================================================== -->
+
+    <div class="page-heading">
+
+        <div class="tag">
+            ◉ EYE TRACKING CALIBRATION
+        </div>
+
+
+        <h1>
+
+            Calibrate Your
+            <span>Eyes.</span>
+
+        </h1>
+
+
+        <p>
+
+            Please sit comfortably and look at the points
+            on the screen. Keep your head still and follow
+            each calibration point naturally with your eyes.
+
+        </p>
+
+    </div>
+
+
+
+    <!-- =================================================
+         CALIBRATION GRID
+    ================================================== -->
+
+    <div class="calibration-grid">
+
+
+        <!-- =============================================
+             CAMERA
+        ============================================== -->
+
+        <div class="glass-card camera-card">
+
+            <div class="camera-header">
+
+                <h2>
+                    Camera & Calibration
+                </h2>
+
+
+                <div class="camera-status">
+
+                    <span
+                        id="cameraDot"
+                        class="status-dot"
+                    ></span>
+
+                    <span id="cameraStatus">
+                        Camera Off
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="camera-wrapper">
+
+
+                <!-- REAL CAMERA -->
+
+                <video
+                    id="camera"
+                    autoplay
+                    playsinline
+                ></video>
+
+
+                <!-- CAMERA PLACEHOLDER -->
+
+                <div
+                    class="camera-placeholder"
+                    id="cameraPlaceholder"
+                >
+
+                    <div class="camera-icon">
+                        📷
+                    </div>
+
+
+                    <h3>
+                        Camera Not Started
+                    </h3>
+
+
+                    <p>
+                        Click "Start Calibration" to open camera
+                    </p>
+
+                </div>
+
+
+                <!-- CORNERS -->
+
+                <div class="corner top-left"></div>
+
+                <div class="corner top-right"></div>
+
+                <div class="corner bottom-left"></div>
+
+                <div class="corner bottom-right"></div>
+
+
+                <!-- CALIBRATION POINT -->
+
+                <div
+                    id="calibrationTarget"
+                    class="calibration-target"
+                ></div>
+
+
+            </div>
+
+
+            <div class="camera-footer">
+
+                <div
+                    class="camera-message"
+                    id="cameraMessage"
+                >
+                    Camera access is required for calibration.
+                </div>
+
+
+                <div class="camera-resolution">
+                    LIVE • 1280 × 720
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =============================================
+             RIGHT SIDE
+        ============================================== -->
+
+        <div class="side-panel">
+
+
+            <!-- =========================================
+                 PROGRESS
+            ========================================== -->
+
+            <div class="glass-card progress-card">
+
+                <h2 class="card-title">
+                    Calibration Progress
+                </h2>
+
+
+                <div class="progress-number">
+
+                    <strong id="progressNumber">
+                        0
+                    </strong>
+
+                    <span>
+                        %
+                    </span>
+
+                </div>
+
+
+                <div class="progress-bar">
+
+                    <div
+                        id="progressFill"
+                        class="progress-fill"
+                    ></div>
+
+                </div>
+
+
+                <p
+                    id="progressText"
+                    class="progress-text"
+                >
+                    Ready to begin calibration.
+                </p>
+
+            </div>
+
+
+
+            <!-- =========================================
+                 CURRENT POINT
+            ========================================== -->
+
+            <div class="glass-card point-card">
+
+                <h2>
+                    Current Point
+                </h2>
+
+
+                <div class="point-display">
+
+                    <div class="point-icon">
+                        ●
+                    </div>
+
+
+                    <div>
+
+                        <strong id="pointNumber">
+                            Point 0 / 9
+                        </strong>
+
+                        <span id="pointInstruction">
+                            Waiting to start
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================================
+                 INSTRUCTIONS
+            ========================================== -->
+
+            <div class="glass-card instruction-card">
+
+                <h2>
+                    Instructions
+                </h2>
+
+
+                <ul class="instruction-list">
+
+
+                    <li>
+
+                        <div class="instruction-number">
+                            1
+                        </div>
+
+                        <span>
+                            Sit comfortably in front of the camera.
+                        </span>
+
+                    </li>
+
+
+                    <li>
+
+                        <div class="instruction-number">
+                            2
+                        </div>
+
+                        <span>
+                            Keep your head as still as possible.
+                        </span>
+
+                    </li>
+
+
+                    <li>
+
+                        <div class="instruction-number">
+                            3
+                        </div>
+
+                        <span>
+                            Follow the glowing point using only your eyes.
+                        </span>
+
+                    </li>
+
+
+                    <li>
+
+                        <div class="instruction-number">
+                            4
+                        </div>
+
+                        <span>
+                            Look directly at each point until it moves.
+                        </span>
+
+                    </li>
+
+
+                </ul>
+
+            </div>
+
+
+
+            <!-- =========================================
+                 CONTROLS
+            ========================================== -->
+
+            <div class="glass-card controls">
+
+
+                <button
+                    id="startButton"
+                    class="button primary"
+                >
+                    Start Calibration
+                </button>
+
+
+                <button
+                    id="resetButton"
+                    class="button secondary"
+                >
+                    Reset
+                </button>
+
+
+                <button
+                    id="finishButton"
+                    class="button finish-button"
+                    disabled
+                >
+                    Finish Calibration
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         DASHBOARD
+    ================================================== -->
+
+    <div class="dashboard-navigation">
+
+        <a
+            href="/dashboard/"
+            class="dashboard-link"
+        >
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+<footer class="footer">
+
+    © 2026
+    <span>WebEye-Access</span>
+    • Eye Tracking • Computer Vision • Accessibility
+
+</footer>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script>
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const camera =
+    document.getElementById("camera");
+
+const cameraPlaceholder =
+    document.getElementById("cameraPlaceholder");
+
+const cameraDot =
+    document.getElementById("cameraDot");
+
+const cameraStatus =
+    document.getElementById("cameraStatus");
+
+const cameraMessage =
+    document.getElementById("cameraMessage");
+
+const startButton =
+    document.getElementById("startButton");
+
+const resetButton =
+    document.getElementById("resetButton");
+
+const finishButton =
+    document.getElementById("finishButton");
+
+const target =
+    document.getElementById("calibrationTarget");
+
+const progressNumber =
+    document.getElementById("progressNumber");
+
+const progressFill =
+    document.getElementById("progressFill");
+
+const progressText =
+    document.getElementById("progressText");
+
+const pointNumber =
+    document.getElementById("pointNumber");
+
+const pointInstruction =
+    document.getElementById("pointInstruction");
+
+
+let cameraStream = null;
+
+let currentPoint = 0;
+
+let calibrationRunning = false;
+
+let pointTimer = null;
+
+
+/* =====================================================
+   CALIBRATION POINTS
+===================================================== */
+
+const calibrationPoints = [
+
+    {
+        x: 12,
+        y: 15
+    },
+
+    {
+        x: 50,
+        y: 15
+    },
+
+    {
+        x: 88,
+        y: 15
+    },
+
+    {
+        x: 12,
+        y: 50
+    },
+
+    {
+        x: 50,
+        y: 50
+    },
+
+    {
+        x: 88,
+        y: 50
+    },
+
+    {
+        x: 12,
+        y: 85
+    },
+
+    {
+        x: 50,
+        y: 85
+    },
+
+    {
+        x: 88,
+        y: 85
+    }
+
+];
+
+
+/* =====================================================
+   START CALIBRATION
+===================================================== */
+
+startButton.addEventListener(
+    "click",
+    async function() {
+
+        if (calibrationRunning) {
+            return;
+        }
+
+
+        try {
+
+            /*
+               Open the real camera.
+            */
+
+            cameraStream =
+                await navigator.mediaDevices.getUserMedia({
+
+                    video: {
+
+                        width: {
+                            ideal: 1280
+                        },
+
+                        height: {
+                            ideal: 720
+                        },
+
+                        facingMode:
+                            "user"
+
+                    },
+
+                    audio:
+                        false
+
+                });
+
+
+            camera.srcObject =
+                cameraStream;
+
+
+            cameraPlaceholder.classList.add(
+                "hidden"
+            );
+
+
+            cameraDot.classList.add(
+                "active"
+            );
+
+
+            cameraStatus.textContent =
+                "Camera Active";
+
+
+            cameraMessage.textContent =
+                "Camera connected • Calibration ready";
+
+
+            calibrationRunning =
+                true;
+
+
+            currentPoint =
+                0;
+
+
+            startButton.textContent =
+                "Calibration Running";
+
+
+            startButton.disabled =
+                true;
+
+
+            startButton.style.opacity =
+                "0.55";
+
+
+            target.classList.add(
+                "active"
+            );
+
+
+            progressText.textContent =
+                "Look at the calibration point.";
+
+
+            showNextPoint();
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+
+            cameraMessage.textContent =
+                "Camera permission was denied. Please allow camera access.";
+
+
+            cameraStatus.textContent =
+                "Camera Error";
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   SHOW NEXT POINT
+===================================================== */
+
+function showNextPoint() {
+
+
+    if (currentPoint >= calibrationPoints.length) {
+
+        completeCalibration();
+
+        return;
+
+    }
+
+
+    const point =
+        calibrationPoints[currentPoint];
+
+
+    target.style.left =
+        point.x + "%";
+
+
+    target.style.top =
+        point.y + "%";
+
+
+    const percentage =
+        Math.round(
+            (currentPoint /
+            calibrationPoints.length)
+            * 100
+        );
+
+
+    progressNumber.textContent =
+        percentage;
+
+
+    progressFill.style.width =
+        percentage + "%";
+
+
+    pointNumber.textContent =
+        "Point " +
+        (currentPoint + 1) +
+        " / " +
+        calibrationPoints.length;
+
+
+    pointInstruction.textContent =
+        "Look directly at the point";
+
+
+    progressText.textContent =
+        "Focus on the glowing point.";
+
+
+    /*
+       Give the user time to look
+       at the point.
+    */
+
+    clearTimeout(pointTimer);
+
+
+    pointTimer =
+        setTimeout(
+            function() {
+
+                currentPoint++;
+
+                showNextPoint();
+
+            },
+            1800
+        );
+
+}
+
+
+/* =====================================================
+   COMPLETE CALIBRATION
+===================================================== */
+
+function completeCalibration() {
+
+
+    calibrationRunning =
+        false;
+
+
+    clearTimeout(pointTimer);
+
+
+    target.classList.remove(
+        "active"
+    );
+
+
+    progressNumber.textContent =
+        "100";
+
+
+    progressFill.style.width =
+        "100%";
+
+
+    progressText.textContent =
+        "Calibration completed successfully.";
+
+
+    pointNumber.textContent =
+        "Calibration Complete";
+
+
+    pointInstruction.textContent =
+        "Your gaze calibration is ready.";
+
+
+    startButton.disabled =
+        false;
+
+
+    startButton.style.opacity =
+        "1";
+
+
+    startButton.textContent =
+        "Calibrate Again";
+
+
+    finishButton.disabled =
+        false;
+
+
+    finishButton.classList.add(
+        "enabled"
+    );
+
+}
+
+
+/* =====================================================
+   FINISH CALIBRATION
+===================================================== */
+
+finishButton.addEventListener(
+    "click",
+    function() {
+
+        if (
+            finishButton.disabled
+        ) {
+
+            return;
+
+        }
+
+
+        /*
+           Stop camera.
+        */
+
+        stopCamera();
+
+
+        /*
+           Change message.
+        */
+
+        cameraMessage.textContent =
+            "Calibration saved successfully.";
+
+
+        cameraStatus.textContent =
+            "Calibration Complete";
+
+
+        /*
+           Go to dashboard.
+
+           If you have a separate live-tracking
+           URL, you can change this to that URL.
+        */
+
+        setTimeout(
+            function() {
+
+                window.location.href =
+                    "/dashboard/";
+
+            },
+            700
+        );
+
+    }
+);
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+resetButton.addEventListener(
+    "click",
+    function() {
+
+        clearTimeout(pointTimer);
+
+
+        currentPoint =
+            0;
+
+
+        calibrationRunning =
+            false;
+
+
+        progressNumber.textContent =
+            "0";
+
+
+        progressFill.style.width =
+            "0%";
+
+
+        progressText.textContent =
+            "Ready to begin calibration.";
+
+
+        pointNumber.textContent =
+            "Point 0 / 9";
+
+
+        pointInstruction.textContent =
+            "Waiting to start";
+
+
+        target.classList.remove(
+            "active"
+        );
+
+
+        startButton.disabled =
+            false;
+
+
+        startButton.style.opacity =
+            "1";
+
+
+        startButton.textContent =
+            "Start Calibration";
+
+
+        finishButton.disabled =
+            true;
+
+
+        finishButton.classList.remove(
+            "enabled"
+        );
+
+
+        stopCamera();
+
+    }
+);
+
+
+/* =====================================================
+   STOP CAMERA
+===================================================== */
+
+function stopCamera() {
+
+
+    if (cameraStream) {
+
+        cameraStream
+            .getTracks()
+            .forEach(
+                track => track.stop()
+            );
+
+
+        cameraStream =
+            null;
+
+    }
+
+
+    camera.srcObject =
+        null;
+
+
+    cameraPlaceholder.classList.remove(
+        "hidden"
+    );
+
+
+    cameraDot.classList.remove(
+        "active"
+    );
+
+
+    cameraStatus.textContent =
+        "Camera Off";
+
+
+    cameraMessage.textContent =
+        "Camera access is required for calibration.";
+
+}
+
+
+/* =====================================================
+   CLEANUP
+===================================================== */
+
+window.addEventListener(
+    "beforeunload",
+    function() {
+
+        stopCamera();
+
+    }
+);
+
+
+</script>
+
+
+</body>
+
+</html>

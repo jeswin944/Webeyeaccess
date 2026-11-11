@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WebEye-Access</title>
+
+
+    <style>
+
+        /* =========================================
+           BASIC RESET
+        ========================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 15% 20%,
+                    rgba(0, 210, 170, 0.30),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 85% 20%,
+                    rgba(50, 130, 220, 0.25),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    #061817,
+                    #092c31,
+                    #071b28
+                );
+
+            color: white;
+
+            min-height: 100vh;
+
+            overflow-x: hidden;
+        }
+
+
+        /* =========================================
+           BACKGROUND LIGHT EFFECTS
+        ========================================= */
+
+        .background-light {
+            position: fixed;
+
+            width: 500px;
+            height: 500px;
+
+            border-radius: 50%;
+
+            filter: blur(120px);
+
+            opacity: 0.20;
+
+            pointer-events: none;
+
+            z-index: -1;
+        }
+
+        .light-one {
+            background: #28e0bd;
+
+            top: 10%;
+            left: -200px;
+        }
+
+        .light-two {
+            background: #3989df;
+
+            right: -200px;
+            top: 40%;
+        }
+
+
+        /* =========================================
+           NAVBAR
+        ========================================= */
+
+        .navbar {
+
+            position: fixed;
+
+            top: 22px;
+            left: 5%;
+            right: 5%;
+
+            height: 72px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 28px;
+
+            background:
+                rgba(255, 255, 255, 0.12);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.25);
+
+            border-radius: 22px;
+
+            backdrop-filter: blur(25px);
+
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.30),
+                inset 0 1px rgba(255, 255, 255, 0.25);
+
+            z-index: 1000;
+        }
+
+
+        /* LOGO */
+
+        .logo {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            font-size: 23px;
+
+            font-weight: bold;
+        }
+
+
+        .logo-icon {
+
+            width: 45px;
+            height: 45px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            border-radius: 50%;
+
+            background:
+                rgba(70, 235, 201, 0.18);
+
+            border:
+                1px solid rgba(100, 255, 225, 0.5);
+
+            box-shadow:
+                0 0 20px rgba(70, 235, 201, 0.25);
+        }
+
+
+        .logo span {
+            color: #68efd1;
+        }
+
+
+        /* NAV LINKS */
+
+        .nav-links {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 25px;
+        }
+
+
+        .nav-links a {
+
+            color: #e4eeee;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            transition: 0.3s;
+        }
+
+
+        .nav-links a:hover {
+
+            color: #6af2d3;
+
+            transform: translateY(-2px);
+        }
+
+
+        .login {
+
+            background: #4bd5b5;
+
+            color: #06231e !important;
+
+            padding: 11px 23px;
+
+            border-radius: 25px;
+
+            font-weight: bold;
+        }
+
+
+        .register {
+
+            padding: 10px 20px;
+
+            border:
+                1px solid rgba(255,255,255,0.3);
+
+            border-radius: 25px;
+        }
+
+
+        /* =========================================
+           HERO
+        ========================================= */
+
+        .hero {
+
+            min-height: 100vh;
+
+            padding:
+                150px 8%
+                80px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 40px;
+        }
+
+
+        .hero-content {
+
+            width: 55%;
+
+            max-width: 700px;
+        }
+
+
+        .tag {
+
+            display: inline-block;
+
+            padding: 9px 17px;
+
+            border-radius: 30px;
+
+            background:
+                rgba(80, 240, 207, 0.10);
+
+            border:
+                1px solid rgba(80, 240, 207, 0.35);
+
+            color: #6ef2d3;
+
+            font-size: 13px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .hero h1 {
+
+            font-size:
+                clamp(45px, 6vw, 78px);
+
+            line-height: 1.02;
+
+            letter-spacing: -3px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .hero h1 span {
+
+            color: #62e8cb;
+        }
+
+
+        .hero-description {
+
+            color: #b4c9c7;
+
+            font-size: 18px;
+
+            line-height: 1.7;
+
+            max-width: 650px;
+
+            margin-bottom: 35px;
+        }
+
+
+        /* BUTTONS */
+
+        .buttons {
+
+            display: flex;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .button {
+
+            text-decoration: none;
+
+            padding: 15px 28px;
+
+            border-radius: 30px;
+
+            font-weight: bold;
+
+            transition: 0.3s;
+        }
+
+
+        .primary {
+
+            background: #4dd8b7;
+
+            color: #06221d;
+
+            box-shadow:
+                0 10px 30px rgba(77,216,183,0.25);
+        }
+
+
+        .primary:hover {
+
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 15px 40px rgba(77,216,183,0.40);
+        }
+
+
+        .secondary {
+
+            color: white;
+
+            background:
+                rgba(255,255,255,0.08);
+
+            border:
+                1px solid rgba(255,255,255,0.25);
+
+            backdrop-filter: blur(10px);
+        }
+
+
+        .secondary:hover {
+
+            background:
+                rgba(255,255,255,0.15);
+        }
+
+
+        /* =========================================
+           FUTURISTIC EYE
+        ========================================= */
+
+        .eye-area {
+
+            width: 45%;
+
+            height: 450px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            perspective: 1200px;
+        }
+
+
+        .eye-container {
+
+            position: relative;
+
+            width: 430px;
+
+            height: 330px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            transform-style: preserve-3d;
+
+            animation:
+                eyeFloat 6s ease-in-out infinite;
+        }
+
+
+        @keyframes eyeFloat {
+
+            0%, 100% {
+                transform:
+                    translateY(0)
+                    rotateX(0deg);
+            }
+
+            50% {
+                transform:
+                    translateY(-15px)
+                    rotateX(3deg);
+            }
+        }
+
+
+        /* GLOW */
+
+        .eye-glow {
+
+            position: absolute;
+
+            width: 330px;
+            height: 250px;
+
+            border-radius: 50%;
+
+            background: #20e5c0;
+
+            filter: blur(90px);
+
+            opacity: 0.30;
+        }
+
+
+        /* EYE WHITE */
+
+        .eye {
+
+            position: relative;
+
+            width: 390px;
+
+            height: 245px;
+
+            overflow: hidden;
+
+            border-radius:
+                65% 35%
+                65% 35%;
+
+            transform:
+                rotate(-5deg);
+
+            background:
+
+                radial-gradient(
+                    ellipse at center,
+
+                    #ffffff 0%,
+
+                    #dfecea 48%,
+
+                    #9bb8b5 75%,
+
+                    #52716f 100%
+                );
+
+            border:
+                3px solid
+                rgba(255,255,255,0.65);
+
+            box-shadow:
+
+                0 40px 90px
+                rgba(0,0,0,0.55),
+
+                inset 0 -25px 40px
+                rgba(0,0,0,0.18),
+
+                inset 0 20px 40px
+                rgba(255,255,255,0.8);
+        }
+
+
+        /* =========================================
+           CYBER IRIS
+        ========================================= */
+
+        .iris {
+
+            position: absolute;
+
+            width: 165px;
+            height: 165px;
+
+            left: 50%;
+            top: 50%;
+
+            transform:
+                translate(-50%, -50%);
+
+            border-radius: 50%;
+
+            background:
+
+                repeating-conic-gradient(
+
+                    from 0deg,
+
+                    #003e3a 0deg 5deg,
+
+                    #00a88e 5deg 10deg,
+
+                    #006a5d 10deg 15deg,
+
+                    #20d9b5 15deg 18deg,
+
+                    #004c45 18deg 25deg
+                );
+
+            box-shadow:
+
+                0 0 30px
+                rgba(35,240,200,0.65),
+
+                inset 0 0 30px
+                #001916;
+        }
+
+
+        /* IRIS INNER RING */
+
+        .iris::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 125px;
+            height: 125px;
+
+            left: 20px;
+            top: 20px;
+
+            border-radius: 50%;
+
+            border:
+                3px solid
+                rgba(100,255,226,0.55);
+
+            box-shadow:
+
+                0 0 15px
+                rgba(70,255,220,0.5);
+        }
+
+
+        /* IRIS SCANNING RING */
+
+        .iris::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 145px;
+            height: 145px;
+
+            left: 10px;
+            top: 10px;
+
+            border-radius: 50%;
+
+            border:
+                2px dashed
+                rgba(255,255,255,0.55);
+
+            animation:
+                scanRotate 8s linear infinite;
+        }
+
+
+        @keyframes scanRotate {
+
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+
+        /* PUPIL */
+
+        .pupil {
+
+            position: absolute;
+
+            width: 55px;
+            height: 55px;
+
+            left: 50%;
+            top: 50%;
+
+            transform:
+                translate(-50%, -50%);
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle at 35% 30%,
+                    #1c4440,
+                    #010708 55%,
+                    #000000
+                );
+
+            box-shadow:
+                0 0 20px
+                rgba(0,0,0,0.9);
+
+            z-index: 5;
+
+            transition:
+                transform 0.08s linear;
+        }
+
+
+        /* EYE REFLECTION */
+
+        .eye-reflection {
+
+            position: absolute;
+
+            width: 35px;
+            height: 35px;
+
+            background: white;
+
+            border-radius: 50%;
+
+            top: 48px;
+            left: 125px;
+
+            opacity: 0.85;
+
+            filter: blur(2px);
+
+            z-index: 10;
+        }
+
+
+        /* =========================================
+           FLOATING INFO
+        ========================================= */
+
+        .floating-card {
+
+            position: absolute;
+
+            padding: 15px 20px;
+
+            background:
+                rgba(255,255,255,0.10);
+
+            border:
+                1px solid rgba(255,255,255,0.22);
+
+            backdrop-filter: blur(20px);
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 15px 40px
+                rgba(0,0,0,0.3);
+
+            font-size: 13px;
+        }
+
+
+        .floating-card strong {
+
+            color: #69efd0;
+
+            display: block;
+
+            margin-bottom: 5px;
+        }
+
+
+        .card-one {
+
+            top: 30px;
+            right: 10px;
+
+            animation:
+                floating 4s ease-in-out infinite;
+        }
+
+
+        .card-two {
+
+            bottom: 20px;
+            left: 0;
+
+            animation:
+                floating 5s ease-in-out infinite;
+        }
+
+
+        @keyframes floating {
+
+            0%,100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+
+        /* =========================================
+           INFORMATION SECTION
+        ========================================= */
+
+        .section {
+
+            padding:
+                100px 8%;
+        }
+
+
+        .section-heading {
+
+            max-width: 700px;
+
+            text-align: center;
+
+            margin:
+                0 auto 55px;
+        }
+
+
+        .section-heading h2 {
+
+            font-size: 42px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .section-heading h2 span {
+
+            color: #63e8cb;
+        }
+
+
+        .section-heading p {
+
+            color: #9db3b1;
+
+            line-height: 1.7;
+        }
+
+
+        /* =========================================
+           GLASS CARDS
+        ========================================= */
+
+        .cards {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 25px;
+        }
+
+
+        .glass-card {
+
+            min-height: 240px;
+
+            padding: 32px;
+
+            border-radius: 25px;
+
+            background:
+
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,0.14),
+                    rgba(255,255,255,0.04)
+                );
+
+            border:
+                1px solid
+                rgba(255,255,255,0.16);
+
+            backdrop-filter:
+                blur(25px);
+
+            box-shadow:
+
+                0 25px 60px
+                rgba(0,0,0,0.25),
+
+                inset 0 1px
+                rgba(255,255,255,0.25);
+
+            transition:
+                0.4s;
+        }
+
+
+        .glass-card:hover {
+
+            transform:
+                translateY(-10px)
+                rotateX(2deg);
+
+            border-color:
+                rgba(90,240,210,0.45);
+
+            box-shadow:
+
+                0 35px 80px
+                rgba(0,0,0,0.4);
+        }
+
+
+        .icon {
+
+            width: 55px;
+            height: 55px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background:
+                rgba(70,230,195,0.12);
+
+            border:
+                1px solid
+                rgba(70,230,195,0.25);
+
+            border-radius: 16px;
+
+            font-size: 25px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .glass-card h3 {
+
+            font-size: 21px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .glass-card p {
+
+            color: #9eb2b1;
+
+            line-height: 1.7;
+
+            font-size: 15px;
+        }
+
+
+        /* =========================================
+           HOW IT WORKS
+        ========================================= */
+
+        .steps {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 20px;
+        }
+
+
+        .step {
+
+            text-align: center;
+
+            padding: 30px 20px;
+
+            background:
+                rgba(255,255,255,0.06);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.13);
+
+            border-radius: 20px;
+
+            backdrop-filter: blur(15px);
+        }
+
+
+        .number {
+
+            width: 55px;
+            height: 55px;
+
+            margin:
+                0 auto 20px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: #4dd8b7;
+
+            color: #05221d;
+
+            font-weight: bold;
+        }
+
+
+        .step h3 {
+
+            margin-bottom: 10px;
+        }
+
+
+        .step p {
+
+            color: #91a7a5;
+
+            line-height: 1.6;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================================
+           CTA
+        ========================================= */
+
+        .cta {
+
+            margin:
+                60px 8%;
+
+            padding:
+                70px 30px;
+
+            text-align: center;
+
+            border-radius: 30px;
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    rgba(58,220,190,0.17),
+                    rgba(60,110,180,0.15)
+                );
+
+            border:
+                1px solid
+                rgba(255,255,255,0.18);
+
+            backdrop-filter:
+                blur(25px);
+        }
+
+
+        .cta h2 {
+
+            font-size: 40px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .cta p {
+
+            color: #9eb3b1;
+
+            margin-bottom: 30px;
+        }
+
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        footer {
+
+            padding: 40px 8%;
+
+            text-align: center;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,0.1);
+
+            color: #809695;
+        }
+
+
+        footer span {
+
+            color: #62e8ca;
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        .mobile-menu {
+
+            display: none;
+
+            font-size: 25px;
+
+            cursor: pointer;
+        }
+
+
+        @media(max-width: 950px) {
+
+            .nav-links {
+
+                display: none;
+
+                position: absolute;
+
+                top: 80px;
+
+                left: 0;
+
+                width: 100%;
+
+                flex-direction: column;
+
+                padding: 25px;
+
+                background:
+                    rgba(4,25,25,0.95);
+
+                border-radius: 20px;
+
+                backdrop-filter: blur(25px);
+            }
+
+
+            .nav-links.show {
+
+                display: flex;
+            }
+
+
+            .mobile-menu {
+
+                display: block;
+            }
+
+
+            .hero {
+
+                flex-direction: column;
+
+                text-align: center;
+
+                padding-top: 150px;
+            }
+
+
+            .hero-content {
+
+                width: 100%;
+            }
+
+
+            .hero-description {
+
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+
+            .buttons {
+
+                justify-content: center;
+            }
+
+
+            .eye-area {
+
+                width: 100%;
+            }
+
+
+            .cards {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .steps {
+
+                grid-template-columns: 1fr 1fr;
+            }
+
+        }
+
+
+        @media(max-width: 600px) {
+
+            .navbar {
+
+                left: 3%;
+                right: 3%;
+            }
+
+
+            .logo {
+
+                font-size: 18px;
+            }
+
+
+            .hero h1 {
+
+                font-size: 44px;
+            }
+
+
+            .eye-container {
+
+                transform: scale(0.70);
+            }
+
+
+            .steps {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .cta {
+
+                margin:
+                    40px 5%;
+
+                padding:
+                    50px 20px;
+            }
+
+
+            .cta h2 {
+
+                font-size: 30px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- Background -->
+
+<div class="background-light light-one"></div>
+
+<div class="background-light light-two"></div>
+
+
+
+<!-- =========================================
+     NAVIGATION
+========================================= -->
+
+<nav class="navbar">
+
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            👁
+        </div>
+
+        WebEye<span>-Access</span>
+
+    </div>
+
+
+    <div
+        class="mobile-menu"
+        onclick="toggleMenu()"
+    >
+        ☰
+    </div>
+
+
+    <div
+        class="nav-links"
+        id="navLinks"
+    >
+
+        <a href="{% url 'home' %}">
+            Home
+        </a>
+
+
+        <a
+            href="/login/"
+            class="login"
+        >
+            Login
+        </a>
+
+        <a
+            href="/register/"
+            class="register"
+        >
+            Register
+        </a>
+
+    </div>
+
+</nav>

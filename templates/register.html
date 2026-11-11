@@ -1,0 +1,1245 @@
+{% include "homeheader.html" %}
+
+
+<style>
+
+/* =========================================
+   REGISTRATION PAGE
+   WebEye-Access Theme
+========================================= */
+
+.register-page {
+
+    min-height: 90vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 120px 5% 80px;
+
+    position: relative;
+
+    overflow: hidden;
+
+}
+
+
+/* =========================================
+   BACKGROUND GLOW
+========================================= */
+
+.register-page::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+
+    height: 500px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(50, 225, 190, 0.18);
+
+    filter: blur(110px);
+
+    top: 5%;
+
+    left: -150px;
+
+}
+
+
+.register-page::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 450px;
+
+    height: 450px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(55, 120, 220, 0.18);
+
+    filter: blur(110px);
+
+    bottom: -100px;
+
+    right: -100px;
+
+}
+
+
+/* =========================================
+   MAIN REGISTER CONTAINER
+========================================= */
+
+.register-container {
+
+    width: 950px;
+
+    max-width: 100%;
+
+    min-height: 650px;
+
+    display: grid;
+
+    grid-template-columns: 0.9fr 1.1fr;
+
+    position: relative;
+
+    z-index: 2;
+
+    overflow: hidden;
+
+    border-radius: 30px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.15),
+            rgba(255,255,255,0.05)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,0.22);
+
+    backdrop-filter:
+        blur(30px);
+
+    -webkit-backdrop-filter:
+        blur(30px);
+
+    box-shadow:
+
+        0 30px 80px
+        rgba(0,0,0,0.40),
+
+        inset 0 1px
+        rgba(255,255,255,0.25);
+
+}
+
+
+/* =========================================
+   LEFT INFORMATION
+========================================= */
+
+.register-info {
+
+    padding: 50px 40px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(45,215,180,0.18),
+            rgba(35,90,120,0.10)
+        );
+
+    border-right:
+        1px solid
+        rgba(255,255,255,0.12);
+
+}
+
+
+.register-logo {
+
+    width: 65px;
+
+    height: 65px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-size: 30px;
+
+    margin-bottom: 25px;
+
+    background:
+        rgba(70,235,201,0.15);
+
+    border:
+        1px solid
+        rgba(100,255,225,0.45);
+
+    box-shadow:
+        0 0 30px
+        rgba(70,235,201,0.25);
+
+}
+
+
+.register-info h1 {
+
+    font-size: 40px;
+
+    line-height: 1.1;
+
+    margin-bottom: 18px;
+
+    color: white;
+
+}
+
+
+.register-info h1 span {
+
+    color: #65e8ca;
+
+}
+
+
+.register-info > p {
+
+    color: #a9bfbd;
+
+    line-height: 1.7;
+
+    font-size: 15px;
+
+    max-width: 360px;
+
+}
+
+
+/* =========================================
+   INFORMATION ITEMS
+========================================= */
+
+.register-features {
+
+    margin-top: 30px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+
+}
+
+
+.register-feature {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    color: #c4d4d2;
+
+    font-size: 14px;
+
+}
+
+
+.feature-icon {
+
+    width: 35px;
+
+    height: 35px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background:
+        rgba(80,220,190,0.12);
+
+    border:
+        1px solid
+        rgba(80,220,190,0.22);
+
+}
+
+
+/* =========================================
+   REGISTER FORM SECTION
+========================================= */
+
+.register-form-section {
+
+    padding: 45px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+}
+
+
+.register-form-section h2 {
+
+    font-size: 32px;
+
+    margin-bottom: 8px;
+
+    color: white;
+
+}
+
+
+.register-subtitle {
+
+    color: #91a8a6;
+
+    font-size: 14px;
+
+    margin-bottom: 25px;
+
+}
+
+
+/* =========================================
+   FORM GRID
+========================================= */
+
+.register-form {
+
+    width: 100%;
+
+}
+
+
+.form-row {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 16px;
+
+}
+
+
+.form-group {
+
+    margin-bottom: 16px;
+
+}
+
+
+.form-label {
+
+    display: block;
+
+    color: #dce8e7;
+
+    font-size: 13px;
+
+    margin-bottom: 7px;
+
+}
+
+
+.register-input,
+.register-select {
+
+    width: 100%;
+
+    padding: 13px 14px;
+
+    border-radius: 12px;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.18);
+
+    background:
+        rgba(255,255,255,0.07);
+
+    color: white;
+
+    outline: none;
+
+    font-size: 14px;
+
+    transition: 0.3s;
+
+}
+
+
+.register-input::placeholder {
+
+    color: #718987;
+
+}
+
+
+.register-input:focus,
+.register-select:focus {
+
+    border-color:
+        rgba(80,230,200,0.65);
+
+    background:
+        rgba(255,255,255,0.10);
+
+    box-shadow:
+        0 0 20px
+        rgba(70,230,195,0.10);
+
+}
+
+
+.register-select option {
+
+    background: #123330;
+
+    color: white;
+
+}
+
+
+/* =========================================
+   REGISTER BUTTON
+========================================= */
+
+.register-submit {
+
+    width: 100%;
+
+    padding: 15px;
+
+    margin-top: 5px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background: #4dd8b7;
+
+    color: #05231e;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    box-shadow:
+        0 10px 25px
+        rgba(77,216,183,0.20);
+
+}
+
+
+.register-submit:hover {
+
+    transform:
+        translateY(-3px);
+
+    background: #68e8cc;
+
+    box-shadow:
+        0 15px 35px
+        rgba(77,216,183,0.35);
+
+}
+
+
+.register-submit:active {
+
+    transform:
+        translateY(0);
+
+}
+
+
+/* =========================================
+   LOGIN LINK
+========================================= */
+
+.login-section {
+
+    text-align: center;
+
+    margin-top: 20px;
+
+    color: #849b99;
+
+    font-size: 14px;
+
+}
+
+
+.login-section a {
+
+    color: #64e9cb;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+}
+
+
+.login-section a:hover {
+
+    text-decoration: underline;
+
+}
+
+
+/* =========================================
+   PASSWORD STRENGTH
+========================================= */
+
+.password-strength {
+
+    height: 4px;
+
+    width: 100%;
+
+    margin-top: 7px;
+
+    border-radius: 5px;
+
+    background:
+        rgba(255,255,255,0.10);
+
+    overflow: hidden;
+
+}
+
+
+.password-strength-bar {
+
+    height: 100%;
+
+    width: 0%;
+
+    border-radius: 5px;
+
+    transition: 0.3s;
+
+}
+
+
+.password-message {
+
+    font-size: 11px;
+
+    margin-top: 5px;
+
+    color: #829997;
+
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media(max-width: 850px) {
+
+    .register-container {
+
+        grid-template-columns: 1fr;
+
+        width: 550px;
+
+    }
+
+
+    .register-info {
+
+        padding: 40px;
+
+        border-right: none;
+
+        border-bottom:
+            1px solid
+            rgba(255,255,255,0.12);
+
+    }
+
+
+    .register-form-section {
+
+        padding: 40px;
+
+    }
+
+}
+
+
+@media(max-width: 550px) {
+
+    .register-page {
+
+        padding:
+            120px 15px 60px;
+
+    }
+
+
+    .register-info {
+
+        padding: 30px 25px;
+
+    }
+
+
+    .register-form-section {
+
+        padding: 30px 25px;
+
+    }
+
+
+    .form-row {
+
+        grid-template-columns: 1fr;
+
+        gap: 0;
+
+    }
+
+
+    .register-container {
+
+        border-radius: 22px;
+
+    }
+
+
+    .register-info h1 {
+
+        font-size: 32px;
+
+    }
+
+}
+
+</style>
+
+
+
+<!-- =========================================
+     REGISTRATION PAGE
+========================================= -->
+
+<section class="register-page">
+
+
+    <div class="register-container">
+
+
+        <!-- =====================================
+             LEFT INFORMATION
+        ====================================== -->
+
+        <div class="register-info">
+
+
+            <div class="register-logo">
+
+                👁
+
+            </div>
+
+
+            <h1>
+
+                Join
+
+                <br>
+
+                <span>WebEye-Access</span>
+
+            </h1>
+
+
+            <p>
+
+                Create your account and experience
+                a smarter way to interact with digital
+                interfaces using eye tracking and
+                computer vision.
+
+            </p>
+
+
+            <div class="register-features">
+
+
+                <div class="register-feature">
+
+                    <div class="feature-icon">
+                        👁
+                    </div>
+
+                    Eye movement tracking
+
+                </div>
+
+
+                <div class="register-feature">
+
+                    <div class="feature-icon">
+                        🎯
+                    </div>
+
+                    Smart gaze calibration
+
+                </div>
+
+
+                <div class="register-feature">
+
+                    <div class="feature-icon">
+                        📷
+                    </div>
+
+                    Camera-based interaction
+
+                </div>
+
+
+                <div class="register-feature">
+
+                    <div class="feature-icon">
+                        ♿
+                    </div>
+
+                    Accessible web experience
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =====================================
+             REGISTRATION FORM
+        ====================================== -->
+
+        <div class="register-form-section">
+
+
+            <h2>
+                Create Account
+            </h2>
+
+
+            <p class="register-subtitle">
+
+                Fill in your details to get started.
+
+            </p>
+
+
+
+            <form
+                method="post"
+                class="register-form"
+                id="registerForm"
+            >
+
+                {% csrf_token %}
+
+
+
+                <!-- FIRST + LAST NAME -->
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label
+                            class="form-label"
+                            for="First_name"
+                        >
+                            First Name
+                        </label>
+
+                        <input
+                            type="text"
+                            name="First_name"
+                            id="First_name"
+                            class="register-input"
+                            placeholder="First name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label
+                            class="form-label"
+                            for="Last_name"
+                        >
+                            Last Name
+                        </label>
+
+                        <input
+                            type="text"
+                            name="Last_name"
+                            id="Last_name"
+                            class="register-input"
+                            placeholder="Last name"
+                            required
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label
+                        class="form-label"
+                        for="Email"
+                    >
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        name="Email"
+                        id="Email"
+                        class="register-input"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- PHONE + PLACE -->
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label
+                            class="form-label"
+                            for="Phone_number"
+                        >
+                            Phone Number
+                        </label>
+
+                        <input
+                            type="text"
+                            name="Phone_number"
+                            id="Phone_number"
+                            class="register-input"
+                            placeholder="Phone number"
+                            maxlength="15"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label
+                            class="form-label"
+                            for="place"
+                        >
+                            Place
+                        </label>
+
+                        <input
+                            type="text"
+                            name="place"
+                            id="place"
+                            class="register-input"
+                            placeholder="Your place"
+                            required
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- GENDER -->
+
+                <div class="form-group">
+
+                    <label
+                        class="form-label"
+                        for="Gender"
+                    >
+                        Gender
+                    </label>
+
+                    <select
+                        name="Gender"
+                        id="Gender"
+                        class="register-select"
+                        required
+                    >
+
+                        <option value="">
+                            Select Gender
+                        </option>
+
+                        <option value="Male">
+                            Male
+                        </option>
+
+                        <option value="Female">
+                            Female
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- USERNAME -->
+
+                <div class="form-group">
+
+                    <label
+                        class="form-label"
+                        for="username"
+                    >
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        class="register-input"
+                        placeholder="Choose a username"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label
+                        class="form-label"
+                        for="password"
+                    >
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        class="register-input"
+                        placeholder="Create a password"
+                        required
+                    >
+
+
+                    <div class="password-strength">
+
+                        <div
+                            class="password-strength-bar"
+                            id="strengthBar"
+                        ></div>
+
+                    </div>
+
+
+                    <div
+                        class="password-message"
+                        id="passwordMessage"
+                    >
+
+                        Use at least 8 characters.
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- REGISTER -->
+
+                <button
+                    type="submit"
+                    class="register-submit"
+                    id="registerButton"
+                >
+
+                    Create Account →
+
+                </button>
+
+
+            </form>
+
+
+
+            <!-- LOGIN -->
+
+            <div class="login-section">
+
+                <p>
+
+                    Already have an account?
+
+                    <a href="/login/">
+                        Login
+                    </a>
+
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<script>
+
+/* =========================================
+   PASSWORD STRENGTH
+========================================= */
+
+const password =
+    document.getElementById("password");
+
+const strengthBar =
+    document.getElementById("strengthBar");
+
+const passwordMessage =
+    document.getElementById("passwordMessage");
+
+
+password.addEventListener(
+    "input",
+    function() {
+
+
+        const value =
+            password.value;
+
+
+        let strength = 0;
+
+
+        if (value.length >= 8) {
+            strength++;
+        }
+
+
+        if (/[A-Z]/.test(value)) {
+            strength++;
+        }
+
+
+        if (/[0-9]/.test(value)) {
+            strength++;
+        }
+
+
+        if (/[^A-Za-z0-9]/.test(value)) {
+            strength++;
+        }
+
+
+        if (strength === 0) {
+
+            strengthBar.style.width = "0%";
+
+            passwordMessage.innerHTML =
+                "Use at least 8 characters.";
+
+        }
+
+        else if (strength === 1) {
+
+            strengthBar.style.width = "25%";
+
+            strengthBar.style.background =
+                "#ff7777";
+
+            passwordMessage.innerHTML =
+                "Weak password.";
+
+        }
+
+        else if (strength === 2) {
+
+            strengthBar.style.width = "50%";
+
+            strengthBar.style.background =
+                "#f2c94c";
+
+            passwordMessage.innerHTML =
+                "Medium password.";
+
+        }
+
+        else if (strength === 3) {
+
+            strengthBar.style.width = "75%";
+
+            strengthBar.style.background =
+                "#62d9b9";
+
+            passwordMessage.innerHTML =
+                "Good password.";
+
+        }
+
+        else {
+
+            strengthBar.style.width = "100%";
+
+            strengthBar.style.background =
+                "#4dd8b7";
+
+            passwordMessage.innerHTML =
+                "Strong password.";
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   FORM SUBMIT EFFECT
+========================================= */
+
+document
+    .getElementById("registerForm")
+    .addEventListener(
+        "submit",
+        function() {
+
+            document
+                .getElementById("registerButton")
+                .innerHTML =
+                "Creating Account...";
+
+        }
+    );
+
+
+/* =========================================
+   PHONE NUMBER VALIDATION
+========================================= */
+
+document
+    .getElementById("Phone_number")
+    .addEventListener(
+        "input",
+        function() {
+
+            this.value =
+                this.value.replace(
+                    /[^0-9+]/g,
+                    ""
+                );
+
+        }
+    );
+
+
+/* =========================================
+   INPUT ANIMATION
+========================================= */
+
+const inputs =
+    document.querySelectorAll(
+        ".register-input, .register-select"
+    );
+
+
+inputs.forEach(function(input) {
+
+    input.addEventListener(
+        "focus",
+        function() {
+
+            this.style.transform =
+                "translateY(-2px)";
+
+        }
+    );
+
+
+    input.addEventListener(
+        "blur",
+        function() {
+
+            this.style.transform =
+                "translateY(0)";
+
+        }
+    );
+
+});
+
+</script>
+
+
+{% include "homefooter.html" %}

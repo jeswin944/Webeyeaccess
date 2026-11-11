@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Face Scan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            text-align: center;
+            padding-top: 60px;
+        }
+        .card {
+            background: #fff;
+            display: inline-block;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .btn {
+            padding: 12px 28px;
+            margin: 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-start { background: #28a745; color: white; }
+        .btn-stop { background: #dc3545; color: white; }
+        .status {
+            margin-top: 15px;
+            font-weight: bold;
+            color: {% if face_scan_active %}#28a745{% else %}#666{% endif %};
+        }
+        .messages { margin-bottom: 20px; }
+        .messages li { list-style: none; padding: 8px; border-radius: 5px; margin-bottom: 5px; }
+        .success { background: #d4edda; color: #155724; }
+        .warning { background: #fff3cd; color: #856404; }
+        .info { background: #d1ecf1; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Face Scan</h1>
+        <p>Detects facial landmark points in real time using MediaPipe.</p>
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <div class="status">
+            Status: {% if face_scan_active %}Running{% else %}Stopped{% endif %}
+        </div>
+
+        <div>
+            <a href="{% url 'start_face_scan' %}" class="btn btn-start">Start Face Scan</a>
+            <a href="{% url 'stop_face_scan' %}" class="btn btn-stop">Stop Face Scan</a>
+        </div>
+    </div>
+</body>
+</html>

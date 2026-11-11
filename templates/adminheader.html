@@ -1,0 +1,885 @@
+{% load static %}
+
+<style>
+
+/* =========================================================
+   GLOBAL ADMIN LAYOUT FIX
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+
+/*
+   IMPORTANT:
+   The sidebar is 225px wide and starts 25px from the left.
+   Give the page content enough room so the sidebar never
+   covers the dashboard or other admin pages.
+*/
+
+body {
+    padding-left: 275px !important;
+    padding-right: 25px;
+}
+
+
+/* =========================================================
+   ADMIN SIDEBAR
+========================================================= */
+
+.admin-sidebar {
+
+    position: fixed;
+
+    left: 25px;
+    top: 25px;
+    bottom: 25px;
+
+    width: 225px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #071f22,
+            #061619
+        );
+
+    border:
+        1px solid
+        rgba(100,255,225,0.16);
+
+    border-radius: 28px;
+
+    padding: 25px 16px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    box-shadow:
+        0 25px 60px
+        rgba(0,0,0,0.35),
+
+        inset 0 1px
+        rgba(255,255,255,0.08);
+
+    z-index: 9999;
+
+    overflow-y: auto;
+
+    overflow-x: hidden;
+
+    scrollbar-width: none;
+}
+
+
+.admin-sidebar::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.admin-logo {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding:
+        0 8px;
+
+    margin-bottom: 35px;
+
+    color: white;
+
+    font-size: 19px;
+
+    font-weight: bold;
+
+    flex-shrink: 0;
+}
+
+
+.admin-logo-icon {
+
+    width: 39px;
+
+    height: 39px;
+
+    min-width: 39px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background:
+        rgba(70,235,201,0.15);
+
+    border:
+        1px solid
+        rgba(100,255,225,0.40);
+
+    color: #68efd1;
+
+    font-size: 20px;
+
+    box-shadow:
+        0 0 18px
+        rgba(70,235,201,0.18);
+}
+
+
+.admin-logo span {
+
+    color: #68efd1;
+}
+
+
+.admin-label {
+
+    color: #63817e;
+
+    font-size: 9px;
+
+    letter-spacing: 1.5px;
+
+    margin-top: 3px;
+
+    font-weight: normal;
+}
+
+
+/* =========================================================
+   MENU TITLE
+========================================================= */
+
+.menu-title {
+
+    color: #5f7b78;
+
+    font-size: 9px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1.2px;
+
+    padding:
+        0 12px;
+
+    margin-bottom: 10px;
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.admin-nav {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+
+    flex-shrink: 0;
+}
+
+
+.admin-nav a {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding:
+        12px 13px;
+
+    border-radius: 12px;
+
+    color: #8da7a4;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    transition:
+        0.25s ease;
+
+    white-space: nowrap;
+}
+
+
+.admin-nav a:hover {
+
+    background:
+        rgba(70,235,201,0.08);
+
+    color: #68efd1;
+
+    transform:
+        translateX(3px);
+}
+
+
+.admin-nav a.active {
+
+    background:
+        linear-gradient(
+            135deg,
+            #4bd5b5,
+            #38b99d
+        );
+
+    color: #06231e;
+
+    font-weight: bold;
+
+    box-shadow:
+        0 8px 20px
+        rgba(70,220,190,0.20);
+}
+
+
+.nav-icon {
+
+    width: 24px;
+
+    min-width: 24px;
+
+    text-align: center;
+
+    font-size: 15px;
+}
+
+
+/* =========================================================
+   SIDEBAR BOTTOM
+========================================================= */
+
+.sidebar-bottom {
+
+    margin-top: auto;
+
+    padding-top: 25px;
+
+    flex-shrink: 0;
+}
+
+
+.admin-help {
+
+    padding: 14px;
+
+    border-radius: 15px;
+
+    background:
+        rgba(255,255,255,0.045);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.07);
+
+    margin-bottom: 10px;
+}
+
+
+.admin-help strong {
+
+    display: block;
+
+    color: #d5e4e2;
+
+    font-size: 11px;
+
+    margin-bottom: 5px;
+}
+
+
+.admin-help p {
+
+    color: #607b78;
+
+    font-size: 9px;
+
+    line-height: 1.5;
+}
+
+
+.logout-link {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding:
+        11px 13px;
+
+    color: #e9878f;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    border-radius: 12px;
+
+    transition:
+        0.25s;
+}
+
+
+.logout-link:hover {
+
+    background:
+        rgba(255,80,90,0.08);
+
+    color: #ff9fa5;
+}
+
+
+/* =========================================================
+   ADMIN CONTENT SAFETY
+========================================================= */
+
+/*
+   Prevent wide tables/cards from pushing underneath
+   the fixed sidebar.
+*/
+
+main,
+.admin-container,
+.dashboard-container,
+.dashboard,
+.page-container {
+
+    max-width: 100%;
+
+}
+
+
+/* =========================================================
+   DESKTOP
+========================================================= */
+
+@media(min-width:901px) {
+
+    /*
+       Extra safety for pages whose main container uses
+       width: 100%.
+    */
+
+    .admin-sidebar ~ main,
+    .admin-sidebar ~ .admin-container,
+    .admin-sidebar ~ .dashboard-container,
+    .admin-sidebar ~ .dashboard,
+    .admin-sidebar ~ .page-container {
+
+        max-width: 100%;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET / MOBILE
+========================================================= */
+
+@media(max-width:900px) {
+
+    /*
+       Remove desktop sidebar space.
+    */
+
+    body {
+
+        padding-left: 0 !important;
+
+        padding-right: 0 !important;
+
+    }
+
+
+    .admin-sidebar {
+
+        position: relative;
+
+        top: auto;
+
+        left: auto;
+
+        bottom: auto;
+
+        width: 94%;
+
+        height: auto;
+
+        min-height: auto;
+
+        margin:
+            15px auto;
+
+        border-radius: 22px;
+
+        padding: 20px 15px;
+
+        overflow: visible;
+
+    }
+
+
+    .admin-logo {
+
+        margin-bottom: 25px;
+
+    }
+
+
+    .admin-nav {
+
+        flex-direction: row;
+
+        flex-wrap: wrap;
+
+    }
+
+
+    .admin-nav a {
+
+        flex:
+            1 1 45%;
+
+    }
+
+
+    .sidebar-bottom {
+
+        margin-top: 20px;
+
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media(max-width:600px) {
+
+    .admin-sidebar {
+
+        width: 94%;
+
+        margin:
+            12px auto;
+
+        padding:
+            18px 12px;
+
+        border-radius: 20px;
+
+    }
+
+
+    .admin-logo {
+
+        font-size: 17px;
+
+    }
+
+
+    .admin-nav {
+
+        flex-direction: column;
+
+    }
+
+
+    .admin-nav a {
+
+        width: 100%;
+
+        flex:
+            none;
+
+    }
+
+}
+
+
+/* =========================================================
+   ACTIVE MENU ANIMATION
+========================================================= */
+
+.admin-nav a.active {
+
+    animation:
+        adminActiveGlow 2.5s ease-in-out infinite;
+}
+
+
+@keyframes adminActiveGlow {
+
+    0% {
+
+        box-shadow:
+            0 8px 20px
+            rgba(70,220,190,0.18);
+
+    }
+
+    50% {
+
+        box-shadow:
+            0 8px 28px
+            rgba(70,220,190,0.30);
+
+    }
+
+    100% {
+
+        box-shadow:
+            0 8px 20px
+            rgba(70,220,190,0.18);
+
+    }
+
+}
+
+</style>
+
+
+<!-- =========================================================
+     ADMIN SIDEBAR
+========================================================= -->
+
+<aside class="admin-sidebar">
+
+
+    <!-- =====================================================
+         LOGO
+    ====================================================== -->
+
+    <div class="admin-logo">
+
+        <div class="admin-logo-icon">
+            👁
+        </div>
+
+
+        <div>
+
+            WebEye<span>-Access</span>
+
+            <div class="admin-label">
+                ADMINISTRATION
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         MENU TITLE
+    ====================================================== -->
+
+    <div class="menu-title">
+        Main Menu
+    </div>
+
+
+
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
+
+    <nav class="admin-nav">
+
+
+        <!-- DASHBOARD -->
+
+        <a
+            href="/admindashboard/"
+            data-page="dashboard"
+        >
+
+            <span class="nav-icon">
+                ▦
+            </span>
+
+            Dashboard
+
+        </a>
+
+
+
+        <!-- COMPLAINT MANAGEMENT -->
+
+        <a
+            href="{% url 'complaintmanagement' %}"
+            data-page="complaint"
+        >
+
+            <span class="nav-icon">
+                ◫
+            </span>
+
+            Complaint Management
+
+        </a>
+
+
+
+        <!-- USER MANAGEMENT -->
+
+        <a
+            href="{% url 'usermanagement' %}"
+            data-page="users"
+        >
+
+            <span class="nav-icon">
+                ◉
+            </span>
+
+            Manage Users
+
+        </a>
+
+
+
+        <!-- FEEDBACK MANAGEMENT -->
+
+        <a
+            href="{% url 'feedbackmanagement' %}"
+            data-page="feedback"
+        >
+
+            <span class="nav-icon">
+                ◌
+            </span>
+
+            Feedback Management
+
+        </a>
+
+
+    </nav>
+
+
+
+    <!-- =====================================================
+         SIDEBAR BOTTOM
+    ====================================================== -->
+
+    <div class="sidebar-bottom">
+
+
+        <div class="admin-help">
+
+            <strong>
+                👋 Admin Center
+            </strong>
+
+
+            <p>
+
+                Manage WebEye-Access users,
+                complaints and feedback.
+
+            </p>
+
+        </div>
+
+
+
+        <!-- LOGOUT -->
+
+        <a
+            href="/logout"
+            class="logout-link"
+            onclick="
+                return confirm(
+                    'Are you sure you want to logout?'
+                );
+            "
+        >
+
+            <span>
+                ⇥
+            </span>
+
+            Logout
+
+        </a>
+
+
+    </div>
+
+
+</aside>
+
+
+
+<!-- =========================================================
+     AUTOMATIC ACTIVE MENU
+========================================================= -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const currentPath =
+            window.location.pathname.toLowerCase();
+
+
+        const menuLinks =
+            document.querySelectorAll(
+                ".admin-nav a"
+            );
+
+
+        menuLinks.forEach(
+            function (link) {
+
+                link.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+
+        /*
+         * Dashboard
+         */
+
+        if (
+            currentPath.includes(
+                "admindashboard"
+            )
+        ) {
+
+            const dashboard =
+                document.querySelector(
+                    '[data-page="dashboard"]'
+                );
+
+            if (dashboard) {
+
+                dashboard.classList.add(
+                    "active"
+                );
+
+            }
+
+        }
+
+
+        /*
+         * Complaint Management
+         */
+
+        else if (
+            currentPath.includes(
+                "complaintmanagement"
+            ) ||
+            currentPath.includes(
+                "reply_complaint"
+            )
+        ) {
+
+            const complaint =
+                document.querySelector(
+                    '[data-page="complaint"]'
+                );
+
+            if (complaint) {
+
+                complaint.classList.add(
+                    "active"
+                );
+
+            }
+
+        }
+
+
+        /*
+         * User Management
+         */
+
+        else if (
+            currentPath.includes(
+                "user_management"
+            ) ||
+            currentPath.includes(
+                "usermanagement"
+            ) ||
+            currentPath.includes(
+                "user-management"
+            )
+        ) {
+
+            const users =
+                document.querySelector(
+                    '[data-page="users"]'
+                );
+
+            if (users) {
+
+                users.classList.add(
+                    "active"
+                );
+
+            }
+
+        }
+
+
+        /*
+         * Feedback Management
+         */
+
+        else if (
+            currentPath.includes(
+                "feedbackmanagement"
+            )
+        ) {
+
+            const feedback =
+                document.querySelector(
+                    '[data-page="feedback"]'
+                );
+
+            if (feedback) {
+
+                feedback.classList.add(
+                    "active"
+                );
+
+            }
+
+        }
+
+    }
+);
+
+</script>

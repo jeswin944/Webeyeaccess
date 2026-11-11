@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>WebEye-Access</title>
+
+
+    <style>
+
+        /* =========================================
+           BASIC RESET
+        ========================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+
+                radial-gradient(
+                    circle at 15% 20%,
+                    rgba(0, 210, 170, 0.30),
+                    transparent 30%
+                ),
+
+                radial-gradient(
+                    circle at 85% 20%,
+                    rgba(50, 130, 220, 0.25),
+                    transparent 30%
+                ),
+
+                linear-gradient(
+                    135deg,
+                    #061817,
+                    #092c31,
+                    #071b28
+                );
+
+            color: white;
+
+            min-height: 100vh;
+
+            overflow-x: hidden;
+        }
+
+
+        /* =========================================
+           BACKGROUND LIGHT
+        ========================================= */
+
+        .background-light {
+
+            position: fixed;
+
+            width: 500px;
+            height: 500px;
+
+            border-radius: 50%;
+
+            filter: blur(120px);
+
+            opacity: 0.20;
+
+            pointer-events: none;
+
+            z-index: -1;
+        }
+
+
+        .light-one {
+
+            background: #28e0bd;
+
+            top: 10%;
+
+            left: -200px;
+        }
+
+
+        .light-two {
+
+            background: #3989df;
+
+            right: -200px;
+
+            top: 40%;
+        }
+
+
+        /* =========================================
+           NAVBAR
+        ========================================= */
+
+        .navbar {
+
+            position: fixed;
+
+            top: 22px;
+
+            left: 5%;
+
+            right: 5%;
+
+            height: 72px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 28px;
+
+            background:
+                rgba(255, 255, 255, 0.12);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.25);
+
+            border-radius: 22px;
+
+            backdrop-filter: blur(25px);
+
+            -webkit-backdrop-filter: blur(25px);
+
+            box-shadow:
+
+                0 20px 50px
+                rgba(0, 0, 0, 0.30),
+
+                inset 0 1px
+                rgba(255, 255, 255, 0.25);
+
+            z-index: 1000;
+        }
+
+
+        /* =========================================
+           LOGO
+        ========================================= */
+
+        .logo {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            font-size: 23px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+        }
+
+
+        .logo-icon {
+
+            width: 45px;
+
+            height: 45px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            border-radius: 50%;
+
+            background:
+                rgba(70, 235, 201, 0.18);
+
+            border:
+                1px solid
+                rgba(100, 255, 225, 0.5);
+
+            box-shadow:
+
+                0 0 20px
+                rgba(70, 235, 201, 0.25);
+
+            font-size: 21px;
+        }
+
+
+        .logo span {
+
+            color: #68efd1;
+        }
+
+
+        /* =========================================
+           HEADER RIGHT SIDE
+        ========================================= */
+
+        .header-right {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 20px;
+        }
+
+
+        /* =========================================
+           NAVIGATION LINKS
+        ========================================= */
+
+        .nav-links {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 25px;
+        }
+
+
+        .nav-links > a {
+
+            color: #e4eeee;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            transition: 0.3s;
+
+            white-space: nowrap;
+        }
+
+
+        .nav-links > a:hover {
+
+            color: #6af2d3;
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* =========================================
+           SEARCH
+        ========================================= */
+
+        .dashboard-search {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .dashboard-search input {
+
+            width: 300px;
+
+            padding: 12px 18px;
+
+            border-radius: 25px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.20);
+
+            background:
+                rgba(255,255,255,0.07);
+
+            color: white;
+
+            outline: none;
+
+            font-size: 14px;
+
+            transition: 0.3s;
+        }
+
+
+        .dashboard-search input::placeholder {
+
+            color: #849a98;
+        }
+
+
+        .dashboard-search input:focus {
+
+            border-color:
+                rgba(80,230,200,0.60);
+
+            box-shadow:
+                0 0 20px
+                rgba(70,230,195,0.10);
+
+            background:
+                rgba(255,255,255,0.10);
+        }
+
+
+        .search-button {
+
+            width: 42px;
+
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 50%;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.20);
+
+            background:
+                rgba(70,235,201,0.12);
+
+            color: #68efd1;
+
+            cursor: pointer;
+
+            font-size: 17px;
+
+            transition: 0.3s;
+        }
+
+
+        .search-button:hover {
+
+            background:
+                rgba(70,235,201,0.22);
+
+            border-color:
+                rgba(100,255,225,0.50);
+
+            box-shadow:
+                0 0 20px
+                rgba(70,235,201,0.20);
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* =========================================
+           PROFILE WRAPPER
+        ========================================= */
+
+        .profile-wrapper {
+
+            position: relative;
+
+            display: flex;
+
+            align-items: center;
+        }
+
+
+        /* =========================================
+           PROFILE BUTTON
+        ========================================= */
+
+        .profile-button {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding:
+                6px 12px 6px 6px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.22);
+
+            border-radius: 30px;
+
+            background:
+                rgba(255,255,255,0.08);
+
+            color: white;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+
+            font-family: inherit;
+        }
+
+
+        .profile-button:hover {
+
+            background:
+                rgba(255,255,255,0.15);
+
+            border-color:
+                rgba(100,240,215,0.45);
+
+            box-shadow:
+
+                0 8px 25px
+                rgba(0,0,0,0.20);
+        }
+
+
+        /* =========================================
+           PROFILE ICON
+        ========================================= */
+
+        .profile-icon {
+
+            width: 36px;
+
+            height: 36px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    rgba(80,235,205,0.35),
+                    rgba(60,130,210,0.30)
+                );
+
+            border:
+                1px solid
+                rgba(110,255,225,0.50);
+
+            font-size: 17px;
+
+            box-shadow:
+
+                0 0 15px
+                rgba(70,230,195,0.20);
+        }
+
+
+        .profile-name {
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            color: #e4eeee;
+        }
+
+
+        .profile-arrow {
+
+            font-size: 13px;
+
+            color: #7fead2;
+
+            transition: 0.3s;
+        }
+
+
+        .profile-button.open
+        .profile-arrow {
+
+            transform:
+                rotate(180deg);
+        }
+
+
+        /* =========================================
+           PROFILE DROPDOWN
+        ========================================= */
+
+        .profile-dropdown {
+
+            position: absolute;
+
+            top:
+                calc(100% + 14px);
+
+            right: 0;
+
+            width: 250px;
+
+            padding: 12px;
+
+            background:
+
+                linear-gradient(
+                    145deg,
+                    rgba(15,50,52,0.97),
+                    rgba(8,29,38,0.97)
+                );
+
+            border:
+                1px solid
+                rgba(255,255,255,0.20);
+
+            border-radius: 20px;
+
+            backdrop-filter:
+                blur(30px);
+
+            -webkit-backdrop-filter:
+                blur(30px);
+
+            box-shadow:
+
+                0 25px 60px
+                rgba(0,0,0,0.45),
+
+                inset 0 1px
+                rgba(255,255,255,0.15);
+
+            opacity: 0;
+
+            visibility: hidden;
+
+            transform:
+                translateY(-10px)
+                scale(0.96);
+
+            transition:
+                0.25s ease;
+
+            z-index: 2000;
+        }
+
+
+        .profile-dropdown.show {
+
+            opacity: 1;
+
+            visibility: visible;
+
+            transform:
+                translateY(0)
+                scale(1);
+        }
+
+
+        /* =========================================
+           PROFILE HEADER
+        ========================================= */
+
+        .profile-header {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 10px;
+        }
+
+
+        .profile-large-icon {
+
+            width: 48px;
+
+            height: 48px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background:
+                rgba(75,215,181,0.15);
+
+            border:
+                1px solid
+                rgba(100,240,215,0.35);
+
+            font-size: 22px;
+        }
+
+
+        .profile-header strong {
+
+            display: block;
+
+            color: white;
+
+            font-size: 14px;
+
+            margin-bottom: 4px;
+        }
+
+
+        .profile-header span {
+
+            display: block;
+
+            color: #829c99;
+
+            font-size: 11px;
+        }
+
+
+        /* =========================================
+           DROPDOWN DIVIDER
+        ========================================= */
+
+        .profile-divider {
+
+            height: 1px;
+
+            margin:
+                8px 4px;
+
+            background:
+                rgba(255,255,255,0.10);
+        }
+
+
+        /* =========================================
+           DROPDOWN LINKS
+        ========================================= */
+
+        .profile-dropdown a {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 12px;
+
+            border-radius: 12px;
+
+            color: #c8d8d6;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            transition: 0.25s;
+        }
+
+
+        .profile-dropdown a span {
+
+            width: 28px;
+
+            height: 28px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 9px;
+
+            background:
+                rgba(255,255,255,0.07);
+        }
+
+
+        .profile-dropdown a:hover {
+
+            background:
+                rgba(75,215,181,0.12);
+
+            color: #68efd1;
+
+            transform:
+                translateX(3px);
+        }
+
+
+        /* =========================================
+           LOGOUT
+        ========================================= */
+
+        .profile-dropdown
+        .logout-link {
+
+            color: #ff8d8d;
+        }
+
+
+        .profile-dropdown
+        .logout-link:hover {
+
+            background:
+                rgba(255,80,80,0.10);
+
+            color: #ff9c9c;
+        }
+
+
+        /* =========================================
+           MOBILE MENU BUTTON
+        ========================================= */
+
+        .mobile-menu {
+
+            display: none;
+
+            font-size: 25px;
+
+            cursor: pointer;
+
+            color: white;
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media(max-width: 1200px) {
+
+            .dashboard-search input {
+
+                width: 220px;
+            }
+
+            .nav-links {
+
+                gap: 15px;
+            }
+
+            .header-right {
+
+                gap: 12px;
+            }
+
+        }
+
+
+        @media(max-width: 1050px) {
+
+            .dashboard-search {
+
+                display: none;
+            }
+
+        }
+
+
+        @media(max-width: 950px) {
+
+            .mobile-menu {
+
+                display: block;
+
+                order: 2;
+            }
+
+
+            .header-right {
+
+                gap: 12px;
+            }
+
+
+            .nav-links {
+
+                display: none;
+
+                position: absolute;
+
+                top: 82px;
+
+                left: 0;
+
+                width: 100%;
+
+                flex-direction: column;
+
+                align-items: stretch;
+
+                gap: 8px;
+
+                padding: 20px;
+
+                background:
+                    rgba(4,25,25,0.96);
+
+                border:
+                    1px solid
+                    rgba(255,255,255,0.15);
+
+                border-radius: 20px;
+
+                backdrop-filter:
+                    blur(25px);
+
+                -webkit-backdrop-filter:
+                    blur(25px);
+            }
+
+
+            .nav-links.show {
+
+                display: flex;
+            }
+
+
+            .nav-links > a {
+
+                padding: 12px;
+
+                text-align: center;
+            }
+
+
+            .profile-wrapper {
+
+                width: 100%;
+
+                justify-content: center;
+            }
+
+
+            .profile-button {
+
+                justify-content: center;
+
+                min-width: 150px;
+            }
+
+
+            .profile-dropdown {
+
+                position: absolute;
+
+                top:
+                    calc(100% + 10px);
+
+                right: 50%;
+
+                transform:
+                    translate(50%, -10px)
+                    scale(0.96);
+            }
+
+
+            .profile-dropdown.show {
+
+                transform:
+                    translate(50%, 0)
+                    scale(1);
+            }
+
+        }
+
+
+        /* =========================================
+           SMALL MOBILE
+        ========================================= */
+
+        @media(max-width: 600px) {
+
+            .navbar {
+
+                left: 3%;
+
+                right: 3%;
+
+                height: 65px;
+
+                padding:
+                    0 16px;
+            }
+
+
+            .logo {
+
+                font-size: 17px;
+
+                gap: 8px;
+            }
+
+
+            .logo-icon {
+
+                width: 38px;
+
+                height: 38px;
+
+                font-size: 18px;
+            }
+
+
+            .profile-name {
+
+                display: none;
+            }
+
+
+            .profile-button {
+
+                padding: 4px;
+            }
+
+
+            .profile-arrow {
+
+                display: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     BACKGROUND LIGHTS
+========================================= -->
+
+<div class="background-light light-one"></div>
+
+<div class="background-light light-two"></div>
+
+
+
+<!-- =========================================
+     NAVIGATION
+========================================= -->
+
+<nav class="navbar">
+
+
+    <!-- LOGO -->
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            👁
+        </div>
+
+        WebEye<span>-Access</span>
+
+    </div>
+
+
+
+    <!-- HEADER RIGHT -->
+
+    <div class="header-right">
+
+
+        <!-- NAVIGATION LINKS -->
+
+        <div
+            class="nav-links"
+            id="navLinks"
+        >
+
+
+            <a href="{% url 'mouse_control_page' %}">
+                Live Tracking
+            </a>
+
+
+            <a href="{% url 'complaint' %}">
+                Complaint
+            </a>
+
+
+            <a href="{% url 'Feedback' %}">
+                Feedback
+            </a>
+
+
+            <a href="{% url 'gesture' %}">
+                Gesture Guide
+            </a>
+
+
+            <!-- PROFILE -->
+
+            <div class="profile-wrapper">
+
+
+                <button
+                    class="profile-button"
+                    id="profileButton"
+                    onclick="toggleProfileMenu()"
+                    aria-label="Open profile menu"
+                    aria-expanded="false"
+                    type="button"
+                >
+
+                    <span class="profile-icon">
+                        👤
+                    </span>
+
+                    <span class="profile-name">
+                        Profile
+                    </span>
+
+                    <span class="profile-arrow">
+                        ▾
+                    </span>
+
+                </button>
+
+
+                <!-- PROFILE DROPDOWN -->
+
+                <div
+                    class="profile-dropdown"
+                    id="profileDropdown"
+                >
+
+
+                    <!-- PROFILE INFORMATION -->
+
+                    <div class="profile-header">
+
+
+                        <div class="profile-large-icon">
+                            👤
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                <a href="/profile/">
+                                    My Profile
+                                </a>
+                            </strong>
+
+                            <span>
+                                WebEye-Access
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="profile-divider"></div>
+
+
+
+                    <div class="profile-divider"></div>
+
+
+                    <!-- LOGOUT -->
+
+                    <a
+                        href="/logout/"
+                        class="logout-link"
+                        onclick="return confirmLogout()"
+                    >
+
+                        <span>
+                            🚪
+                        </span>
+
+                        Logout
+
+                    </a>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- SEARCH -->
+
+        <form
+            class="dashboard-search"
+            onsubmit="return searchWebsite(event)"
+        >
+
+            <input
+                type="text"
+                id="dashboardSearch"
+                placeholder="Search WebEye-Access..."
+                autocomplete="off"
+            >
+
+            <button
+                type="submit"
+                class="search-button"
+                aria-label="Search"
+            >
+                🔍
+            </button>
+
+        </form>
+
+
+        <!-- MOBILE MENU -->
+
+        <div
+            class="mobile-menu"
+            onclick="toggleMenu()"
+            aria-label="Open navigation menu"
+        >
+
+            ☰
+
+        </div>
+
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================================
+     JAVASCRIPT
+========================================= -->
+
+<script>
+
+
+/* =========================================
+   MOBILE MENU
+========================================= */
+
+function toggleMenu() {
+
+    const nav =
+        document.getElementById(
+            "navLinks"
+        );
+
+    nav.classList.toggle("show");
+
+}
+
+
+
+/* =========================================
+   PROFILE DROPDOWN
+========================================= */
+
+function toggleProfileMenu() {
+
+    const dropdown =
+        document.getElementById(
+            "profileDropdown"
+        );
+
+    const button =
+        document.getElementById(
+            "profileButton"
+        );
+
+
+    dropdown.classList.toggle(
+        "show"
+    );
+
+
+    button.classList.toggle(
+        "open"
+    );
+
+
+    const isOpen =
+        dropdown.classList.contains(
+            "show"
+        );
+
+
+    button.setAttribute(
+        "aria-expanded",
+        isOpen
+    );
+
+}
+
+
+
+/* =========================================
+   CLOSE PROFILE WHEN CLICKING OUTSIDE
+========================================= */
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+
+        const wrapper =
+            document.querySelector(
+                ".profile-wrapper"
+            );
+
+
+        if (
+            wrapper &&
+            !wrapper.contains(
+                event.target
+            )
+        ) {
+
+
+            const dropdown =
+                document.getElementById(
+                    "profileDropdown"
+                );
+
+
+            const button =
+                document.getElementById(
+                    "profileButton"
+                );
+
+
+            dropdown.classList.remove(
+                "show"
+            );
+
+
+            button.classList.remove(
+                "open"
+            );
+
+
+            button.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+
+    }
+);
+
+
+
+/* =========================================
+   SEARCH
+========================================= */
+
+function searchWebsite(event) {
+
+    event.preventDefault();
+
+
+    const input =
+        document.getElementById(
+            "dashboardSearch"
+        );
+
+
+    const searchText =
+        input.value.trim();
+
+
+    if (searchText === "") {
+
+        input.focus();
+
+        return false;
+
+    }
+
+
+    /*
+       Simple search behavior.
+
+       You can later connect this
+       to a Django search view.
+    */
+
+    const searchURL =
+        "/search/?q=" +
+        encodeURIComponent(
+            searchText
+        );
+
+
+    window.location.href =
+        searchURL;
+
+
+    return false;
+
+}
+
+
+
+/* =========================================
+   LOGOUT CONFIRMATION
+========================================= */
+
+function confirmLogout() {
+
+    return confirm(
+        "Are you sure you want to logout?"
+    );
+
+}
+
+
+
+/* =========================================
+   CLOSE MOBILE MENU AFTER LINK CLICK
+========================================= */
+
+document
+    .querySelectorAll(
+        ".nav-links > a"
+    )
+    .forEach(
+        function(link) {
+
+            link.addEventListener(
+                "click",
+                function() {
+
+                    document
+                        .getElementById(
+                            "navLinks"
+                        )
+                        .classList
+                        .remove("show");
+
+                }
+            );
+
+        }
+    );
+
+
+</script>
+
+
+</body>
+
+</html>

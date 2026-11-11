@@ -1,0 +1,1031 @@
+{% include "homeheader.html" %}
+
+<style>
+
+/* =========================================
+   LOGIN PAGE
+   WebEye-Access Glassmorphism Theme
+========================================= */
+
+.login-page {
+
+    min-height: 85vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 120px 5% 80px;
+
+    position: relative;
+
+    overflow: hidden;
+
+}
+
+
+/* =========================================
+   BACKGROUND GLOW
+========================================= */
+
+.login-page::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 450px;
+    height: 450px;
+
+    border-radius: 50%;
+
+    background: rgba(48, 226, 190, 0.18);
+
+    filter: blur(100px);
+
+    top: 10%;
+    left: 5%;
+
+    z-index: 0;
+
+}
+
+
+.login-page::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 400px;
+    height: 400px;
+
+    border-radius: 50%;
+
+    background: rgba(50, 130, 220, 0.18);
+
+    filter: blur(100px);
+
+    bottom: 0;
+    right: 5%;
+
+    z-index: 0;
+
+}
+
+
+/* =========================================
+   MAIN LOGIN CONTAINER
+========================================= */
+
+.login-container {
+
+    width: 900px;
+
+    max-width: 100%;
+
+    min-height: 550px;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    position: relative;
+
+    z-index: 2;
+
+    border-radius: 30px;
+
+    overflow: hidden;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.15),
+            rgba(255,255,255,0.05)
+        );
+
+    border:
+        1px solid rgba(255,255,255,0.22);
+
+    backdrop-filter: blur(30px);
+
+    -webkit-backdrop-filter: blur(30px);
+
+    box-shadow:
+
+        0 30px 80px rgba(0,0,0,0.40),
+
+        inset 0 1px
+        rgba(255,255,255,0.25);
+
+}
+
+
+/* =========================================
+   LEFT SIDE
+========================================= */
+
+.login-info {
+
+    padding: 55px 45px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(44,210,175,0.17),
+            rgba(30,80,110,0.10)
+        );
+
+    border-right:
+        1px solid rgba(255,255,255,0.12);
+
+}
+
+
+.login-logo {
+
+    width: 65px;
+    height: 65px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-size: 30px;
+
+    margin-bottom: 25px;
+
+    background:
+        rgba(70,235,201,0.15);
+
+    border:
+        1px solid rgba(100,255,225,0.45);
+
+    box-shadow:
+        0 0 30px rgba(70,235,201,0.25);
+
+}
+
+
+.login-info h1 {
+
+    font-size: 42px;
+
+    line-height: 1.1;
+
+    margin-bottom: 18px;
+
+    color: white;
+
+}
+
+
+.login-info h1 span {
+
+    color: #65e8ca;
+
+}
+
+
+.login-info p {
+
+    color: #a9bfbd;
+
+    line-height: 1.7;
+
+    font-size: 15px;
+
+    max-width: 370px;
+
+}
+
+
+/* =========================================
+   FEATURES
+========================================= */
+
+.login-features {
+
+    margin-top: 30px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+
+}
+
+
+.login-feature {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    color: #c4d4d2;
+
+    font-size: 14px;
+
+}
+
+
+.feature-icon {
+
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background:
+        rgba(80,220,190,0.12);
+
+    border:
+        1px solid rgba(80,220,190,0.22);
+
+}
+
+
+/* =========================================
+   LOGIN FORM SIDE
+========================================= */
+
+.login-form-section {
+
+    padding: 55px 45px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+}
+
+
+.login-form-section h2 {
+
+    font-size: 32px;
+
+    margin-bottom: 8px;
+
+    color: white;
+
+}
+
+
+.login-subtitle {
+
+    color: #91a8a6;
+
+    font-size: 14px;
+
+    margin-bottom: 30px;
+
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+.login-form {
+
+    width: 100%;
+
+}
+
+
+.login-label {
+
+    display: block;
+
+    color: #dce8e7;
+
+    font-size: 14px;
+
+    margin-bottom: 8px;
+
+}
+
+
+.input-group {
+
+    position: relative;
+
+    margin-bottom: 20px;
+
+}
+
+
+.login-input {
+
+    width: 100%;
+
+    padding: 14px 16px;
+
+    border-radius: 13px;
+
+    border:
+        1px solid rgba(255,255,255,0.18);
+
+    background:
+        rgba(255,255,255,0.07);
+
+    color: white;
+
+    outline: none;
+
+    font-size: 14px;
+
+    transition: 0.3s;
+
+}
+
+
+.login-input::placeholder {
+
+    color: #758c8a;
+
+}
+
+
+.login-input:focus {
+
+    border-color:
+        rgba(80,230,200,0.65);
+
+    background:
+        rgba(255,255,255,0.10);
+
+    box-shadow:
+        0 0 20px rgba(70,230,195,0.10);
+}
+
+
+/* =========================================
+   PASSWORD TOGGLE
+========================================= */
+
+.password-toggle {
+
+    position: absolute;
+
+    right: 14px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    background: transparent;
+
+    border: none;
+
+    color: #91aaa7;
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+}
+
+
+/* =========================================
+   LOGIN BUTTON
+========================================= */
+
+.login-submit {
+
+    width: 100%;
+
+    padding: 15px;
+
+    margin-top: 5px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    background: #4dd8b7;
+
+    color: #05231e;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    box-shadow:
+        0 10px 25px rgba(77,216,183,0.20);
+
+}
+
+
+.login-submit:hover {
+
+    transform: translateY(-3px);
+
+    background: #68e8cc;
+
+    box-shadow:
+        0 15px 35px rgba(77,216,183,0.35);
+
+}
+
+
+.login-submit:active {
+
+    transform: translateY(0);
+
+}
+
+
+/* =========================================
+   REGISTER
+========================================= */
+
+.register-section {
+
+    text-align: center;
+
+    margin-top: 25px;
+
+    color: #849b99;
+
+    font-size: 14px;
+
+}
+
+
+.register-section a {
+
+    color: #64e9cb;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+}
+
+
+.register-section a:hover {
+
+    text-decoration: underline;
+
+}
+
+
+/* =========================================
+   SECURITY MESSAGE
+========================================= */
+
+.security-message {
+
+    margin-top: 20px;
+
+    padding: 12px;
+
+    border-radius: 10px;
+
+    background:
+        rgba(80,220,190,0.07);
+
+    border:
+        1px solid rgba(80,220,190,0.12);
+
+    color: #829a97;
+
+    font-size: 12px;
+
+    text-align: center;
+
+}
+
+
+/* =========================================
+   ERROR MESSAGE
+========================================= */
+
+.login-error {
+
+    display: none;
+
+    padding: 10px 12px;
+
+    margin-bottom: 18px;
+
+    border-radius: 10px;
+
+    background:
+        rgba(255,70,70,0.10);
+
+    border:
+        1px solid rgba(255,100,100,0.25);
+
+    color: #ffaaaa;
+
+    font-size: 13px;
+
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media(max-width: 800px) {
+
+    .login-container {
+
+        grid-template-columns: 1fr;
+
+        width: 500px;
+
+    }
+
+
+    .login-info {
+
+        padding: 40px 35px;
+
+        border-right: none;
+
+        border-bottom:
+            1px solid rgba(255,255,255,0.12);
+
+    }
+
+
+    .login-info h1 {
+
+        font-size: 34px;
+
+    }
+
+
+    .login-form-section {
+
+        padding: 40px 35px;
+
+    }
+
+}
+
+
+@media(max-width: 500px) {
+
+    .login-page {
+
+        padding:
+            120px 15px 60px;
+
+    }
+
+
+    .login-info {
+
+        padding: 30px 25px;
+
+    }
+
+
+    .login-form-section {
+
+        padding: 30px 25px;
+
+    }
+
+
+    .login-container {
+
+        border-radius: 22px;
+
+    }
+
+}
+
+</style>
+
+
+
+<!-- =========================================
+     LOGIN PAGE
+========================================= -->
+
+<section class="login-page">
+
+
+    <div class="login-container">
+
+
+        <!-- =====================================
+             LEFT INFORMATION
+        ====================================== -->
+
+        <div class="login-info">
+
+
+            <div class="login-logo">
+
+                👁
+
+            </div>
+
+
+            <h1>
+
+                Welcome to
+
+                <br>
+
+                <span>WebEye-Access</span>
+
+            </h1>
+
+
+            <p>
+
+                Access a smarter and more inclusive
+                web experience using eye tracking,
+                computer vision and intelligent
+                accessibility technology.
+
+            </p>
+
+
+            <div class="login-features">
+
+
+                <div class="login-feature">
+
+                    <div class="feature-icon">
+                        👁
+                    </div>
+
+                    AI-powered eye tracking
+
+                </div>
+
+
+                <div class="login-feature">
+
+                    <div class="feature-icon">
+                        🎯
+                    </div>
+
+                    Intelligent gaze detection
+
+                </div>
+
+
+                <div class="login-feature">
+
+                    <div class="feature-icon">
+                        ♿
+                    </div>
+
+                    Accessible web interaction
+
+                </div>
+
+
+                <div class="login-feature">
+
+                    <div class="feature-icon">
+                        🔐
+                    </div>
+
+                    Secure user verification
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =====================================
+             LOGIN FORM
+        ====================================== -->
+
+        <div class="login-form-section">
+
+
+            <h2>
+                Sign In
+            </h2>
+
+
+            <p class="login-subtitle">
+
+                Sign in to continue to your account.
+
+            </p>
+
+
+            <!-- Error -->
+
+            <div
+                class="login-error"
+                id="loginError"
+            >
+
+                Please enter your username and password.
+
+            </div>
+
+
+            <form
+                method="post"
+                class="login-form"
+                id="loginForm"
+            >
+
+
+                {% csrf_token %}
+
+
+                <!-- USERNAME -->
+
+                <label
+                    class="login-label"
+                    for="username"
+                >
+
+                    Username
+
+                </label>
+
+
+                <div class="input-group">
+
+                    <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        class="login-input"
+                        placeholder="Enter your username"
+                        autocomplete="username"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- PASSWORD -->
+
+                <label
+                    class="login-label"
+                    for="password"
+                >
+
+                    Password
+
+                </label>
+
+
+                <div class="input-group">
+
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        class="login-input"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        id="passwordToggle"
+                        onclick="togglePassword()"
+                        aria-label="Show password"
+                    >
+
+                        👁
+
+                    </button>
+
+                </div>
+
+
+
+                <!-- SUBMIT -->
+
+                <button
+                    type="submit"
+                    class="login-submit"
+                    id="loginButton"
+                >
+
+                    Login to WebEye-Access →
+
+                </button>
+
+
+            </form>
+
+
+            <!-- REGISTER -->
+
+            <div class="register-section">
+
+                <p>
+
+                    Don't have an account?
+
+                    <a href="/register/">
+                        Create an account
+                    </a>
+
+                </p>
+
+            </div>
+
+
+            <!-- SECURITY -->
+
+            <div class="security-message">
+
+                🔒 Your account information is protected.
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<script>
+
+/* =========================================
+   PASSWORD SHOW / HIDE
+========================================= */
+
+function togglePassword() {
+
+    const password =
+        document.getElementById("password");
+
+    const button =
+        document.getElementById("passwordToggle");
+
+
+    if (password.type === "password") {
+
+        password.type = "text";
+
+        button.innerHTML = "🙈";
+
+        button.setAttribute(
+            "aria-label",
+            "Hide password"
+        );
+
+    }
+
+    else {
+
+        password.type = "password";
+
+        button.innerHTML = "👁";
+
+        button.setAttribute(
+            "aria-label",
+            "Show password"
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   BASIC FORM VALIDATION
+========================================= */
+
+document
+    .getElementById("loginForm")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+
+            const username =
+                document.getElementById("username");
+
+
+            const password =
+                document.getElementById("password");
+
+
+            const error =
+                document.getElementById("loginError");
+
+
+            const button =
+                document.getElementById("loginButton");
+
+
+            if (
+                username.value.trim() === "" ||
+                password.value.trim() === ""
+            ) {
+
+                event.preventDefault();
+
+                error.style.display = "block";
+
+                return;
+
+            }
+
+
+            error.style.display = "none";
+
+
+            button.innerHTML =
+                "Signing in...";
+
+        }
+    );
+
+
+/* =========================================
+   INPUT ANIMATION
+========================================= */
+
+const inputs =
+    document.querySelectorAll(".login-input");
+
+
+inputs.forEach(function(input) {
+
+    input.addEventListener(
+        "focus",
+        function() {
+
+            input.parentElement.style
+                .transform =
+                "translateY(-2px)";
+
+        }
+    );
+
+
+    input.addEventListener(
+        "blur",
+        function() {
+
+            input.parentElement.style
+                .transform =
+                "translateY(0)";
+
+        }
+    );
+
+});
+
+</script>
+
+
+{% include "homefooter.html" %}

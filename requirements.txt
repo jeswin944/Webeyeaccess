@@ -1,0 +1,20 @@
+# Core Web Framework
+Django>=4.2.0,<5.0.0
+
+# Database
+mysqlclient>=2.2.0
+
+# Computer Vision & Machine Learning
+opencv-python>=4.8.0
+mediapipe>=0.10.0
+scipy>=1.10.0
+
+# System & Hardware Automation / Mouse Control
+PyAutoGUI>=0.9.54
+# PyAutoGUI>=0.9.0
+Pillow>=10.0.0
+
+# Windows System Controls (Audio & Brightness)
+comtypes>=1.2.0
+pycaw>=20230407
+screen-brightness-control>=0.21.0

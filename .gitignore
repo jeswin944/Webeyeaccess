@@ -1,0 +1,52 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+env1/
+ENV/
+
+# Environment variables
+.env
+
+# IDE / Editor
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+*~
+
+# OS files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Zip archives
+*.zip
+
+# Database files
+*.db
+*.sqlite3
+
+# Pytest cache
+.pytest_cache/
+
+# Node modules
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Uploads (keep folder structure)
+static/uploads/
+uploads/
+
+# Logs
+*.log
+

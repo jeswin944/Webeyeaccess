@@ -1,0 +1,1220 @@
+{% include "dashheader.html" %}
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Gesture Guide - WebEye-Access
+    </title>
+
+
+    <style>
+
+        /* =========================================
+           BASIC RESET
+        ========================================= */
+
+        * {
+
+            margin: 0;
+
+            padding: 0;
+
+            box-sizing: border-box;
+
+        }
+
+
+        html {
+
+            scroll-behavior: smooth;
+
+        }
+
+
+        body {
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            min-height: 100vh;
+
+            background:
+
+                radial-gradient(
+                    circle at 15% 20%,
+                    rgba(0, 210, 170, 0.30),
+                    transparent 30%
+                ),
+
+                radial-gradient(
+                    circle at 85% 20%,
+                    rgba(50, 130, 220, 0.25),
+                    transparent 30%
+                ),
+
+                linear-gradient(
+                    135deg,
+                    #061817,
+                    #092c31,
+                    #071b28
+                );
+
+            color: white;
+
+            overflow-x: hidden;
+
+        }
+
+
+        /* =========================================
+           BACKGROUND LIGHTS
+        ========================================= */
+
+        .background-light {
+
+            position: fixed;
+
+            width: 500px;
+
+            height: 500px;
+
+            border-radius: 50%;
+
+            filter: blur(120px);
+
+            opacity: 0.20;
+
+            pointer-events: none;
+
+            z-index: -1;
+
+        }
+
+
+        .light-one {
+
+            background: #28e0bd;
+
+            top: 5%;
+
+            left: -200px;
+
+        }
+
+
+        .light-two {
+
+            background: #3989df;
+
+            right: -200px;
+
+            bottom: 0;
+
+        }
+
+
+        /* =========================================
+           MAIN CONTAINER
+        ========================================= */
+
+        .gesture-container {
+
+            width: 90%;
+
+            max-width: 1150px;
+
+            margin: auto;
+
+            padding:
+                130px 0 60px;
+
+        }
+
+
+        /* =========================================
+           PAGE HEADER
+        ========================================= */
+
+        .page-header {
+
+            text-align: center;
+
+            max-width: 700px;
+
+            margin:
+                0 auto 45px;
+
+        }
+
+
+        .page-icon {
+
+            width: 70px;
+
+            height: 70px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin:
+                0 auto 20px;
+
+            border-radius: 22px;
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    rgba(70,235,201,0.20),
+                    rgba(50,130,220,0.16)
+                );
+
+            border:
+                1px solid
+                rgba(100,255,225,0.35);
+
+            font-size: 30px;
+
+            box-shadow:
+
+                0 0 30px
+                rgba(70,235,201,0.12);
+
+        }
+
+
+        .page-header h1 {
+
+            font-size:
+                clamp(32px, 5vw, 48px);
+
+            margin-bottom: 12px;
+
+            letter-spacing: -1px;
+
+        }
+
+
+        .page-header h1 span {
+
+            color: #62e8cb;
+
+        }
+
+
+        .page-header p {
+
+            color: #91aaa7;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+
+        }
+
+
+        /* =========================================
+           GESTURE GRID
+        ========================================= */
+
+        .gesture-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 20px;
+
+        }
+
+
+        /* =========================================
+           GESTURE CARD
+        ========================================= */
+
+        .gesture-card {
+
+            min-height: 220px;
+
+            padding: 27px;
+
+            border-radius: 23px;
+
+            background:
+
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,0.11),
+                    rgba(255,255,255,0.035)
+                );
+
+            border:
+                1px solid
+                rgba(255,255,255,0.13);
+
+            backdrop-filter:
+                blur(25px);
+
+            -webkit-backdrop-filter:
+                blur(25px);
+
+            box-shadow:
+
+                0 20px 50px
+                rgba(0,0,0,0.25),
+
+                inset 0 1px
+                rgba(255,255,255,0.13);
+
+            transition:
+                0.35s ease;
+
+            position: relative;
+
+            overflow: hidden;
+
+        }
+
+
+        .gesture-card::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 130px;
+
+            height: 130px;
+
+            border-radius: 50%;
+
+            background: #20e5c0;
+
+            filter: blur(80px);
+
+            opacity: 0;
+
+            right: -50px;
+
+            top: -50px;
+
+            transition:
+                0.35s;
+
+        }
+
+
+        .gesture-card:hover {
+
+            transform:
+                translateY(-8px);
+
+            border-color:
+                rgba(80,240,210,0.35);
+
+            box-shadow:
+
+                0 30px 65px
+                rgba(0,0,0,0.35);
+
+        }
+
+
+        .gesture-card:hover::before {
+
+            opacity: 0.10;
+
+        }
+
+
+        /* =========================================
+           GESTURE NUMBER
+        ========================================= */
+
+        .gesture-number {
+
+            position: absolute;
+
+            top: 17px;
+
+            right: 18px;
+
+            color: #496764;
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+        }
+
+
+        /* =========================================
+           GESTURE ICON
+        ========================================= */
+
+        .gesture-icon {
+
+            width: 58px;
+
+            height: 58px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 16px;
+
+            background:
+                rgba(70,235,201,0.10);
+
+            border:
+                1px solid
+                rgba(70,235,201,0.18);
+
+            color: #68efd1;
+
+            font-size: 25px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        /* =========================================
+           GESTURE CONTENT
+        ========================================= */
+
+        .gesture-card h3 {
+
+            color: #e4efed;
+
+            font-size: 18px;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .gesture-card p {
+
+            color: #8fa9a6;
+
+            font-size: 12px;
+
+            line-height: 1.7;
+
+        }
+
+
+        .action-label {
+
+            display: inline-block;
+
+            margin-top: 17px;
+
+            padding:
+                7px 11px;
+
+            border-radius: 20px;
+
+            color: #68efd1;
+
+            background:
+                rgba(70,235,201,0.07);
+
+            border:
+                1px solid
+                rgba(70,235,201,0.13);
+
+            font-size: 9px;
+
+        }
+
+
+        /* =========================================
+           STATUS CARD
+        ========================================= */
+
+        .status-card {
+
+            margin-top: 25px;
+
+            padding: 22px 25px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            border-radius: 20px;
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    rgba(70,235,201,0.10),
+                    rgba(50,130,220,0.07)
+                );
+
+            border:
+                1px solid
+                rgba(70,235,201,0.18);
+
+            backdrop-filter:
+                blur(20px);
+
+        }
+
+
+        .status-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+        }
+
+
+        .status-icon {
+
+            width: 45px;
+
+            height: 45px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 13px;
+
+            background:
+                rgba(70,235,201,0.10);
+
+            color: #68efd1;
+
+            font-size: 20px;
+
+        }
+
+
+        .status-text h3 {
+
+            font-size: 14px;
+
+            margin-bottom: 5px;
+
+            color: #dce9e7;
+
+        }
+
+
+        .status-text p {
+
+            color: #69837f;
+
+            font-size: 10px;
+
+        }
+
+
+        .ready-status {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding:
+                9px 14px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(70,235,201,0.08);
+
+            border:
+                1px solid
+                rgba(70,235,201,0.18);
+
+            color: #68efd1;
+
+            font-size: 10px;
+
+            font-weight: bold;
+
+        }
+
+
+        .ready-dot {
+
+            width: 7px;
+
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: #4dd8b7;
+
+            box-shadow:
+                0 0 10px
+                #4dd8b7;
+
+        }
+
+
+        /* =========================================
+           BOTTOM ACTIONS
+        ========================================= */
+
+        .bottom-actions {
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            gap: 13px;
+
+            flex-wrap: wrap;
+
+            margin-top: 30px;
+
+        }
+
+
+        .action-button {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            padding:
+                13px 23px;
+
+            border-radius: 28px;
+
+            text-decoration: none;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            transition:
+                0.3s;
+
+        }
+
+
+        .primary-button {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #4dd8b7,
+                    #38b99d
+                );
+
+            color: #06221d;
+
+            box-shadow:
+
+                0 10px 30px
+                rgba(77,216,183,0.22);
+
+        }
+
+
+        .primary-button:hover {
+
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+
+                0 15px 40px
+                rgba(77,216,183,0.35);
+
+        }
+
+
+        .secondary-button {
+
+            color: #a9bfbc;
+
+            background:
+                rgba(255,255,255,0.06);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.14);
+
+        }
+
+
+        .secondary-button:hover {
+
+            color: #68efd1;
+
+            background:
+                rgba(70,235,201,0.08);
+
+            border-color:
+                rgba(70,235,201,0.25);
+
+            transform:
+                translateY(-3px);
+
+        }
+
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        .page-footer {
+
+            text-align: center;
+
+            margin-top: 40px;
+
+            color: #4e6865;
+
+            font-size: 10px;
+
+        }
+
+
+        .page-footer span {
+
+            color: #68efd1;
+
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media(max-width:950px) {
+
+            .gesture-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+        }
+
+
+        @media(max-width:650px) {
+
+            .gesture-container {
+
+                width: 94%;
+
+                padding-top: 110px;
+
+            }
+
+
+            .gesture-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .gesture-card {
+
+                min-height: auto;
+
+            }
+
+
+            .status-card {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+            }
+
+
+            .ready-status {
+
+                width: 100%;
+
+                justify-content: center;
+
+            }
+
+
+            .bottom-actions {
+
+                flex-direction: column;
+
+            }
+
+
+            .action-button {
+
+                width: 100%;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     BACKGROUND LIGHTS
+========================================= -->
+
+<div class="background-light light-one"></div>
+
+<div class="background-light light-two"></div>
+
+
+
+<!-- =========================================
+     HEADER
+========================================= -->
+
+
+
+
+
+<!-- =========================================
+     MAIN CONTENT
+========================================= -->
+
+<main class="gesture-container">
+
+
+    <!-- =====================================
+         PAGE HEADER
+    ====================================== -->
+
+    <header class="page-header">
+
+
+        <div class="page-icon">
+
+            👁
+
+        </div>
+
+
+        <h1>
+
+            Gesture <span>Guide</span>
+
+        </h1>
+
+
+        <p>
+
+            Use simple eye movements and gestures
+            to control WebEye-Access without using
+            a keyboard or mouse.
+
+        </p>
+
+
+    </header>
+
+
+
+    <!-- =====================================
+         GESTURE CARDS
+    ====================================== -->
+
+    <section class="gesture-grid">
+
+
+        <!-- =================================
+             1. BLINK
+        ================================== -->
+
+        <div class="gesture-card">
+
+
+            <div class="gesture-number">
+                01
+            </div>
+
+
+            <div class="gesture-icon">
+                👁
+            </div>
+
+
+            <h3>
+                Blink
+            </h3>
+
+
+            <p>
+
+                Close and open your eyes once
+                to perform the primary selection
+                action.
+
+            </p>
+
+
+            <div class="action-label">
+
+                Action: Select / Click
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================
+             2. DOUBLE BLINK
+        ================================== -->
+
+        <div class="gesture-card">
+
+
+            <div class="gesture-number">
+                02
+            </div>
+
+
+            <div class="gesture-icon">
+                👁️
+            </div>
+
+
+            <h3>
+                Double Blink
+            </h3>
+
+
+            <p>
+
+                Blink twice quickly to activate
+                a menu or open an interactive
+                interface element.
+
+            </p>
+
+
+            <div class="action-label">
+
+                Action: Open Menu
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================
+             3. LOOK LEFT
+        ================================== -->
+
+        <div class="gesture-card">
+
+
+            <div class="gesture-number">
+                03
+            </div>
+
+
+            <div class="gesture-icon">
+                ←
+            </div>
+
+
+            <h3>
+                Look Left
+            </h3>
+
+
+            <p>
+
+                Move your eyes toward the left
+                side of the screen to navigate
+                to the previous option.
+
+            </p>
+
+
+            <div class="action-label">
+
+                Action: Previous Option
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================
+             4. LOOK RIGHT
+        ================================== -->
+
+        <div class="gesture-card">
+
+
+            <div class="gesture-number">
+                04
+            </div>
+
+
+            <div class="gesture-icon">
+                →
+            </div>
+
+
+            <h3>
+                Look Right
+            </h3>
+
+
+            <p>
+
+                Move your eyes toward the right
+                side of the screen to navigate
+                to the next option.
+
+            </p>
+
+
+            <div class="action-label">
+
+                Action: Next Option
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================
+             5. LOOK UP
+        ================================== -->
+
+        <div class="gesture-card">
+
+
+            <div class="gesture-number">
+                05
+            </div>
+
+
+            <div class="gesture-icon">
+                ↑
+            </div>
+
+
+            <h3>
+                Look Up
+            </h3>
+
+
+            <p>
+
+                Move your gaze toward the upper
+                area of the screen to scroll
+                the page upward.
+
+            </p>
+
+
+            <div class="action-label">
+
+                Action: Scroll Up
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================
+             6. LOOK DOWN
+        ================================== -->
+
+        <div class="gesture-card">
+
+
+            <div class="gesture-number">
+                06
+            </div>
+
+
+            <div class="gesture-icon">
+                ↓
+            </div>
+
+
+            <h3>
+                Look Down
+            </h3>
+
+
+            <p>
+
+                Move your gaze toward the lower
+                area of the screen to scroll
+                the page downward.
+
+            </p>
+
+
+            <div class="action-label">
+
+                Action: Scroll Down
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================
+         GESTURE STATUS
+    ====================================== -->
+
+    <section class="status-card">
+
+
+        <div class="status-left">
+
+
+            <div class="status-icon">
+
+                ✓
+
+            </div>
+
+
+            <div class="status-text">
+
+                <h3>
+                    Gesture Tracking Status
+                </h3>
+
+                <p>
+                    Your gesture controls are ready
+                    to be activated.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="ready-status">
+
+            <div class="ready-dot"></div>
+
+            Ready
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================
+         ACTION BUTTONS
+    ====================================== -->
+
+    <div class="bottom-actions">
+
+
+        <a
+            href="livetracking/"
+            class="action-button primary-button"
+        >
+
+            👁
+            Start Live Tracking
+
+        </a>
+
+
+        <a
+            href="/dashboard/"
+            class="action-button secondary-button"
+        >
+
+            ←
+            Back to Dashboard
+
+        </a>
+
+
+    </div>
+
+
+
+    <!-- =====================================
+         FOOTER
+    ====================================== -->
+
+ {% include "homefooter.html" %}
+
+
+</main>
+
+
+</body>
+
+</html>

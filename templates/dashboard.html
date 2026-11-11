@@ -1,0 +1,1620 @@
+{% include "dashheader.html" %}
+
+
+<style>
+
+/* =========================================
+   WEBEYE-ACCESS DASHBOARD
+========================================= */
+
+.dashboard-page {
+
+    min-height: 100vh;
+
+    padding: 110px 5% 70px;
+
+    position: relative;
+
+    overflow: hidden;
+
+}
+
+
+/* =========================================
+   BACKGROUND GLOW
+========================================= */
+
+.dashboard-page::before {
+
+    content: "";
+
+    position: fixed;
+
+    width: 500px;
+    height: 500px;
+
+    border-radius: 50%;
+
+    background: rgba(40, 225, 190, 0.15);
+
+    filter: blur(120px);
+
+    top: 5%;
+    left: -150px;
+
+    pointer-events: none;
+
+}
+
+
+.dashboard-page::after {
+
+    content: "";
+
+    position: fixed;
+
+    width: 450px;
+    height: 450px;
+
+    border-radius: 50%;
+
+    background: rgba(55, 120, 220, 0.14);
+
+    filter: blur(120px);
+
+    right: -150px;
+    bottom: 5%;
+
+    pointer-events: none;
+
+}
+
+
+/* =========================================
+   MAIN DASHBOARD
+========================================= */
+
+.dashboard-wrapper {
+
+    max-width: 1400px;
+
+    margin: auto;
+
+    position: relative;
+
+    z-index: 2;
+
+}
+
+
+/* =========================================
+   TOP BAR
+========================================= */
+
+.dashboard-topbar {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 18px 25px;
+
+    margin-bottom: 25px;
+
+    border-radius: 22px;
+
+    background:
+        rgba(255,255,255,0.10);
+
+    border:
+        1px solid rgba(255,255,255,0.20);
+
+    backdrop-filter: blur(25px);
+
+    -webkit-backdrop-filter: blur(25px);
+
+    box-shadow:
+
+        0 20px 50px
+        rgba(0,0,0,0.25),
+
+        inset 0 1px
+        rgba(255,255,255,0.20);
+
+}
+
+
+
+/* USER INFO */
+
+.dashboard-user {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+}
+
+
+.dashboard-user-icon {
+
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
+
+    background:
+        rgba(70,235,201,0.15);
+
+    border:
+        1px solid
+        rgba(100,255,225,0.35);
+
+    font-size: 20px;
+
+}
+
+
+.dashboard-user p {
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+}
+
+
+.dashboard-user span {
+
+    color: #819694;
+
+    font-size: 12px;
+
+}
+
+
+/* =========================================
+   WELCOME
+========================================= */
+
+.dashboard-welcome {
+
+    margin-bottom: 25px;
+
+}
+
+
+.dashboard-welcome h1 {
+
+    font-size: 40px;
+
+    margin-bottom: 8px;
+
+}
+
+
+.dashboard-welcome h1 span {
+
+    color: #65e8ca;
+
+}
+
+
+.dashboard-welcome p {
+
+    color: #91aaa7;
+
+    font-size: 15px;
+
+}
+
+
+/* =========================================
+   STATISTICS
+========================================= */
+
+.dashboard-stats {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 18px;
+
+    margin-bottom: 22px;
+
+}
+
+
+.dashboard-stat {
+
+    padding: 23px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(255,255,255,0.09);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.16);
+
+    backdrop-filter: blur(20px);
+
+    box-shadow:
+
+        0 15px 40px
+        rgba(0,0,0,0.20),
+
+        inset 0 1px
+        rgba(255,255,255,0.15);
+
+    transition: 0.3s;
+
+}
+
+
+.dashboard-stat:hover {
+
+    transform:
+        translateY(-5px);
+
+    border-color:
+        rgba(80,230,200,0.35);
+
+}
+
+
+.dashboard-stat h4 {
+
+    color: #a5b8b6;
+
+    font-size: 13px;
+
+    margin-bottom: 12px;
+
+}
+
+
+.dashboard-stat h2 {
+
+    font-size: 29px;
+
+    color: #64e7c9;
+
+}
+
+
+.dashboard-stat p {
+
+    color: #718886;
+
+    font-size: 12px;
+
+    margin-top: 7px;
+
+}
+
+
+/* =========================================
+   MAIN GRID
+========================================= */
+
+.dashboard-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        2fr 1fr;
+
+    gap: 20px;
+
+}
+
+
+/* =========================================
+   GLASS CARD
+========================================= */
+
+.dashboard-card {
+
+    padding: 25px;
+
+    border-radius: 22px;
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.12),
+            rgba(255,255,255,0.05)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,0.17);
+
+    backdrop-filter: blur(25px);
+
+    -webkit-backdrop-filter: blur(25px);
+
+    box-shadow:
+
+        0 20px 50px
+        rgba(0,0,0,0.25),
+
+        inset 0 1px
+        rgba(255,255,255,0.18);
+
+}
+
+
+.dashboard-card h3 {
+
+    color: white;
+
+    font-size: 19px;
+
+    margin-bottom: 20px;
+
+}
+
+
+/* =========================================
+   EYE TRACKING
+========================================= */
+
+.tracking-box {
+
+    padding: 22px;
+
+    border-radius: 16px;
+
+    background:
+        rgba(55,220,185,0.08);
+
+    border:
+        1px solid
+        rgba(70,230,195,0.16);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+}
+
+
+.tracking-status {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+}
+
+
+.status-dot {
+
+    width: 14px;
+    height: 14px;
+
+    border-radius: 50%;
+
+    background: #e5a52c;
+
+    box-shadow:
+        0 0 12px
+        rgba(229,165,44,0.55);
+
+}
+
+
+.status-dot.active {
+
+    background: #4dd8b7;
+
+    box-shadow:
+        0 0 15px
+        rgba(77,216,183,0.75);
+
+    animation:
+        statusPulse 1.5s infinite;
+
+}
+
+
+@keyframes statusPulse {
+
+    0%,100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.45;
+    }
+
+}
+
+
+.tracking-status strong {
+
+    display: block;
+
+    color: white;
+
+    margin-bottom: 5px;
+
+}
+
+
+.tracking-status p {
+
+    color: #829a97;
+
+    font-size: 13px;
+
+}
+
+
+/* =========================================
+   BUTTON
+========================================= */
+
+.dashboard-button {
+
+    border: none;
+
+    background: #4dd8b7;
+
+    color: #06241e;
+
+    padding: 12px 20px;
+
+    border-radius: 25px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    transition: 0.3s;
+
+}
+
+
+.dashboard-button:hover {
+
+    transform:
+        translateY(-3px);
+
+    background: #69e9cd;
+
+    box-shadow:
+        0 10px 25px
+        rgba(77,216,183,0.25);
+
+}
+
+
+/* =========================================
+   ACCOUNT INFORMATION
+========================================= */
+
+.account-card {
+
+    margin-top: 20px;
+
+}
+
+
+.account-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 14px 0;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,0.08);
+
+}
+
+
+.account-row:last-child {
+
+    border-bottom: none;
+
+}
+
+
+.account-row span {
+
+    color: #819795;
+
+    font-size: 14px;
+
+}
+
+
+.account-row strong {
+
+    color: #dce8e6;
+
+    font-size: 14px;
+
+}
+
+
+.verified {
+
+    color: #5de0bb !important;
+
+}
+
+
+.not-verified {
+
+    color: #e7ad48 !important;
+
+}
+
+
+/* =========================================
+   QUICK ACTIONS
+========================================= */
+
+.quick-actions {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 12px;
+
+}
+
+
+.quick-action {
+
+    text-decoration: none;
+
+    color: #bcd0cd;
+
+    padding: 18px 10px;
+
+    text-align: center;
+
+    border-radius: 15px;
+
+    background:
+        rgba(255,255,255,0.06);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.10);
+
+    transition: 0.3s;
+
+}
+
+
+.quick-action-icon {
+
+    display: block;
+
+    font-size: 24px;
+
+    margin-bottom: 7px;
+
+}
+
+
+.quick-action:hover {
+
+    transform:
+        translateY(-4px);
+
+    background:
+        rgba(70,220,190,0.12);
+
+    border-color:
+        rgba(70,230,195,0.30);
+
+    color: #68e8ca;
+
+}
+
+
+/* =========================================
+   HELP CARD
+========================================= */
+
+.help-card {
+
+    margin-top: 20px;
+
+}
+
+
+.help-card p {
+
+    color: #819795;
+
+    line-height: 1.7;
+
+    font-size: 14px;
+
+    margin-bottom: 20px;
+
+}
+
+
+/* =========================================
+   RECENT ACTIVITY
+========================================= */
+
+.activity {
+
+    margin-top: 20px;
+
+}
+
+
+.activity-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 13px 0;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,0.08);
+
+}
+
+
+.activity-icon {
+
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background:
+        rgba(70,230,195,0.10);
+
+}
+
+
+.activity-item strong {
+
+    display: block;
+
+    color: #d6e3e1;
+
+    font-size: 13px;
+
+}
+
+
+.activity-item span {
+
+    color: #748987;
+
+    font-size: 11px;
+
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media(max-width: 1100px) {
+
+    .dashboard-stats {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+
+    .dashboard-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+
+
+@media(max-width: 700px) {
+
+    .dashboard-page {
+
+        padding:
+            100px 15px 50px;
+
+    }
+
+
+    .dashboard-topbar {
+
+        flex-direction: column;
+
+        gap: 15px;
+
+        align-items: stretch;
+
+    }
+
+
+
+    .dashboard-user {
+
+        justify-content: center;
+
+    }
+
+
+    .dashboard-stats {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .dashboard-welcome h1 {
+
+        font-size: 30px;
+
+    }
+
+
+    .tracking-box {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+    }
+
+
+    .dashboard-button {
+
+        width: 100%;
+
+    }
+
+
+    .dashboard-card {
+
+        padding: 20px;
+
+    }
+
+}
+
+</style>
+
+
+
+<!-- =========================================
+     DASHBOARD PAGE
+========================================= -->
+
+<section class="dashboard-page">
+
+
+    <div class="dashboard-wrapper">
+
+
+        <!-- =====================================
+             TOP BAR
+        ====================================== -->
+
+    
+
+
+            
+
+
+                
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =====================================
+             WELCOME
+        ====================================== -->
+
+        <div class="dashboard-welcome">
+
+            <h1>
+
+                Welcome to
+
+                <span>
+                    WebEye-Access
+                </span>
+
+            </h1>
+
+
+            <p>
+
+                Manage your eye tracking and accessibility
+                features from your dashboard.
+
+            </p>
+
+        </div>
+
+
+
+        <!-- =====================================
+             STATISTICS
+        ====================================== -->
+
+        <div class="dashboard-stats">
+
+
+            <div class="dashboard-stat">
+
+                <h4>
+                    Camera Status
+                </h4>
+
+                <h2>
+                    Ready
+                </h2>
+
+                <p>
+                    Camera access available
+                </p>
+
+            </div>
+
+
+            <div class="dashboard-stat">
+
+                <h4>
+                    Eye Tracking
+                </h4>
+
+                <h2>
+                    95%
+                </h2>
+
+                <p>
+                    Current tracking accuracy
+                </p>
+
+            </div>
+
+
+            <div class="dashboard-stat">
+
+                <h4>
+                    Calibration
+                </h4>
+
+                <h2>
+                    Done
+                </h2>
+
+                <p>
+                    Calibration completed
+                </p>
+
+            </div>
+
+
+            <div class="dashboard-stat">
+
+                <h4>
+                    Complaints
+                </h4>
+
+                <h2>
+                    0
+                </h2>
+
+                <p>
+                    Pending complaints
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =====================================
+             MAIN CONTENT GRID
+        ====================================== -->
+
+        <div class="dashboard-grid">
+
+
+            <!-- =================================
+                 LEFT COLUMN
+            ================================= -->
+
+            <div>
+
+
+                <!-- LIVE TRACKING -->
+
+                <div class="dashboard-card">
+
+
+                    <h3>
+                        👁 Live Eye Tracking
+                    </h3>
+
+
+                    <div class="tracking-box">
+
+
+                        <div class="tracking-status">
+
+
+                            <div
+                                class="status-dot"
+                                id="statusDot"
+                            ></div>
+
+
+                            <div>
+
+                                <strong id="trackingText">
+
+                                    Tracking Not Started
+
+                                </strong>
+
+
+                                <p>
+
+                                    Start eye tracking to
+                                    control the interface.
+
+                                </p>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <button
+                            class="dashboard-button"
+                            id="trackingButton"
+                            onclick="startTracking()"
+                        >
+
+                            Start Tracking
+
+                        </button>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- ACCOUNT INFORMATION -->
+
+                <div
+                    class="dashboard-card account-card"
+                >
+
+
+                    <h3>
+                        👤 Account Information
+                    </h3>
+
+
+                    <div class="account-row">
+
+                        <span>
+                            Name
+                        </span>
+
+                        <strong>
+                            User Name
+                        </strong>
+
+                    </div>
+
+
+                    <div class="account-row">
+
+                        <span>
+                            Email
+                        </span>
+
+                        <strong>
+                            user@gmail.com
+                        </strong>
+
+                    </div>
+
+
+                    <div class="account-row">
+
+                        <span>
+                            Camera
+                        </span>
+
+                        <strong
+                            class="not-verified"
+                        >
+                            Not Verified
+                        </strong>
+
+                    </div>
+
+
+                    <div class="account-row">
+
+                        <span>
+                            Calibration
+                        </span>
+
+                        <strong
+                            class="verified"
+                        >
+                            Completed
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- RECENT ACTIVITY -->
+
+                <div class="dashboard-card activity">
+
+
+                    <h3>
+                        Recent Activity
+                    </h3>
+
+
+                    <div class="activity-item">
+
+
+                        <div class="activity-icon">
+                            📷
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Camera verification
+                            </strong>
+
+                            <span>
+                                Camera access available
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="activity-item">
+
+
+                        <div class="activity-icon">
+                            🎯
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Calibration completed
+                            </strong>
+
+                            <span>
+                                Eye calibration is ready
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="activity-item">
+
+
+                        <div class="activity-icon">
+                            👁
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Eye tracking
+                            </strong>
+
+                            <span>
+                                Ready to start tracking
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================
+                 RIGHT COLUMN
+            ================================= -->
+
+            <div>
+
+
+                <!-- QUICK ACTIONS -->
+
+                <div class="dashboard-card">
+
+
+                    <h3>
+                        Quick Actions
+                    </h3>
+
+
+                    <div class="quick-actions">
+
+
+                        <a
+                            href="{% url 'mouse_control_page' %}"
+                            class="quick-action"
+                        >
+
+                            <span class="quick-action-icon">
+                            👁
+                            </span>
+
+                            Eye Tracking
+
+                        </a>
+
+
+                        <a
+                            href="{% url 'mouse_control_page' %}"
+                            class="quick-action"
+                        >
+
+                            <span class="quick-action-icon">
+                                📷
+                            </span>
+
+                            Eye Tracking
+
+                        </a>
+
+
+                        <a
+                            href="gesture.html"
+                            class="quick-action"
+                        >
+
+                            <span class="quick-action-icon">
+                                ✋
+                            </span>
+
+                            Gestures
+
+                        </a>
+
+
+                        <a
+                            href="{% url 'face_scan_page' %}"
+                            class="quick-action"
+                        >
+
+                            <span class="quick-action-icon">
+                                🙂
+                            </span>
+
+                            Face Scan
+
+                        </a>
+
+
+                        <a
+                            href="{% url 'complaint' %}"
+                            class="quick-action"
+                        >
+
+                            <span class="quick-action-icon">
+                                📝
+                            </span>
+
+                            Complaint
+
+                        </a>
+
+
+                        <a
+                            href="{% url 'Feedback' %}"
+                            class="quick-action"
+                        >
+
+                            <span class="quick-action-icon">
+                                ⭐
+                            </span>
+
+                            Feedback
+
+                        </a>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- HELP -->
+
+                <div
+                    class="dashboard-card help-card"
+                >
+
+
+                    <h3>
+                        Need Help?
+                    </h3>
+
+
+                    <p>
+
+                        If you are facing problems with
+                        camera access, calibration or eye
+                        tracking, submit a complaint and
+                        our team can assist you.
+
+                    </p>
+
+
+                    <a
+                        href="{% url 'complaint' %}"
+                        class="dashboard-button"
+                        style="
+                            text-decoration:none;
+                            display:inline-block;
+                        "
+                    >
+
+                        Submit Complaint →
+
+                    </a>
+
+
+                </div>
+
+
+
+                <!-- CALIBRATION -->
+
+                <div
+                    class="dashboard-card help-card"
+                >
+
+
+                    <h3>
+                        🎯 Calibration
+                    </h3>
+
+
+                    <p>
+
+                        Complete the eye calibration process
+                        before starting live eye tracking.
+
+                    </p>
+
+
+                    <a
+                        href="/callibration/"
+                        class="dashboard-button"
+                        style="
+                            text-decoration:none;
+                            display:inline-block;
+                        "
+                    >
+
+                        Start Calibration →
+
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<script>
+
+/* =========================================
+   EYE TRACKING BUTTON
+========================================= */
+
+function startTracking() {
+
+
+    var button =
+        document.getElementById(
+            "trackingButton"
+        );
+
+
+    var text =
+        document.getElementById(
+            "trackingText"
+        );
+
+
+    var dot =
+        document.getElementById(
+            "statusDot"
+        );
+
+
+    if (
+        button.innerHTML
+            .trim()
+            ===
+        "Start Tracking"
+    ) {
+
+
+        text.innerHTML =
+            "Tracking Active";
+
+
+        button.innerHTML =
+            "Stop Tracking";
+
+
+        dot.classList.add(
+            "active"
+        );
+
+
+        alert(
+            "Eye tracking started."
+        );
+
+
+    } else {
+
+
+        text.innerHTML =
+            "Tracking Not Started";
+
+
+        button.innerHTML =
+            "Start Tracking";
+
+
+        dot.classList.remove(
+            "active"
+        );
+
+
+        alert(
+            "Eye tracking stopped."
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   SEARCH
+========================================= */
+
+function searchDashboard() {
+
+
+    var input =
+        document
+        .getElementById(
+            "searchBox"
+        )
+        .value
+        .toLowerCase();
+
+
+    var actions =
+        document.querySelectorAll(
+            ".quick-action"
+        );
+
+
+    actions.forEach(
+        function(action) {
+
+
+            var text =
+                action.innerText
+                    .toLowerCase();
+
+
+            if (
+                text.includes(input)
+            ) {
+
+                action.style.display =
+                    "block";
+
+            } else {
+
+                action.style.display =
+                    "none";
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================
+   CARD HOVER EFFECT
+========================================= */
+
+const cards =
+    document.querySelectorAll(
+        ".dashboard-card, .dashboard-stat"
+    );
+
+
+cards.forEach(
+    function(card) {
+
+
+        card.addEventListener(
+            "mousemove",
+            function(event) {
+
+
+                const rect =
+                    card.getBoundingClientRect();
+
+
+                const x =
+                    event.clientX -
+                    rect.left;
+
+
+                const y =
+                    event.clientY -
+                    rect.top;
+
+
+                const centerX =
+                    rect.width / 2;
+
+
+                const centerY =
+                    rect.height / 2;
+
+
+                const rotateX =
+                    ((y - centerY) /
+                    centerY) * -1;
+
+
+                const rotateY =
+                    ((x - centerX) /
+                    centerX);
+
+
+                card.style.transform =
+                    "perspective(800px) " +
+                    "rotateX(" +
+                    rotateX * 1.2 +
+                    "deg) " +
+                    "rotateY(" +
+                    rotateY * 1.2 +
+                    "deg) " +
+                    "translateY(-3px)";
+
+            }
+        );
+
+
+        card.addEventListener(
+            "mouseleave",
+            function() {
+
+                card.style.transform =
+                    "";
+
+            }
+        );
+
+    }
+);
+
+</script>
+
+
+{% include "homefooter.html" %}
